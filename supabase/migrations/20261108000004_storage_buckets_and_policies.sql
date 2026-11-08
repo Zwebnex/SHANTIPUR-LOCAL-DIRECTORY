@@ -73,3 +73,4 @@ DROP POLICY IF EXISTS "user_uploads_user_delete" ON storage.objects;
 CREATE POLICY "user_uploads_user_delete" ON storage.objects
     FOR DELETE TO authenticated
     USING (bucket_id = 'user-uploads' AND ((storage.foldername(name))[1] = auth.uid()::text OR public.is_admin()));
+

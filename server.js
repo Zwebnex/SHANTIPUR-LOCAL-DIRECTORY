@@ -178,31 +178,20 @@ const server = http.createServer((req, res) => {
               return res.end(JSON.stringify({ error: 'Email or password is incorrect.' }));
             }
 
-            // Success -> Clear failed counter
+            // Authentic Success -> Atomically clear failed attempt strikes
             clearAttempts(clientIp, emailHash);
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
             return res.end(JSON.stringify({ session: authData, user: authData.user }));
           } catch (fetchErr) {
             recordFailedAttempt(clientIp, emailHash);
-            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
-            return res.end(JSON.stringify({ error: 'Email or password is incorrect.' }));
+            res.writeHead(502, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ error: 'Unable to reach Supabase authentication server.' }));
           }
         } else {
-          // Local/Simulation Mode when waiting for user to paste their live Supabase key:
-          // Simulate strict password check (e.g. for testing rate limit & auth flow)
-          // If password matches 'TestValidPass123!', allow; otherwise fail
-          if (password === 'ShantipurSecure2026!') {
-            clearAttempts(clientIp, emailHash);
-            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-            return res.end(JSON.stringify({
-              session: { access_token: 'local_simulated_token_' + Date.now(), user: { email, role: 'registered_user' } },
-              user: { email, role: 'registered_user' }
-            }));
-          } else {
-            recordFailedAttempt(clientIp, emailHash);
-            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
-            return res.end(JSON.stringify({ error: 'Email or password is incorrect.' }));
-          }
+          // Zero mock success: Record attempt and reject with standard 401 error
+          recordFailedAttempt(clientIp, emailHash);
+          res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+          return res.end(JSON.stringify({ error: 'Email or password is incorrect.' }));
         }
       } catch (e) {
         res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });

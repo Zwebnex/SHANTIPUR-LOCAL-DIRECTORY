@@ -132,7 +132,7 @@ async function verify() {
     document.getElementById('reg-category').value = 'Shantipuri Tant & Handlooms';
     document.getElementById('reg-phone').value = '9832098320';
     document.getElementById('reg-email').value = 'test_weaver@shantipur.org';
-    document.getElementById('reg-password').value = 'tant1234';
+    document.getElementById('reg-password').value = 'TantWeaver2026!';
     document.getElementById('reg-address').value = 'Sutragarh Master Weavers Lane, Ward 15, PIN: 741404';
     document.getElementById('reg-trade-license').value = 'STPM/TL/2026/0492';
     document.getElementById('reg-terms').checked = true;

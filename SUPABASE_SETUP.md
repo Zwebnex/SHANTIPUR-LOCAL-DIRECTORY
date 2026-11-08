@@ -129,3 +129,4 @@ Set the service key secret for the function:
 ```bash
 npx supabase secrets set SUPABASE_SERVICE_ROLE_KEY=your_service_role_key --project-ref bnlhqkcyqymsvtqblwkv
 ```
+

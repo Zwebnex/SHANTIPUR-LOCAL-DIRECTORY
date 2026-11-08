@@ -1157,6 +1157,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   window.handleBusinessRegister = async function(event) {
     event.preventDefault();
+    const errorBox = document.getElementById('biz-reg-error-msg');
+    if (errorBox) errorBox.classList.add('hidden');
+
     const name = document.getElementById('reg-biz-name')?.value.trim();
     const owner = document.getElementById('reg-owner-name')?.value.trim();
     const category = document.getElementById('reg-category')?.value;
@@ -1170,7 +1173,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const businesses = getStoredBusinesses();
     if (businesses.some(b => b.email === email || b.phone === phone)) {
-      alert('A business registration with this email or phone number already exists.');
+      if (errorBox) {
+        errorBox.textContent = 'A business registration with this email or phone number already exists.';
+        errorBox.classList.remove('hidden');
+      }
       return;
     }
 
@@ -1189,16 +1195,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       registrationDate: new Date().toISOString()
     };
 
-    businesses.push(newBusiness);
-    saveStoredBusinesses(businesses);
-
-    // Also register user account via Supabase Auth
-    await window.ShantipurAuth.signUp({
+    // Register user account via real Supabase Auth
+    const authRes = await window.ShantipurAuth.signUp({
       email,
       password,
       fullName: owner,
       role: 'business_owner'
     });
+
+    if (!authRes.success) {
+      if (errorBox) {
+        errorBox.textContent = `Supabase Registration Error: ${authRes.error}`;
+        errorBox.classList.remove('hidden');
+      }
+      return;
+    }
+
+    businesses.push(newBusiness);
+    saveStoredBusinesses(businesses);
 
     document.getElementById('business-registration-form')?.reset();
     window.switchAuthTab('dashboard');

@@ -127,3 +127,4 @@ REVOKE EXECUTE ON FUNCTION private.clear_login_attempts(TEXT, TEXT) FROM PUBLIC,
 GRANT EXECUTE ON FUNCTION private.check_login_rate_limit(TEXT, TEXT) TO service_role, postgres;
 GRANT EXECUTE ON FUNCTION private.record_failed_login(TEXT, TEXT) TO service_role, postgres;
 GRANT EXECUTE ON FUNCTION private.clear_login_attempts(TEXT, TEXT) TO service_role, postgres;
+

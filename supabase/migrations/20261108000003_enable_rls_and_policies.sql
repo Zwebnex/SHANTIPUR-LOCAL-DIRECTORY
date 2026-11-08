@@ -228,3 +228,4 @@ CREATE POLICY "audit_logs_insert_authenticated_or_admin" ON public.audit_logs
     WITH CHECK (auth.uid() IS NOT NULL OR public.is_admin());
 
 -- No UPDATE or DELETE policies are granted on audit_logs (append-only ledger)
+

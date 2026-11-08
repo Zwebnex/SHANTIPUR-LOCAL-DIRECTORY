@@ -171,3 +171,4 @@ While all application code, database policies, and gateways are secured, the fol
    - Navigate to your Supabase Account Settings and enable authenticator-based Multi-Factor Authentication (TOTP) to secure your project dashboard.
 4. **Direct Auth API Limitation:**
    - A custom Edge Function gateway throttles requests routed through it. To protect against direct calls to the raw Supabase Auth token endpoint, ensure Supabase's native rate limits and Cloudflare Turnstile CAPTCHA are enabled in the Dashboard.
+

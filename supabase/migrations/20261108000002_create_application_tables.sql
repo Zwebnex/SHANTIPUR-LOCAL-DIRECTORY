@@ -177,3 +177,4 @@ DROP TRIGGER IF EXISTS on_business_updated ON public.businesses;
 CREATE TRIGGER on_business_updated
     BEFORE UPDATE ON public.businesses
     FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+

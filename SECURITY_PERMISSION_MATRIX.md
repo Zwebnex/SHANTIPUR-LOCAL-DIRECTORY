@@ -71,3 +71,4 @@ This matrix details the exact, granular permissions granted by PostgreSQL Row Le
 2. **Zero Self-Promotion:** Newly registered accounts can never elevate their own permissions to `admin`. The `trg_protect_profile_role` trigger raises a database exception upon unauthorized attempts.
 3. **Zero Spam Publishing:** Businesses must go through physical and trade license verification before appearing in public listings. The `trg_protect_business_verification` trigger enforces admin sign-off.
 4. **Brute Force Defense:** Failed authentication attempts are tracked atomically in `private.login_attempts`, triggering HTTP 429 throttling after 5 failed attempts in 50 seconds.
+
