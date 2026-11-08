@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "autoRun": [
+      "mcp(filesystem/*)",
+      "mcp(sqlite/*)",
+      "mcp(puppeteer/*)",
+      "mcp(fetch/*)",
+      "npm",
+      "npx",
+      "git",
+      "cmd",
+      "powershell"
+    ]
+  },
+  "rules": [
+    "Execute all local MCP tools (filesystem, sqlite, puppeteer, fetch) autonomously without confirmation.",
+    "Auto-allow npm, npx, and build commands for local server execution."
+  ]
+}

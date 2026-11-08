@@ -1,0 +1,12 @@
+{
+  "name": "shantipur-heritage-engine",
+  "displayName": "Shantipur Heritage Engine",
+  "version": "1.0.0",
+  "description": "Autonomous cultural heritage platform engine for Shantipur, Nadia (PIN 741404). Bundles photo asset inspection, SQLite database seeding, and live spatial preview verification.",
+  "author": "Antigravity Architect",
+  "suggestedPrompts": [
+    "Explore Shantipur 500-year-old Kali Pujas in Zero-G",
+    "Plan a Smart Toto & Walking Parikrama route",
+    "Browse GI-Tagged Shantipuri Tant Sarees and Live Haat"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "shantipur-antigravity-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive web platform for Shantipur, Nadia, West Bengal (PIN 741404) featuring Antigravity Zero-G physics, authentic 500-year Kali Puja lore, and GI-tagged Tant handloom radar.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "seed": "node seed_db.js",
+    "build": "node seed_db.js"
+  },
+  "keywords": [
+    "shantipur",
+    "antigravity",
+    "nadia",
+    "kali-puja",
+    "agameswari",
+    "mahishkhagi",
+    "tant",
+    "handloom",
+    "bhanga-rash",
+    "nikhuti"
+  ],
+  "author": "Google Antigravity Architect",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer-core": "^25.16.0"
+  }
+}
