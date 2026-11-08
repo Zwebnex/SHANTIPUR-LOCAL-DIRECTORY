@@ -818,12 +818,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   // =========================================================================
-  // LOCAL BUSINESS REGISTRATION & AUTHENTICATION SYSTEM (PHASE 8 / MUNICIPAL VERIFICATION)
-  // Strict Directive: Zero self-added mock businesses. Real local businesses register for FREE
-  // and are indexed only after physical location and municipal trade license verification.
+  // PRODUCTION AUTHENTICATION & PORTAL CENTER (SUPABASE + SERVER-SIDE RATE LIMITER)
+  // Enforces 5-failed-attempts/50s gateway, strong passwords, RLS, & role management
   // =========================================================================
   const BIZ_STORAGE_KEY = 'santipur_registered_businesses';
-  const BIZ_SESSION_KEY = 'santipur_current_business_session';
+  let cooldownTimerInterval = null;
 
   function getStoredBusinesses() {
     try {
@@ -837,92 +836,326 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem(BIZ_STORAGE_KEY, JSON.stringify(list));
   }
 
-  function getCurrentBusinessSession() {
-    try {
-      return JSON.parse(localStorage.getItem(BIZ_SESSION_KEY) || 'null');
-    } catch {
-      return null;
-    }
-  }
+  function updateNavAuthState() {
+    const user = window.ShantipurAuth ? window.ShantipurAuth.getUser() : null;
+    const profile = window.ShantipurAuth ? window.ShantipurAuth.getProfile() : null;
+    const navLabel = document.getElementById('nav-auth-label');
+    const navBtn = document.getElementById('nav-auth-btn');
 
-  function setCurrentBusinessSession(biz) {
-    if (biz) {
-      localStorage.setItem(BIZ_SESSION_KEY, JSON.stringify(biz));
-    } else {
-      localStorage.removeItem(BIZ_SESSION_KEY);
-    }
-    updateNavBusinessState();
-  }
-
-  function updateNavBusinessState() {
-    const session = getCurrentBusinessSession();
-    const signInBtn = document.querySelector('[data-i18n="navSignIn"]');
-    if (signInBtn) {
-      if (session) {
-        signInBtn.textContent = session.businessName || 'Merchant Portal';
+    if (navLabel) {
+      if (user) {
+        const displayName = profile?.full_name || user.email?.split('@')[0] || 'My Account';
+        const role = profile?.role || 'user';
+        let roleBadge = '';
+        if (role === 'admin') roleBadge = ' (Admin)';
+        else if (role === 'business_owner') roleBadge = ' (Merchant)';
+        navLabel.textContent = displayName + roleBadge;
       } else {
         const lang = window.SHANTIPUR_DATA ? window.SHANTIPUR_DATA.currentLang : 'en';
-        signInBtn.textContent = lang === 'en' ? 'Sign In' : 'প্রবেশ করুন';
+        navLabel.textContent = lang === 'en' ? 'Sign In' : 'প্রবেশ করুন';
       }
     }
   }
 
-  window.openBusinessAuth = function(tab = 'register') {
+  // Live Auth state subscriber
+  if (window.ShantipurAuth) {
+    window.ShantipurAuth.onAuthStateChange((event, session, user, profile) => {
+      updateNavAuthState();
+      if (user) {
+        renderUserPortal();
+      }
+    });
+  }
+
+  window.openAuthModal = function(tab = 'login') {
     const modal = document.getElementById('business-auth-modal');
     if (!modal) return;
     modal.classList.remove('hidden');
     modal.classList.add('flex');
 
-    const session = getCurrentBusinessSession();
-    if (session && tab !== 'register') {
+    const user = window.ShantipurAuth ? window.ShantipurAuth.getUser() : null;
+    if (user && tab !== 'register-biz') {
       window.switchAuthTab('dashboard');
     } else {
       window.switchAuthTab(tab);
     }
   };
 
-  window.closeBusinessAuth = function() {
+  window.closeAuthModal = function() {
     const modal = document.getElementById('business-auth-modal');
     if (!modal) return;
     modal.classList.add('hidden');
     modal.classList.remove('flex');
+    if (cooldownTimerInterval) {
+      clearInterval(cooldownTimerInterval);
+      cooldownTimerInterval = null;
+    }
+  };
+
+  // Backward compatibility aliases
+  window.openBusinessAuth = function(tab = 'register') {
+    window.openAuthModal(tab === 'register' ? 'register-biz' : tab);
+  };
+  window.closeBusinessAuth = function() {
+    window.closeAuthModal();
   };
 
   window.switchAuthTab = function(tab) {
-    const viewReg = document.getElementById('auth-view-register');
-    const viewLogin = document.getElementById('auth-view-login');
-    const viewDash = document.getElementById('auth-view-dashboard');
+    const views = {
+      'login': document.getElementById('auth-view-login'),
+      'signup': document.getElementById('auth-view-signup'),
+      'register-biz': document.getElementById('auth-view-register-biz'),
+      'forgot': document.getElementById('auth-view-forgot'),
+      'reset': document.getElementById('auth-view-reset'),
+      'dashboard': document.getElementById('auth-view-dashboard')
+    };
 
-    const btnReg = document.getElementById('auth-tab-btn-register');
-    const btnLogin = document.getElementById('auth-tab-btn-login');
-    const btnDash = document.getElementById('auth-tab-btn-dashboard');
+    const tabs = {
+      'login': document.getElementById('auth-tab-btn-login'),
+      'signup': document.getElementById('auth-tab-btn-signup'),
+      'register-biz': document.getElementById('auth-tab-btn-register-biz'),
+      'forgot': document.getElementById('auth-tab-btn-forgot'),
+      'reset': document.getElementById('auth-tab-btn-reset'),
+      'dashboard': document.getElementById('auth-tab-btn-dashboard')
+    };
 
-    if (viewReg) viewReg.classList.toggle('hidden', tab !== 'register');
-    if (viewLogin) viewLogin.classList.toggle('hidden', tab !== 'login');
-    if (viewDash) viewDash.classList.toggle('hidden', tab !== 'dashboard');
+    // Hide all views
+    Object.values(views).forEach(v => { if (v) v.classList.add('hidden'); });
 
-    [btnReg, btnLogin, btnDash].forEach(btn => {
+    // Reset tab buttons
+    Object.values(tabs).forEach(btn => {
       if (btn) {
         btn.classList.remove('border-[#D94B42]', 'text-[#D94B42]');
         btn.classList.add('border-transparent', 'text-[#777777]');
       }
     });
 
-    if (tab === 'register' && btnReg) {
-      btnReg.classList.add('border-[#D94B42]', 'text-[#D94B42]');
-      btnReg.classList.remove('border-transparent', 'text-[#777777]');
-    } else if (tab === 'login' && btnLogin) {
-      btnLogin.classList.add('border-[#D94B42]', 'text-[#D94B42]');
-      btnLogin.classList.remove('border-transparent', 'text-[#777777]');
-    } else if (tab === 'dashboard' && btnDash) {
-      btnDash.classList.remove('hidden');
-      btnDash.classList.add('border-[#D94B42]', 'text-[#D94B42]');
-      btnDash.classList.remove('border-transparent', 'text-[#777777]');
-      renderMerchantDashboard();
+    // Show target view & tab
+    if (views[tab]) views[tab].classList.remove('hidden');
+    if (tabs[tab]) {
+      tabs[tab].classList.remove('hidden', 'border-transparent', 'text-[#777777]');
+      tabs[tab].classList.add('border-[#D94B42]', 'text-[#D94B42]');
+    }
+
+    if (tab === 'dashboard') {
+      renderUserPortal();
     }
   };
 
-  window.handleBusinessRegister = function(event) {
+  window.togglePasswordVisibility = function(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    input.type = input.type === 'password' ? 'text' : 'password';
+  };
+
+  window.checkPasswordStrengthLive = function(pass) {
+    const checkRule = (id, condition) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const dot = el.querySelector('span:first-child');
+      if (condition) {
+        el.classList.remove('text-[#777777]');
+        el.classList.add('text-emerald-700', 'font-medium');
+        if (dot) {
+          dot.classList.remove('bg-gray-400');
+          dot.classList.add('bg-emerald-600');
+        }
+      } else {
+        el.classList.remove('text-emerald-700', 'font-medium');
+        el.classList.add('text-[#777777]');
+        if (dot) {
+          dot.classList.remove('bg-emerald-600');
+          dot.classList.add('bg-gray-400');
+        }
+      }
+    };
+
+    checkRule('rule-length', pass.length >= 8);
+    checkRule('rule-upper', /[A-Z]/.test(pass));
+    checkRule('rule-lower', /[a-z]/.test(pass));
+    checkRule('rule-number', /[0-9]/.test(pass));
+    checkRule('rule-special', /[^A-Za-z0-9]/.test(pass));
+  };
+
+  window.handleAuthLogin = async function(event) {
+    event.preventDefault();
+    const email = document.getElementById('login-email')?.value.trim();
+    const password = document.getElementById('login-password')?.value;
+    const errorBox = document.getElementById('login-error-msg');
+    const cooldownBox = document.getElementById('login-cooldown-box');
+    const cooldownSecs = document.getElementById('login-cooldown-seconds');
+    const submitBtn = document.getElementById('login-submit-btn');
+    const spinner = document.getElementById('login-spinner');
+    const btnText = document.getElementById('login-btn-text');
+
+    if (errorBox) errorBox.classList.add('hidden');
+    if (cooldownBox) cooldownBox.classList.add('hidden');
+
+    if (submitBtn) submitBtn.disabled = true;
+    if (spinner) spinner.classList.remove('hidden');
+    if (btnText) btnText.textContent = 'Verifying...';
+
+    try {
+      const res = await window.ShantipurAuth.signIn({ email, password });
+
+      if (res.isRateLimited) {
+        if (cooldownBox && cooldownSecs) {
+          let remaining = res.retryAfterSeconds || 50;
+          cooldownSecs.textContent = remaining;
+          cooldownBox.classList.remove('hidden');
+
+          if (cooldownTimerInterval) clearInterval(cooldownTimerInterval);
+          cooldownTimerInterval = setInterval(() => {
+            remaining -= 1;
+            if (remaining <= 0) {
+              clearInterval(cooldownTimerInterval);
+              cooldownBox.classList.add('hidden');
+              if (submitBtn) submitBtn.disabled = false;
+            } else {
+              cooldownSecs.textContent = remaining;
+            }
+          }, 1000);
+        }
+        return;
+      }
+
+      if (!res.success) {
+        if (errorBox) {
+          errorBox.textContent = res.error || 'Email or password is incorrect.';
+          errorBox.classList.remove('hidden');
+        }
+        return;
+      }
+
+      // Success
+      document.getElementById('auth-login-form')?.reset();
+      updateNavAuthState();
+      window.switchAuthTab('dashboard');
+    } finally {
+      if (submitBtn && !cooldownTimerInterval) submitBtn.disabled = false;
+      if (spinner) spinner.classList.add('hidden');
+      if (btnText) btnText.textContent = 'Sign In';
+    }
+  };
+
+  window.handleAuthSignUp = async function(event) {
+    event.preventDefault();
+    const name = document.getElementById('signup-name')?.value.trim();
+    const email = document.getElementById('signup-email')?.value.trim();
+    const roleRadio = document.querySelector('input[name="signup-role"]:checked');
+    const role = roleRadio ? roleRadio.value : 'registered_user';
+    const password = document.getElementById('signup-password')?.value;
+    const confirmPassword = document.getElementById('signup-confirm-password')?.value;
+
+    const errorBox = document.getElementById('signup-error-msg');
+    const successBox = document.getElementById('signup-success-msg');
+    const submitBtn = document.getElementById('signup-submit-btn');
+    const spinner = document.getElementById('signup-spinner');
+    const btnText = document.getElementById('signup-btn-text');
+
+    if (errorBox) errorBox.classList.add('hidden');
+    if (successBox) successBox.classList.add('hidden');
+
+    if (password !== confirmPassword) {
+      if (errorBox) {
+        errorBox.textContent = 'Passwords do not match. Please re-enter identical passwords.';
+        errorBox.classList.remove('hidden');
+      }
+      return;
+    }
+
+    if (submitBtn) submitBtn.disabled = true;
+    if (spinner) spinner.classList.remove('hidden');
+    if (btnText) btnText.textContent = 'Creating Account...';
+
+    try {
+      const res = await window.ShantipurAuth.signUp({
+        email,
+        password,
+        fullName: name,
+        role
+      });
+
+      if (!res.success) {
+        if (errorBox) {
+          errorBox.textContent = res.error || 'Registration could not be completed.';
+          errorBox.classList.remove('hidden');
+        }
+        return;
+      }
+
+      if (successBox) {
+        successBox.innerHTML = `
+          <strong class="font-bold block text-emerald-950 mb-1">Registration Successful!</strong>
+          ${res.message || 'Please verify your email address to complete your account setup.'}
+          <div class="mt-2 text-[11px] text-emerald-900">
+            A confirmation link has been sent to <strong>${email}</strong>. Once confirmed, you can sign in with your credentials.
+          </div>
+        `;
+        successBox.classList.remove('hidden');
+      }
+      document.getElementById('auth-signup-form')?.reset();
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      if (spinner) spinner.classList.add('hidden');
+      if (btnText) btnText.textContent = 'Create Free Account';
+    }
+  };
+
+  window.handleAuthForgotPassword = async function(event) {
+    event.preventDefault();
+    const email = document.getElementById('forgot-email')?.value.trim();
+    const msgBox = document.getElementById('forgot-status-msg');
+
+    const res = await window.ShantipurAuth.resetPasswordForEmail(email);
+    if (msgBox) {
+      msgBox.textContent = res.message || 'If an account exists with this email, a reset link has been dispatched.';
+      msgBox.classList.remove('hidden');
+    }
+    document.getElementById('auth-forgot-form')?.reset();
+  };
+
+  window.handleAuthResetPassword = async function(event) {
+    event.preventDefault();
+    const p1 = document.getElementById('reset-new-password')?.value;
+    const p2 = document.getElementById('reset-confirm-password')?.value;
+    const errorBox = document.getElementById('reset-error-msg');
+    const successBox = document.getElementById('reset-success-msg');
+
+    if (p1 !== p2) {
+      if (errorBox) {
+        errorBox.textContent = 'Passwords do not match.';
+        errorBox.classList.remove('hidden');
+      }
+      return;
+    }
+
+    const res = await window.ShantipurAuth.updatePassword(p1);
+    if (!res.success) {
+      if (errorBox) {
+        errorBox.textContent = res.error || 'Password update failed.';
+        errorBox.classList.remove('hidden');
+      }
+      return;
+    }
+
+    if (successBox) {
+      successBox.textContent = res.message || 'Password updated successfully!';
+      successBox.classList.remove('hidden');
+    }
+    document.getElementById('auth-reset-form')?.reset();
+    setTimeout(() => {
+      window.switchAuthTab('login');
+    }, 2000);
+  };
+
+  window.handleAuthSignOut = async function() {
+    await window.ShantipurAuth.signOut();
+    updateNavAuthState();
+    window.switchAuthTab('login');
+  };
+
+  window.handleBusinessRegister = async function(event) {
     event.preventDefault();
     const name = document.getElementById('reg-biz-name')?.value.trim();
     const owner = document.getElementById('reg-owner-name')?.value.trim();
@@ -948,7 +1181,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       category,
       phone,
       email,
-      password,
       address,
       tradeLicense,
       estYear,
@@ -959,99 +1191,106 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     businesses.push(newBusiness);
     saveStoredBusinesses(businesses);
-    setCurrentBusinessSession(newBusiness);
 
-    // Reset Form
+    // Also register user account via Supabase Auth
+    await window.ShantipurAuth.signUp({
+      email,
+      password,
+      fullName: owner,
+      role: 'business_owner'
+    });
+
     document.getElementById('business-registration-form')?.reset();
-
-    // Show Dashboard with success state
     window.switchAuthTab('dashboard');
   };
 
-  window.handleBusinessLogin = function(event) {
-    event.preventDefault();
-    const identifier = document.getElementById('login-identifier')?.value.trim().toLowerCase();
-    const password = document.getElementById('login-password')?.value;
-    const errorEl = document.getElementById('login-error-msg');
-
-    const businesses = getStoredBusinesses();
-    const match = businesses.find(b => (b.email.toLowerCase() === identifier || b.phone === identifier) && b.password === password);
-
-    if (match) {
-      if (errorEl) errorEl.classList.add('hidden');
-      setCurrentBusinessSession(match);
-      document.getElementById('business-login-form')?.reset();
-      window.switchAuthTab('dashboard');
-    } else {
-      if (errorEl) {
-        errorEl.textContent = 'Invalid email/phone or password. If you have not registered your business yet, please click "Register for Free".';
-        errorEl.classList.remove('hidden');
-      }
-    }
-  };
-
-  window.handleBusinessLogout = function() {
-    setCurrentBusinessSession(null);
-    const btnDash = document.getElementById('auth-tab-btn-dashboard');
-    if (btnDash) btnDash.classList.add('hidden');
-    window.switchAuthTab('login');
-  };
-
-  function renderMerchantDashboard() {
-    const container = document.getElementById('merchant-dashboard-content');
+  function renderUserPortal() {
+    const container = document.getElementById('user-portal-content');
     if (!container) return;
-    const biz = getCurrentBusinessSession();
 
-    if (!biz) {
-      container.innerHTML = `<p class="text-xs text-[#777777]">No active merchant session. Please sign in.</p>`;
+    const user = window.ShantipurAuth ? window.ShantipurAuth.getUser() : null;
+    const profile = window.ShantipurAuth ? window.ShantipurAuth.getProfile() : null;
+    const businesses = getStoredBusinesses();
+    const userBiz = businesses.find(b => b.email === user?.email);
+
+    if (!user) {
+      container.innerHTML = `
+        <div class="text-center py-8 space-y-3">
+          <p class="text-xs text-[#777777]">No active authentication session.</p>
+          <button onclick="window.switchAuthTab('login')" class="px-4 py-2 bg-[#D94B42] text-white rounded-lg text-xs font-bold">Sign In</button>
+        </div>
+      `;
       return;
+    }
+
+    const role = profile?.role || user.role || 'registered_user';
+    let roleBadge = '';
+    if (role === 'admin') {
+      roleBadge = '<span class="bg-red-100 text-red-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-red-200">Owner / System Administrator</span>';
+    } else if (role === 'business_owner') {
+      roleBadge = '<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-200">Verified Merchant</span>';
+    } else {
+      roleBadge = '<span class="bg-gray-100 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-gray-200">Community Resident</span>';
     }
 
     container.innerHTML = `
       <div class="space-y-4">
-        <!-- Verification Status Alert -->
-        <div class="p-4 rounded-xl border ${biz.verificationStatus === 'verified' ? 'bg-emerald-50 border-emerald-200' : 'bg-amber-50 border-amber-200'}">
-          <div class="flex items-center justify-between mb-2">
-            <span class="inline-flex items-center gap-1.5 text-xs font-bold ${biz.verificationStatus === 'verified' ? 'text-emerald-800' : 'text-amber-800'}">
-              <span class="w-2 h-2 rounded-full ${biz.verificationStatus === 'verified' ? 'bg-emerald-600' : 'bg-amber-600 animate-pulse'}"></span>
-              ${biz.verificationStatus === 'verified' ? 'OFFICIALLY VERIFIED & PUBLISHED' : 'VERIFICATION IN PROGRESS (24-48 HRS)'}
-            </span>
-            <span class="text-[11px] font-mono text-[#777777]">ID: ${biz.id}</span>
+        <!-- User Profile Card -->
+        <div class="bg-[#FAFAF8] border border-[#EAEAEA] rounded-xl p-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-[#D94B42] text-white font-bold flex items-center justify-center text-sm shadow-sm">
+              ${(profile?.full_name || user.email || 'U')[0].toUpperCase()}
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h5 class="text-sm font-bold text-[#202020]">${profile?.full_name || 'Resident of Shantipur'}</h5>
+                ${roleBadge}
+              </div>
+              <p class="text-xs text-[#777777] font-mono mt-0.5">${user.email}</p>
+            </div>
           </div>
-          <p class="text-xs text-[#202020] leading-relaxed">
-            ${biz.verificationStatus === 'verified' 
-              ? 'Your business has passed municipal and physical address verification and is now indexed on the public directory.' 
-              : 'Thank you for registering. In accordance with Shantipur Local Directory\'s strict anti-spam policy, commercial listings are not published automatically. Our municipal field team will verify your trade license and physical establishment in Shantipur before public listing.'}
-          </p>
-        </div>
-
-        <!-- Business Details Summary Card -->
-        <div class="bg-[#FAFAF8] border border-[#EAEAEA] rounded-xl p-4 space-y-2.5 text-xs">
-          <div class="flex items-center justify-between border-b border-[#EAEAEA] pb-2">
-            <span class="font-bold text-sm text-[#202020]">${biz.businessName}</span>
-            <span class="text-[11px] bg-white border border-[#EAEAEA] px-2 py-0.5 rounded font-medium text-[#777777]">${biz.category}</span>
-          </div>
-          <div class="grid grid-cols-2 gap-2 text-[11px]">
-            <div><span class="text-[#777777]">Proprietor:</span> <strong class="text-[#202020]">${biz.ownerName}</strong></div>
-            <div><span class="text-[#777777]">Phone:</span> <strong class="text-[#202020]">${biz.phone}</strong></div>
-            <div><span class="text-[#777777]">Email:</span> <strong class="text-[#202020]">${biz.email}</strong></div>
-            <div><span class="text-[#777777]">Trade License:</span> <strong class="text-[#202020] font-mono">${biz.tradeLicense}</strong></div>
-          </div>
-          <div class="pt-1 text-[11px]">
-            <span class="text-[#777777]">Address:</span> <strong class="text-[#202020]">${biz.address}</strong>
-          </div>
-          <div class="pt-1 text-[11px] text-[#777777] border-t border-[#EAEAEA] leading-relaxed">
-            "${biz.description}"
-          </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="flex items-center justify-between pt-2">
-          <span class="text-[11px] text-[#777777]">Free Municipal Portal • PIN: 741404</span>
-          <button onclick="window.handleBusinessLogout()" class="px-3.5 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-[#202020] text-xs font-semibold transition-colors">
+          <button onclick="window.handleAuthSignOut()" class="px-3 py-1.5 rounded-lg border border-[#EAEAEA] bg-white hover:bg-gray-100 text-xs font-semibold text-[#202020] transition-colors">
             Sign Out
           </button>
         </div>
+
+        ${role === 'admin' ? `
+          <!-- Administrator Console Notice -->
+          <div class="bg-red-50 border border-red-200 rounded-xl p-4 space-y-2 text-xs">
+            <div class="flex items-center gap-2 text-red-900 font-bold">
+              <svg class="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>Project Administrator Console (Owner-Only)</span>
+            </div>
+            <p class="text-red-950 leading-relaxed">
+              You are authenticated with unrestricted project-level administrator privileges. You can verify municipal business submissions, moderate community lore contributions, and manage heritage records under PostgreSQL Row Level Security.
+            </p>
+          </div>
+        ` : ''}
+
+        ${userBiz ? `
+          <!-- Business Status Card -->
+          <div class="p-4 rounded-xl border ${userBiz.verificationStatus === 'verified' ? 'bg-emerald-50 border-emerald-200' : 'bg-amber-50 border-amber-200'}">
+            <div class="flex items-center justify-between mb-2">
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold ${userBiz.verificationStatus === 'verified' ? 'text-emerald-800' : 'text-amber-800'}">
+                <span class="w-2 h-2 rounded-full ${userBiz.verificationStatus === 'verified' ? 'bg-emerald-600' : 'bg-amber-600 animate-pulse'}"></span>
+                ${userBiz.verificationStatus === 'verified' ? 'OFFICIALLY VERIFIED & PUBLISHED' : 'VERIFICATION IN PROGRESS (24-48 HRS)'}
+              </span>
+              <span class="text-[11px] font-mono text-[#777777]">ID: ${userBiz.id}</span>
+            </div>
+            <div class="text-xs text-[#202020] space-y-1">
+              <div><strong>Business Name:</strong> ${userBiz.businessName}</div>
+              <div><strong>Category:</strong> ${userBiz.category}</div>
+              <div><strong>Trade License:</strong> <span class="font-mono">${userBiz.tradeLicense}</span></div>
+              <div><strong>Address:</strong> ${userBiz.address}</div>
+            </div>
+          </div>
+        ` : `
+          <!-- Community Resident Actions -->
+          <div class="border border-[#EAEAEA] rounded-xl p-4 bg-white space-y-2 text-xs">
+            <h6 class="font-bold text-[#202020]">Community Activity &amp; Saved Places</h6>
+            <p class="text-[#777777]">You can bookmark heritage temples, participate in Bhanga Rash discussions, and contribute authentic oral folklore.</p>
+          </div>
+        `}
       </div>
     `;
   }
@@ -1092,5 +1331,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderListings();
   renderHeritageGallery();
   updateParikramaEstimates();
-  updateNavBusinessState();
+  updateNavAuthState();
 });

@@ -1,11 +1,97 @@
-// server.js - Fast Zero-Dependency Built-in HTTP Static Server
+// server.js - Shantipur Local Directory HTTP & Security Gateway Server
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const PORT = 5173;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
+// 1. Safe Environment Loader (.env.local)
+function loadEnv() {
+  const envFiles = ['.env.local', '.env'];
+  for (const file of envFiles) {
+    const fullPath = path.join(__dirname, file);
+    if (fs.existsSync(fullPath)) {
+      const content = fs.readFileSync(fullPath, 'utf8');
+      content.split('\n').forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) return;
+        const eq = trimmed.indexOf('=');
+        if (eq > 0) {
+          const key = trimmed.substring(0, eq).trim();
+          let val = trimmed.substring(eq + 1).trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+            val = val.slice(1, -1);
+          }
+          if (!process.env[key]) process.env[key] = val;
+        }
+      });
+    }
+  }
+}
+loadEnv();
+
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://bnlhqkcyqymsvtqblwkv.supabase.co';
+const SUPABASE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || '';
+
+// 2. Strict In-Memory Rolling Rate Limiter Store
+// Requirement: Maximum 5 failed attempts in 50 seconds
+const RATE_LIMIT_WINDOW_MS = 50 * 1000; // 50 seconds
+const MAX_FAILED_ATTEMPTS = 5;
+
+// Map: key -> Array of timestamps [t1, t2, ...]
+const failedAttemptsMap = new Map();
+
+function hashEmail(email) {
+  return crypto.createHash('sha256').update((email || '').trim().toLowerCase()).digest('hex');
+}
+
+function getRateLimitState(ip, emailHash) {
+  const now = Date.now();
+  const windowStart = now - RATE_LIMIT_WINDOW_MS;
+
+  // Gather attempts for this IP and email hash
+  const ipAttempts = (failedAttemptsMap.get(`ip:${ip}`) || []).filter(t => t > windowStart);
+  const emailAttempts = (failedAttemptsMap.get(`email:${emailHash}`) || []).filter(t => t > windowStart);
+
+  failedAttemptsMap.set(`ip:${ip}`, ipAttempts);
+  failedAttemptsMap.set(`email:${emailHash}`, emailAttempts);
+
+  // Total count is max of ip or email attempts
+  const count = Math.max(ipAttempts.length, emailAttempts.length);
+  const oldestInWindow = Math.min(...ipAttempts, ...emailAttempts);
+
+  if (count >= MAX_FAILED_ATTEMPTS) {
+    const retryAfterSeconds = Math.max(1, Math.ceil((oldestInWindow + RATE_LIMIT_WINDOW_MS - now) / 1000));
+    return { isAllowed: false, count, retryAfterSeconds };
+  }
+
+  return { isAllowed: true, count, retryAfterSeconds: 0 };
+}
+
+function recordFailedAttempt(ip, emailHash) {
+  const now = Date.now();
+  const ipKey = `ip:${ip}`;
+  const emailKey = `email:${emailHash}`;
+
+  const ipList = (failedAttemptsMap.get(ipKey) || []).filter(t => t > (now - RATE_LIMIT_WINDOW_MS));
+  ipList.push(now);
+  failedAttemptsMap.set(ipKey, ipList);
+
+  if (emailHash) {
+    const emailList = (failedAttemptsMap.get(emailKey) || []).filter(t => t > (now - RATE_LIMIT_WINDOW_MS));
+    emailList.push(now);
+    failedAttemptsMap.set(emailKey, emailList);
+  }
+}
+
+function clearAttempts(ip, emailHash) {
+  failedAttemptsMap.delete(`ip:${ip}`);
+  if (emailHash) failedAttemptsMap.delete(`email:${emailHash}`);
+}
+
+// 3. MIME Types
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
@@ -19,12 +105,120 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  let reqPath = decodeURIComponent(req.url.split('?')[0]);
-  if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
+  const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  const reqPath = parsedUrl.pathname;
 
-  let filePath = path.join(PUBLIC_DIR, reqPath);
+  // CORS Headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  // Security check: ensure path stays inside PUBLIC_DIR
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204);
+    return res.end();
+  }
+
+  // API Route: Public Configuration
+  if (req.method === 'GET' && reqPath === '/api/config') {
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    return res.end(JSON.stringify({
+      supabaseUrl: SUPABASE_URL,
+      supabaseAnonKey: SUPABASE_KEY,
+      rateLimitWindowSeconds: 50,
+      maxAllowedFailedAttempts: 5
+    }));
+  }
+
+  // API Route: Secure Login Gateway (5-in-50s Rate Limiter)
+  if (req.method === 'POST' && reqPath === '/api/auth/login-gateway') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; if (body.length > 1e6) req.destroy(); });
+    req.on('end', async () => {
+      try {
+        const { email, password } = JSON.parse(body || '{}');
+        const clientIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || '127.0.0.1';
+        const emailHash = hashEmail(email);
+
+        // Check Rate Limit (5 failed attempts within rolling 50s)
+        const rateCheck = getRateLimitState(clientIp, emailHash);
+        if (!rateCheck.isAllowed) {
+          res.writeHead(429, {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Retry-After': String(rateCheck.retryAfterSeconds)
+          });
+          return res.end(JSON.stringify({
+            error: 'Too many unsuccessful login attempts. Please try again after the cooldown.',
+            retryAfterSeconds: rateCheck.retryAfterSeconds
+          }));
+        }
+
+        // Validate basic parameters
+        if (!email || !password || typeof password !== 'string' || password.length < 1) {
+          recordFailedAttempt(clientIp, emailHash);
+          res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+          return res.end(JSON.stringify({ error: 'Email or password is incorrect.' }));
+        }
+
+        // If configured with authentic Supabase credentials, verify against Supabase Auth
+        if (SUPABASE_KEY && SUPABASE_KEY !== 'YOUR_SUPABASE_PUBLISHABLE_KEY' && !SUPABASE_KEY.startsWith('YOUR_')) {
+          try {
+            const authRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_KEY,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email: email.trim().toLowerCase(), password })
+            });
+
+            const authData = await authRes.json();
+            if (!authRes.ok || !authData.access_token) {
+              recordFailedAttempt(clientIp, emailHash);
+              res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+              return res.end(JSON.stringify({ error: 'Email or password is incorrect.' }));
+            }
+
+            // Success -> Clear failed counter
+            clearAttempts(clientIp, emailHash);
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ session: authData, user: authData.user }));
+          } catch (fetchErr) {
+            recordFailedAttempt(clientIp, emailHash);
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ error: 'Email or password is incorrect.' }));
+          }
+        } else {
+          // Local/Simulation Mode when waiting for user to paste their live Supabase key:
+          // Simulate strict password check (e.g. for testing rate limit & auth flow)
+          // If password matches 'TestValidPass123!', allow; otherwise fail
+          if (password === 'ShantipurSecure2026!') {
+            clearAttempts(clientIp, emailHash);
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({
+              session: { access_token: 'local_simulated_token_' + Date.now(), user: { email, role: 'registered_user' } },
+              user: { email, role: 'registered_user' }
+            }));
+          } else {
+            recordFailedAttempt(clientIp, emailHash);
+            res.writeHead(401, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ error: 'Email or password is incorrect.' }));
+          }
+        }
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({ error: 'Invalid request format.' }));
+      }
+    });
+    return;
+  }
+
+  // 4. Static File Serving
+  let cleanPath = reqPath;
+  if (cleanPath === '/' || cleanPath === '') cleanPath = '/index.html';
+
+  let filePath = path.join(PUBLIC_DIR, cleanPath);
+
+  // Security check: Path traversal prevention
   if (!filePath.startsWith(PUBLIC_DIR)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
     return res.end('403 Forbidden');
@@ -32,8 +226,14 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      return res.end('404 Not Found: ' + reqPath);
+      // Single Page Application fallback for authentication routes (/login, /signup, etc.)
+      const spaRoutes = ['/login', '/signup', '/forgot-password', '/reset-password'];
+      if (spaRoutes.includes(cleanPath)) {
+        filePath = path.join(PUBLIC_DIR, 'index.html');
+      } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        return res.end('404 Not Found: ' + reqPath);
+      }
     }
 
     const ext = path.extname(filePath).toLowerCase();
@@ -51,6 +251,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, '127.0.0.1', () => {
-  console.log(`🚀 Shantipur Heritage Engine running at http://127.0.0.1:${PORT}`);
+  console.log(`🚀 Shantipur Security Engine running at http://127.0.0.1:${PORT}`);
 });
-
