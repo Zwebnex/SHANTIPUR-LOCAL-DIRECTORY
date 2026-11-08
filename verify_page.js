@@ -160,18 +160,16 @@ async function verify() {
 
   // 10e. Verify ZWEBNEX Agency Attribution & Logos
   const zwebnexCheck = await page.evaluate(() => {
-    const bannerImg = document.querySelector('img[src*="zwebnex-logo-banner.jpg"]');
-    const iconImg = document.querySelector('img[src*="zwebnex-icon-orange.jpg"]');
+    const logoImg = document.querySelector('img[src*="zwebnex-official-logo.png"]');
     const footerText = document.querySelector('footer').innerText;
     return {
-      hasBanner: !!bannerImg,
-      hasIcon: !!iconImg,
+      hasLogo: !!logoImg,
       hasZwebnexText: footerText.includes('ZWEBNEX'),
       hasFoundersText: footerText.includes('Shankha Subhra Sadhukhan') && footerText.includes('Bipra Das'),
       hasDesignerText: footerText.includes('Website Designed by')
     };
   });
-  console.log(`🚀 ZWEBNEX Agency Attribution: Banner=${zwebnexCheck.hasBanner}, Icon=${zwebnexCheck.hasIcon}, Founders=${zwebnexCheck.hasFoundersText}, Designer=${zwebnexCheck.hasDesignerText}`);
+  console.log(`🚀 ZWEBNEX Agency Attribution: Logo=${zwebnexCheck.hasLogo}, Founders=${zwebnexCheck.hasFoundersText}, Designer=${zwebnexCheck.hasDesignerText}`);
 
   // 11. Comprehensive Audit of All Idols, Temples & Places
   const idolTempleAudit = await page.evaluate(() => {
