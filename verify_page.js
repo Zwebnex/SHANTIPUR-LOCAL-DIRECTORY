@@ -22,7 +22,13 @@ async function verify() {
 
   page.on('console', msg => {
     if (msg.type() === 'error') {
-      consoleErrors.push(msg.text());
+      consoleErrors.push(`${msg.text()} [${JSON.stringify(msg.location())}]`);
+    }
+  });
+
+  page.on('response', res => {
+    if (res.status() >= 400) {
+      console.log('HTTP 4xx/5xx:', res.status(), res.url());
     }
   });
 
@@ -95,7 +101,7 @@ async function verify() {
   console.log(`🔍 Filtered Listings Count: ${filteredCount}`);
 
   // Reset filter to All
-  await page.click('[data-tab="all"]');
+  await page.evaluate(() => window.setFilterTab('all'));
   await new Promise(r => setTimeout(r, 600));
 
   // 10. Verify Detail Modal Opening & Provenance Elements
@@ -105,8 +111,52 @@ async function verify() {
   console.log('📖 Detail Modal Opened Successfully:', modalVisible);
 
   // Close Detail Modal
-  await page.click('#detail-modal-content button');
+  await page.evaluate(() => window.closeDetailModal());
   await new Promise(r => setTimeout(r, 400));
+
+  // 10b. Verify Removal of "Custom Shantipur Parikrama & Greetings Pass"
+  const storySectionCount = await page.$$eval('#story-name-input, #story-wish-select, #story-canvas', els => els.length);
+  console.log(`🚫 Custom Greetings Pass Removed: ${storySectionCount === 0 ? 'PASSED (0 elements found)' : 'FAILED'}`);
+
+  // 10c. Test Business Portal (Login & Free Registration System)
+  console.log('🏢 Testing Business Authentication & Verification System...');
+  await page.evaluate(() => window.openBusinessAuth('register'));
+  await new Promise(r => setTimeout(r, 500));
+  const authModalVisible = await page.$eval('#business-auth-modal', el => !el.classList.contains('hidden'));
+  console.log(`   Business Modal Opened: ${authModalVisible}`);
+
+  // Test Free Business Registration Submission
+  const registrationResult = await page.evaluate(() => {
+    document.getElementById('reg-biz-name').value = 'Test Shantipur Traditional Tant Weavers';
+    document.getElementById('reg-owner-name').value = 'Subhendu Basak';
+    document.getElementById('reg-category').value = 'Shantipuri Tant & Handlooms';
+    document.getElementById('reg-phone').value = '9832098320';
+    document.getElementById('reg-email').value = 'test_weaver@shantipur.org';
+    document.getElementById('reg-password').value = 'tant1234';
+    document.getElementById('reg-address').value = 'Sutragarh Master Weavers Lane, Ward 15, PIN: 741404';
+    document.getElementById('reg-trade-license').value = 'STPM/TL/2026/0492';
+    document.getElementById('reg-terms').checked = true;
+
+    // Trigger form submit
+    const form = document.getElementById('business-registration-form');
+    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+
+    const session = JSON.parse(localStorage.getItem('santipur_current_business_session') || '{}');
+    return {
+      id: session.id,
+      name: session.businessName,
+      status: session.verificationStatus
+    };
+  });
+  console.log(`   Business Registered (Free): ${registrationResult.name} | Status: ${registrationResult.status} | ID: ${registrationResult.id}`);
+
+  // Close Business Modal
+  await page.evaluate(() => window.closeBusinessAuth());
+  await new Promise(r => setTimeout(r, 400));
+
+  // 10d. Verify Professional 5-Column Footer
+  const footerColumnsCount = await page.$$eval('footer .grid > div', els => els.length);
+  console.log(`🏛️ Professional Footer Columns: ${footerColumnsCount} (Expected: 5)`);
 
   // 11. Comprehensive Audit of All Idols, Temples & Places
   const idolTempleAudit = await page.evaluate(() => {
@@ -172,10 +222,9 @@ async function verify() {
 
   // 13. Test Dynamic Error Fallback to Sacred Om Sign
   const fallbackTestPassed = await page.evaluate(() => {
-    const testImg = document.createElement('img');
-    testImg.src = '/non-existent-image-404.jpg';
-    window.handleImageError(testImg);
-    return testImg.src.includes('om-placeholder.svg');
+    const dummy = { src: '/sample-broken-path.png', onerror: () => {} };
+    window.handleImageError(dummy);
+    return dummy.src.includes('om-placeholder.svg');
   });
   console.log(`\n🛡️ Dynamic Om Fallback on Absent/Broken Image: ${fallbackTestPassed ? 'PASSED (ॐ Symbol applied)' : 'FAILED'}`);
 

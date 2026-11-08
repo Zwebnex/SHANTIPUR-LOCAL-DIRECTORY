@@ -106,11 +106,17 @@
           <button id="lang-btn-bn" onclick="window.toggleLanguage('bn')" class="hover:text-[#D94B42] transition-colors">বাংলা</button>
         </div>
 
-        <!-- Plan Parikrama Button (Matching Listygo "+ Add Listing") -->
-        <a href="#parikrama-section" class="inline-flex items-center gap-2 bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm transition-all duration-200">
+        <!-- Merchant Sign In Link -->
+        <button onclick="window.openBusinessAuth('login')" class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-[#202020] hover:text-[#D94B42] transition-colors py-2 px-2.5">
+          <svg class="w-3.5 h-3.5 text-[#777777]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          <span data-i18n="navSignIn">Sign In</span>
+        </button>
+
+        <!-- Free Business Registration CTA (Listygo "+ Add Listing" Style) -->
+        <button onclick="window.openBusinessAuth('register')" class="inline-flex items-center gap-2 bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm transition-all duration-200">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-          <span data-i18n="navParikramaBtn">Plan Parikrama</span>
-        </a>
+          <span data-i18n="navRegisterBusiness">+ Register Business (Free)</span>
+        </button>
       </div>
     </div>
   </header>
@@ -487,72 +493,6 @@
     </div>
   </section>
 
-  <!-- STORY PASS GENERATOR SECTION -->
-  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-    <div class="bg-white border border-[#EAEAEA] rounded-2xl p-8 sm:p-10 shadow-sm">
-      <div class="max-w-2xl mb-8">
-        <span class="text-xs font-bold text-[#D94B42] uppercase tracking-wider block mb-1" data-i18n="generatorTag">OFFICIAL PASS GENERATOR</span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#202020] tracking-tight" data-i18n="generatorTitle">
-          Custom Shantipur Parikrama & Greetings Pass
-        </h2>
-        <p class="text-xs sm:text-sm text-[#777777] mt-2" data-i18n="generatorSub">
-          Generate an authentic, high-resolution 1080x1920 Story Card with your name and date for festival sharing.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-        <!-- Form Inputs -->
-        <div class="md:col-span-7 space-y-4">
-          <div>
-            <label class="block text-xs font-bold uppercase text-[#202020] mb-1.5" data-i18n="yourName">Your Full Name</label>
-            <input id="story-name-input" type="text" value="Arunabha Goswami" class="w-full px-4 py-2.5 rounded-lg border border-[#EAEAEA] text-xs sm:text-sm text-[#202020] font-medium outline-none focus:border-[#D94B42]" />
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase text-[#202020] mb-1.5" data-i18n="selectWish">Select Message / Dedication</label>
-            <select id="story-wish-select" class="w-full px-4 py-2.5 rounded-lg border border-[#EAEAEA] text-xs sm:text-sm text-[#202020] font-medium outline-none focus:border-[#D94B42]">
-              <option value="Subho Dipaboli & Shantipur Bhanga Rash">Subho Dipaboli & Shantipur Bhanga Rash</option>
-              <option value="May Maa Agameswari bless you with wisdom and courage">May Maa Agameswari bless you with wisdom and courage</option>
-              <option value="Honoring 500 years of sacred Shantipur heritage">Honoring 500 years of sacred Shantipur heritage</option>
-              <option value="Celebrating 1409 CE Shantipuri Tant handloom master weavers">Celebrating 1409 CE Shantipuri Tant handloom master weavers</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase text-[#202020] mb-1.5">Select Shrine Photograph</label>
-            <select id="story-photo-select" class="w-full px-4 py-2.5 rounded-lg border border-[#EAEAEA] text-xs sm:text-sm text-[#202020] font-medium outline-none focus:border-[#D94B42]">
-              <option value="/images/santipur/vaishnava-heritage/santipur-sri-radha-raman-jiu-01.jpg">Sri Sri Radha Raman Jiu Deities</option>
-              <option value="/images/santipur/maa-kali/santipur-maa-agameswari-idol-01.png">Maa Agameswari (420 Years)</option>
-              <option value="/images/santipur/temples/santipur-shyamchand-temple-atchala-01.jpg">Shyamchand Mandir (1726 CE)</option>
-              <option value="/images/santipur/rash-utsav/santipur-bhanga-rash-rairaja-01.jpg">Santipur Bhanga Rash Rairaja</option>
-              <option value="/images/santipur/handloom/santipur-traditional-tant-loom-01.jpg">1409 CE Shantipuri Tant Loom</option>
-              <option value="/images/santipur/maa-kali/santipur-maa-bamakali-idol-01.png">Maa Bamakali Sanctuary</option>
-            </select>
-          </div>
-
-          <button onclick="window.generateStoryCard()" class="w-full py-3.5 rounded-lg bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-colors flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            <span data-i18n="generateStory">Generate & Download Pass</span>
-          </button>
-        </div>
-
-        <!-- Preview Card -->
-        <div class="md:col-span-5 flex justify-center">
-          <div class="w-60 h-80 rounded-xl bg-gray-900 border-2 border-[#D94B42] shadow-md p-4 text-white flex flex-col justify-between text-center">
-            <div class="text-[10px] font-bold uppercase text-[#B79550] tracking-wider">SHANTIPUR 741404</div>
-            <div class="my-auto">
-              <span class="text-[11px] text-gray-400 block font-mono">HERITAGE PASS</span>
-              <h4 class="text-base font-bold text-white mt-1">Your Name</h4>
-              <p class="text-xs text-[#D94B42] italic mt-1 font-serif">Subho Dipaboli & Rash</p>
-            </div>
-            <div class="text-[9px] text-gray-400 font-mono">1080x1920 Story Output</div>
-          </div>
-          <canvas id="story-canvas" class="hidden"></canvas>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- LIGHTBOX MODAL VIEWER (PHASE 7) -->
   <div id="lightbox-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
     <div class="relative bg-white rounded-2xl max-w-4xl w-full max-h-[92vh] shadow-2xl border border-[#EAEAEA] flex flex-col overflow-hidden">
@@ -603,22 +543,320 @@
     <div id="detail-modal-content" class="w-full flex justify-center"></div>
   </div>
 
-  <!-- PROFESSIONAL FOOTER -->
-  <footer class="mt-auto bg-white border-t border-[#EAEAEA] py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-      <div>
-        <div class="flex items-center justify-center sm:justify-start gap-2.5 mb-1.5">
-          <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" loading="lazy" decoding="async" class="w-7 h-7 rounded-full object-cover" onerror="window.handleImageError(this)" />
-          <span class="font-bold text-sm text-[#202020]">SHANTIPUR</span>
-          <span class="text-xs text-[#777777]">• PIN 741404</span>
+  <!-- BUSINESS AUTHENTICATION & FREE VERIFICATION REGISTRATION MODAL -->
+  <div id="business-auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="relative bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-[#EAEAEA] overflow-hidden my-8">
+      <!-- Modal Header -->
+      <div class="p-5 sm:p-6 bg-[#FAFAF8] border-b border-[#EAEAEA] flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#D94B42]/10 flex items-center justify-center text-[#D94B42]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-[#202020]">Shantipur Merchant &amp; Business Portal</h3>
+            <p class="text-xs text-[#777777]">Free Official Registration • Verification Before Publishing</p>
+          </div>
         </div>
-        <p class="text-xs text-[#777777]" data-i18n="footerDesc">
-          Official Cultural Heritage & Municipal Directory Portal for Shantipur, Nadia, West Bengal.
-        </p>
+        <button onclick="window.closeBusinessAuth()" class="w-8 h-8 rounded-full bg-white hover:bg-gray-100 text-[#202020] border border-[#EAEAEA] flex items-center justify-center font-bold text-sm transition-colors">
+          ✕
+        </button>
       </div>
 
-      <div class="text-xs text-[#777777]">
-        <p data-i18n="footerCopyright">Shantipur Heritage Platform. All authentic historical data verified from Nadia district gazetteers.</p>
+      <!-- Tab Switcher -->
+      <div class="flex border-b border-[#EAEAEA] bg-white px-6 pt-3 gap-6 text-xs font-bold">
+        <button id="auth-tab-btn-register" onclick="window.switchAuthTab('register')" class="pb-3 border-b-2 border-[#D94B42] text-[#D94B42] transition-colors flex items-center gap-1.5">
+          <span>+ Register Business (Free)</span>
+          <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-semibold">100% Free</span>
+        </button>
+        <button id="auth-tab-btn-login" onclick="window.switchAuthTab('login')" class="pb-3 border-b-2 border-transparent text-[#777777] hover:text-[#202020] transition-colors">
+          <span>Merchant Sign In</span>
+        </button>
+        <button id="auth-tab-btn-dashboard" onclick="window.switchAuthTab('dashboard')" class="hidden pb-3 border-b-2 border-transparent text-[#777777] hover:text-[#202020] transition-colors">
+          <span>My Business Status</span>
+        </button>
+      </div>
+
+      <!-- Tab 1: Free Registration Form -->
+      <div id="auth-view-register" class="p-6 max-h-[70vh] overflow-y-auto space-y-4">
+        <!-- Trust Guarantee Banner -->
+        <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-start gap-3">
+          <div class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">✓</div>
+          <div class="text-xs text-emerald-950 leading-relaxed">
+            <strong class="font-bold block text-emerald-900 mb-0.5">100% Free Official Local Business Registration</strong>
+            Shantipur Local Directory does not publish auto-generated or unverified listings. Register your business for free. Our municipal verification team verifies physical operation in Shantipur (PIN: 741404) before your card goes live.
+          </div>
+        </div>
+
+        <form id="business-registration-form" onsubmit="window.handleBusinessRegister(event)" class="space-y-3.5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold text-[#202020] mb-1">Business Trade Name *</label>
+              <input required id="reg-biz-name" type="text" placeholder="e.g. Radharani Handloom Sarees" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#202020] mb-1">Proprietor / Owner Name *</label>
+              <input required id="reg-owner-name" type="text" placeholder="Full Name" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold text-[#202020] mb-1">Category *</label>
+              <select required id="reg-category" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]">
+                <option value="Shantipuri Tant & Handlooms">Shantipuri Tant &amp; Handlooms (তাঁত শিল্প)</option>
+                <option value="Confectionery & Traditional Sweets">Confectionery &amp; Traditional Sweets (মিষ্টান্ন)</option>
+                <option value="Terracotta & Clay Sculptures">Terracotta &amp; Clay Sculptures (মৃৎশিল্প)</option>
+                <option value="Brass & Bell Metal Guild">Brass &amp; Bell Metal Guild (কাঁসা-পিতল)</option>
+                <option value="Hotels & Guest Houses">Hotels &amp; Guest Houses (হোটেল ও লজ)</option>
+                <option value="Restaurants & Traditional Food">Restaurants &amp; Traditional Food (রেস্তোরাঁ)</option>
+                <option value="Healthcare, Pharmacy & Ayurveda">Healthcare &amp; Pharmacy (স্বাস্থ্যসেবা)</option>
+                <option value="Retail, Jewellery & Groceries">Retail, Jewellery &amp; Groceries (খুচরো ব্যবসা)</option>
+                <option value="Local Services & Transport">Local Services &amp; Transport (স্থানীয় পরিষেবা)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#202020] mb-1">Phone / WhatsApp *</label>
+              <input required id="reg-phone" type="tel" pattern="[0-9]{10}" placeholder="10-digit mobile number" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold text-[#202020] mb-1">Official Email *</label>
+              <input required id="reg-email" type="email" placeholder="name@business.com" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#202020] mb-1">Password *</label>
+              <input required id="reg-password" type="password" minlength="6" placeholder="Create password (min 6 chars)" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#202020] mb-1">Physical Address &amp; Shantipur Municipal Ward *</label>
+            <input required id="reg-address" type="text" placeholder="Shop No, Street, Locality (e.g. Sutragarh K.C. Das Rd, Ward 15), PIN: 741404" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold text-[#202020] mb-1">Municipality Trade License / Udyam No.</label>
+              <input id="reg-trade-license" type="text" placeholder="e.g. STPM/TL/2026/XXXX" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+              <span class="text-[10px] text-[#777777]">Accelerates verification approval</span>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#202020] mb-1">Year Established</label>
+              <input id="reg-est-year" type="number" min="1700" max="2026" placeholder="e.g. 1994" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#202020] mb-1">Business Description &amp; Key Products</label>
+            <textarea id="reg-desc" rows="2" placeholder="Briefly describe what your business offers (e.g. Pure 100 count Shantipuri Tant sarees, Jacquard borders, wholesale bulk orders accepted)." class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]"></textarea>
+          </div>
+
+          <div class="pt-1">
+            <label class="flex items-start gap-2.5 cursor-pointer">
+              <input required id="reg-terms" type="checkbox" class="w-4 h-4 text-[#D94B42] rounded border-gray-300 focus:ring-[#D94B42] mt-0.5" />
+              <span class="text-[11px] text-[#777777] leading-tight">
+                I declare this business operates physically in Shantipur (PIN: 741404). I understand registration is 100% free and the listing is published only after proper administrative and physical verification.
+              </span>
+            </label>
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-lg bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-colors mt-2">
+            Submit Free Registration for Verification
+          </button>
+        </form>
+      </div>
+
+      <!-- Tab 2: Merchant Sign In -->
+      <div id="auth-view-login" class="p-6 hidden space-y-4">
+        <form id="business-login-form" onsubmit="window.handleBusinessLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-[#202020] mb-1">Email or Mobile Number</label>
+            <input required id="login-identifier" type="text" placeholder="Enter your registered email or phone" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#202020] mb-1">Password</label>
+            <input required id="login-password" type="password" placeholder="Enter password" class="w-full px-3 py-2 rounded-lg border border-[#EAEAEA] text-xs font-medium outline-none focus:border-[#D94B42]" />
+          </div>
+
+          <div id="login-error-msg" class="hidden text-xs text-red-600 bg-red-50 p-2.5 rounded border border-red-200"></div>
+
+          <button type="submit" class="w-full py-3 rounded-lg bg-[#202020] hover:bg-black text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-colors">
+            Sign In to Merchant Dashboard
+          </button>
+        </form>
+
+        <div class="text-center pt-2 border-t border-[#EAEAEA]">
+          <p class="text-xs text-[#777777]">
+            New local business in Shantipur? 
+            <button onclick="window.switchAuthTab('register')" class="font-bold text-[#D94B42] hover:underline ml-1">Register for Free</button>
+          </p>
+        </div>
+      </div>
+
+      <!-- Tab 3: Merchant Dashboard (Active Session) -->
+      <div id="auth-view-dashboard" class="p-6 hidden space-y-4">
+        <div id="merchant-dashboard-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPREHENSIVE EDITORIAL DIRECTORY FOOTER -->
+  <footer class="mt-auto bg-white border-t border-[#EAEAEA] pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- 5-Column Navigation Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
+        <!-- Col 1: Brand & Municipal Identity -->
+        <div class="lg:col-span-1 space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" loading="lazy" decoding="async" class="w-9 h-9 rounded-full object-cover shadow-sm border border-[#EAEAEA]" onerror="window.handleImageError(this)" />
+            <div>
+              <h4 class="font-bold text-sm text-[#202020] tracking-tight">SHANTIPUR</h4>
+              <span class="text-[10px] font-semibold text-[#777777] block uppercase">NADIA • PIN 741404</span>
+            </div>
+          </div>
+          <p class="text-xs text-[#777777] leading-relaxed">
+            The authentic digital heritage repository and verified municipal directory for the historic town of Shantipur (Santipur), Nadia, West Bengal.
+          </p>
+          <div class="space-y-1.5 pt-1">
+            <div class="inline-flex items-center gap-1.5 text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+              <span>Govt PIN: 741404 (Nadia)</span>
+            </div>
+            <div class="inline-flex items-center gap-1.5 text-[10px] font-semibold text-[#B79550] bg-[#FAF8F5] px-2 py-0.5 rounded border border-[#B79550]/30 block">
+              <span>🏛️ ASI Protected Heritage Trail</span>
+            </div>
+            <div class="inline-flex items-center gap-1.5 text-[10px] font-semibold text-[#D94B42] bg-[#FDF2F0] px-2 py-0.5 rounded border border-[#D94B42]/20 block">
+              <span>🧵 1409 CE GI-Tagged Handloom</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Sacred Shrines & Temples -->
+        <div class="space-y-3">
+          <h5 class="text-xs font-bold uppercase tracking-wider text-[#202020]">Sacred Shrines &amp; Temples</h5>
+          <ul class="space-y-2 text-xs text-[#777777]">
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Maa Agameswari (420 Years)</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Maa Mahishkhagi (Procession)</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Maa Bamakali (Bamakali Tala)</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Siddheswari Kali (Sutragarh)</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Sri Sri Radha Raman Jiu</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Shyamchand Mandir (1726 CE)</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Jaleswar Shiva Temple (ASI)</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Topkhana Mosque (1703 CE)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Handloom, Haats & Guilds -->
+        <div class="space-y-3">
+          <h5 class="text-xs font-bold uppercase tracking-wider text-[#202020]">Handloom &amp; Cultural Guilds</h5>
+          <ul class="space-y-2 text-xs text-[#777777]">
+            <li><a href="#handloom-section" class="hover:text-[#D94B42] transition-colors">Sutragarh Master Weavers Hub</a></li>
+            <li><a href="#handloom-section" class="hover:text-[#D94B42] transition-colors">Dalal Para &amp; Baigachi Tant</a></li>
+            <li><a href="#handloom-section" class="hover:text-[#D94B42] transition-colors">Bango &amp; Ghosh Tant Haat</a></li>
+            <li><a href="#handloom-section" class="hover:text-[#D94B42] transition-colors">Santipur Municipal Cloth Mart</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">200-Year-Old Shantipur Nikhuti</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Sutragarh Clay Idol Sculptors</a></li>
+            <li><a href="#listings-section" class="hover:text-[#D94B42] transition-colors">Kansha-Pitul Bell Metal Guild</a></li>
+            <li><a href="#heritage-gallery-section" class="hover:text-[#D94B42] transition-colors">Bhanga Rash Rairaja Procession</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: For Local Businesses (Free Portal) -->
+        <div class="space-y-3">
+          <h5 class="text-xs font-bold uppercase tracking-wider text-[#D94B42]">Business &amp; Merchant Portal</h5>
+          <div class="bg-[#FAFAF8] border border-[#EAEAEA] rounded-xl p-3.5 space-y-2.5">
+            <div class="text-[11px] font-bold text-[#202020] leading-snug">
+              Own a physical business in Shantipur?
+            </div>
+            <p class="text-[11px] text-[#777777] leading-relaxed">
+              Register 100% Free. Listings go live only after administrative address &amp; trade verification.
+            </p>
+            <button onclick="window.openBusinessAuth('register')" class="w-full py-2 px-3 rounded-lg bg-[#D94B42] hover:bg-[#B53830] text-white text-[11px] font-bold uppercase tracking-wide transition-colors text-center block">
+              + Register Business (Free)
+            </button>
+            <button onclick="window.openBusinessAuth('login')" class="w-full py-1.5 px-3 rounded-lg bg-white border border-[#EAEAEA] hover:border-[#D94B42] text-[#202020] text-[11px] font-semibold transition-colors text-center block">
+              Merchant Sign In
+            </button>
+          </div>
+          <ul class="space-y-1.5 text-[11px] text-[#777777] pt-1">
+            <li><span class="text-emerald-700 font-bold">✓</span> Zero Listing Fees Forever</li>
+            <li><span class="text-emerald-700 font-bold">✓</span> Anti-Spam Verification Policy</li>
+            <li><span class="text-emerald-700 font-bold">✓</span> Municipal Ward 1–24 Validation</li>
+          </ul>
+        </div>
+
+        <!-- Col 5: Civic & Emergency Helplines (PIN: 741404) -->
+        <div class="space-y-3">
+          <h5 class="text-xs font-bold uppercase tracking-wider text-[#202020]">Civic &amp; Helplines (741404)</h5>
+          <ul class="space-y-2 text-xs text-[#777777]">
+            <li class="flex items-center justify-between">
+              <span>Shantipur Municipality</span>
+              <a href="tel:03473277004" class="font-mono text-[#202020] hover:text-[#D94B42] font-semibold">03473-277004</a>
+            </li>
+            <li class="flex items-center justify-between">
+              <span>Police Station (Emergency)</span>
+              <a href="tel:100" class="font-mono text-[#D94B42] font-bold">100 / 277222</a>
+            </li>
+            <li class="flex items-center justify-between">
+              <span>State General Hospital</span>
+              <a href="tel:03473277233" class="font-mono text-[#202020] font-semibold">03473-277233</a>
+            </li>
+            <li class="flex items-center justify-between">
+              <span>Fire &amp; Emergency Brigade</span>
+              <a href="tel:101" class="font-mono text-[#D94B42] font-bold">101</a>
+            </li>
+            <li class="flex items-center justify-between">
+              <span>Railway Station (STB)</span>
+              <span class="font-mono text-[#777777]">Eastern Railway</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span>National Highway</span>
+              <span class="font-mono text-[#777777]">NH-34 (NH-12)</span>
+            </li>
+            <li class="flex items-center justify-between">
+              <span>Postal Head Office</span>
+              <span class="font-mono text-[#777777]">Santipur H.O. (741404)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Mandatory Directory Integrity Assurance Banner -->
+      <div class="bg-[#FAFAF8] border border-[#EAEAEA] rounded-xl p-4 sm:p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-[#D94B42]/10 text-[#D94B42] flex items-center justify-center shrink-0 font-bold text-sm mt-0.5">
+            🛡️
+          </div>
+          <div>
+            <h6 class="text-xs font-bold text-[#202020] uppercase tracking-wide">
+              Strict Verification Policy — Zero Auto-Generated Commercial Listings
+            </h6>
+            <p class="text-xs text-[#777777] leading-relaxed mt-0.5">
+              To preserve authentic cultural heritage and prevent commercial spam, Shantipur Local Directory does not auto-populate businesses. Local businesses must register through the free portal and undergo physical address and municipal trade license verification before public indexing.
+            </p>
+          </div>
+        </div>
+        <button onclick="window.openBusinessAuth('register')" class="shrink-0 px-4 py-2 rounded-lg bg-[#202020] hover:bg-black text-white text-xs font-bold tracking-wide transition-colors">
+          Register for Free
+        </button>
+      </div>
+
+      <!-- Bottom Legal & Copyright Bar -->
+      <div class="pt-8 border-t border-[#EAEAEA] flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#777777] text-center md:text-left">
+        <div class="space-y-1">
+          <p>© 2026 Shantipur Cultural Heritage &amp; Local Directory Platform. All rights reserved.</p>
+          <p class="text-[11px] text-[#9E9A93]">Curated in collaboration with local temple custodian trusts, master weavers guilds, and Nadia district gazetteers.</p>
+        </div>
+        <div class="flex items-center gap-4 text-[11px]">
+          <span class="text-[#202020] font-semibold">PIN: 741404</span>
+          <span>•</span>
+          <span>Nadia, West Bengal</span>
+          <span>•</span>
+          <a href="#hero-section" class="hover:text-[#D94B42] transition-colors">Back to Top ↑</a>
+        </div>
       </div>
     </div>
   </footer>

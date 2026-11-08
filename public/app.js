@@ -528,11 +528,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const badge = lang === 'en' ? item.badge_en : item.badge_bn;
 
     const registryEntry = window.SANTIPUR_LISTING_IMAGE_REGISTRY ? window.SANTIPUR_LISTING_IMAGE_REGISTRY.getEntry(item.id) : null;
-    const isVerified = registryEntry ? (registryEntry.imageVerified !== false) : true;
-    const imgSrc = (registryEntry && registryEntry.coverImage) || item.image_url || window.SHANTIPUR_ASSETS.getSlotPhoto(item.slot_key, item.image_url);
-    const gallery = (registryEntry && registryEntry.gallery) || [];
-    const sourceInfo = registryEntry ? registryEntry.source : 'Santipur Local Heritage Archive';
-    const licenseInfo = (registryEntry && registryEntry.license) ? registryEntry.license : 'Heritage Fair Use';
+    const isVerified = registryEntry ? (registryEntry.image?.verified !== false && !registryEntry.placeholder?.enabled) : true;
+    const imgSrc = (registryEntry && registryEntry.image && registryEntry.image.path) || (registryEntry && registryEntry.coverImage) || item.image_url || window.SHANTIPUR_ASSETS.getSlotPhoto(item.slot_key, item.image_url);
+    const rawGallery = (registryEntry && registryEntry.gallery) || [];
+    const gallery = rawGallery.map(g => (typeof g === 'string' ? g : g.path)).filter(Boolean);
+    const sourceInfo = (registryEntry && registryEntry.image && registryEntry.image.source) || (registryEntry && registryEntry.source) || 'Santipur Local Heritage Archive';
+    const licenseInfo = (registryEntry && registryEntry.image && registryEntry.image.license) || (registryEntry && registryEntry.license) || 'Heritage Fair Use';
 
     let extraDetails = '';
     if (item.type === 'puja' && item.raw.rituals_en) {
@@ -733,89 +734,244 @@ document.addEventListener('DOMContentLoaded', async () => {
     URL.revokeObjectURL(url);
   };
 
-  // Story Pass Generator (Clean, Editorial, High-Resolution 1080x1920 Canvas Card)
-  window.generateStoryCard = function() {
-    const canvas = document.getElementById('story-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    canvas.width = 1080;
-    canvas.height = 1920;
+  // =========================================================================
+  // LOCAL BUSINESS REGISTRATION & AUTHENTICATION SYSTEM (PHASE 8 / MUNICIPAL VERIFICATION)
+  // Strict Directive: Zero self-added mock businesses. Real local businesses register for FREE
+  // and are indexed only after physical location and municipal trade license verification.
+  // =========================================================================
+  const BIZ_STORAGE_KEY = 'santipur_registered_businesses';
+  const BIZ_SESSION_KEY = 'santipur_current_business_session';
 
-    const nameInput = document.getElementById('story-name-input')?.value || 'Devotee / Cultural Explorer';
-    const wishSelect = document.getElementById('story-wish-select')?.value || 'Subho Dipaboli & Shantipur Bhanga Rash';
-    const selectedPhotoSrc = document.getElementById('story-photo-select')?.value || '/images/santipur/vaishnava-heritage/santipur-sri-radha-raman-jiu-01.jpg';
+  function getStoredBusinesses() {
+    try {
+      return JSON.parse(localStorage.getItem(BIZ_STORAGE_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
 
-    const bgImg = new Image();
-    bgImg.crossOrigin = 'anonymous';
-    bgImg.src = selectedPhotoSrc;
+  function saveStoredBusinesses(list) {
+    localStorage.setItem(BIZ_STORAGE_KEY, JSON.stringify(list));
+  }
 
-    bgImg.onload = () => {
-      ctx.drawImage(bgImg, 0, 0, 1080, 1920);
+  function getCurrentBusinessSession() {
+    try {
+      return JSON.parse(localStorage.getItem(BIZ_SESSION_KEY) || 'null');
+    } catch {
+      return null;
+    }
+  }
 
-      const grad = ctx.createLinearGradient(0, 0, 0, 1920);
-      grad.addColorStop(0, 'rgba(18, 16, 22, 0.7)');
-      grad.addColorStop(0.4, 'rgba(18, 16, 22, 0.45)');
-      grad.addColorStop(0.7, 'rgba(18, 16, 22, 0.8)');
-      grad.addColorStop(1, 'rgba(18, 16, 22, 0.98)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 1080, 1920);
+  function setCurrentBusinessSession(biz) {
+    if (biz) {
+      localStorage.setItem(BIZ_SESSION_KEY, JSON.stringify(biz));
+    } else {
+      localStorage.removeItem(BIZ_SESSION_KEY);
+    }
+    updateNavBusinessState();
+  }
 
-      // Clean Border
-      ctx.strokeStyle = '#D94B42';
-      ctx.lineWidth = 6;
-      ctx.strokeRect(60, 60, 960, 1800);
+  function updateNavBusinessState() {
+    const session = getCurrentBusinessSession();
+    const signInBtn = document.querySelector('[data-i18n="navSignIn"]');
+    if (signInBtn) {
+      if (session) {
+        signInBtn.textContent = session.businessName || 'Merchant Portal';
+      } else {
+        const lang = window.SHANTIPUR_DATA ? window.SHANTIPUR_DATA.currentLang : 'en';
+        signInBtn.textContent = lang === 'en' ? 'Sign In' : 'প্রবেশ করুন';
+      }
+    }
+  }
 
-      // Header Text
-      ctx.fillStyle = '#D94B42';
-      ctx.font = '600 28px Inter, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('SHANTIPUR HERITAGE PLATFORM • PIN 741404', 540, 160);
+  window.openBusinessAuth = function(tab = 'register') {
+    const modal = document.getElementById('business-auth-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
 
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '700 72px Inter, sans-serif';
-      ctx.fillText('SHANTIPUR', 540, 250);
-
-      ctx.fillStyle = '#B79550';
-      ctx.font = '500 32px sans-serif';
-      ctx.fillText('নদিয়া, পশ্চিমবঙ্গ', 540, 310);
-
-      // Card Content Box
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
-      ctx.beginPath();
-      ctx.roundRect(100, 1140, 880, 520, 24);
-      ctx.fill();
-
-      ctx.fillStyle = '#777777';
-      ctx.font = '600 24px Inter, sans-serif';
-      ctx.fillText('OFFICIAL HERITAGE PASS & GREETINGS', 540, 1220);
-
-      ctx.fillStyle = '#202020';
-      ctx.font = '700 58px Inter, sans-serif';
-      ctx.fillText(nameInput, 540, 1310);
-
-      ctx.fillStyle = '#D94B42';
-      ctx.font = '500 32px Inter, sans-serif';
-      ctx.fillText(wishSelect, 540, 1390);
-
-      ctx.fillStyle = '#777777';
-      ctx.font = '400 22px Inter, sans-serif';
-      ctx.fillText('500 Years of Sacred Traditions • Historic Temples • 1409 CE Handloom', 540, 1480);
-
-      // Official Stamp
-      ctx.fillStyle = '#202020';
-      ctx.beginPath();
-      ctx.roundRect(430, 1530, 220, 60, 12);
-      ctx.fill();
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = '700 22px Inter, sans-serif';
-      ctx.fillText('VERIFIED 741404', 540, 1568);
-
-      const link = document.createElement('a');
-      link.download = `Shantipur_Pass_${nameInput.replace(/\s+/g, '_')}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    };
+    const session = getCurrentBusinessSession();
+    if (session && tab !== 'register') {
+      window.switchAuthTab('dashboard');
+    } else {
+      window.switchAuthTab(tab);
+    }
   };
+
+  window.closeBusinessAuth = function() {
+    const modal = document.getElementById('business-auth-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  };
+
+  window.switchAuthTab = function(tab) {
+    const viewReg = document.getElementById('auth-view-register');
+    const viewLogin = document.getElementById('auth-view-login');
+    const viewDash = document.getElementById('auth-view-dashboard');
+
+    const btnReg = document.getElementById('auth-tab-btn-register');
+    const btnLogin = document.getElementById('auth-tab-btn-login');
+    const btnDash = document.getElementById('auth-tab-btn-dashboard');
+
+    if (viewReg) viewReg.classList.toggle('hidden', tab !== 'register');
+    if (viewLogin) viewLogin.classList.toggle('hidden', tab !== 'login');
+    if (viewDash) viewDash.classList.toggle('hidden', tab !== 'dashboard');
+
+    [btnReg, btnLogin, btnDash].forEach(btn => {
+      if (btn) {
+        btn.classList.remove('border-[#D94B42]', 'text-[#D94B42]');
+        btn.classList.add('border-transparent', 'text-[#777777]');
+      }
+    });
+
+    if (tab === 'register' && btnReg) {
+      btnReg.classList.add('border-[#D94B42]', 'text-[#D94B42]');
+      btnReg.classList.remove('border-transparent', 'text-[#777777]');
+    } else if (tab === 'login' && btnLogin) {
+      btnLogin.classList.add('border-[#D94B42]', 'text-[#D94B42]');
+      btnLogin.classList.remove('border-transparent', 'text-[#777777]');
+    } else if (tab === 'dashboard' && btnDash) {
+      btnDash.classList.remove('hidden');
+      btnDash.classList.add('border-[#D94B42]', 'text-[#D94B42]');
+      btnDash.classList.remove('border-transparent', 'text-[#777777]');
+      renderMerchantDashboard();
+    }
+  };
+
+  window.handleBusinessRegister = function(event) {
+    event.preventDefault();
+    const name = document.getElementById('reg-biz-name')?.value.trim();
+    const owner = document.getElementById('reg-owner-name')?.value.trim();
+    const category = document.getElementById('reg-category')?.value;
+    const phone = document.getElementById('reg-phone')?.value.trim();
+    const email = document.getElementById('reg-email')?.value.trim().toLowerCase();
+    const password = document.getElementById('reg-password')?.value;
+    const address = document.getElementById('reg-address')?.value.trim();
+    const tradeLicense = document.getElementById('reg-trade-license')?.value.trim() || 'Pending Submission';
+    const estYear = document.getElementById('reg-est-year')?.value.trim() || 'Not specified';
+    const desc = document.getElementById('reg-desc')?.value.trim() || 'Registered local business in Shantipur.';
+
+    const businesses = getStoredBusinesses();
+    if (businesses.some(b => b.email === email || b.phone === phone)) {
+      alert('A business registration with this email or phone number already exists.');
+      return;
+    }
+
+    const newBusiness = {
+      id: 'STP-BUS-' + Date.now().toString().slice(-6),
+      businessName: name,
+      ownerName: owner,
+      category,
+      phone,
+      email,
+      password,
+      address,
+      tradeLicense,
+      estYear,
+      description: desc,
+      verificationStatus: 'pending_verification',
+      registrationDate: new Date().toISOString()
+    };
+
+    businesses.push(newBusiness);
+    saveStoredBusinesses(businesses);
+    setCurrentBusinessSession(newBusiness);
+
+    // Reset Form
+    document.getElementById('business-registration-form')?.reset();
+
+    // Show Dashboard with success state
+    window.switchAuthTab('dashboard');
+  };
+
+  window.handleBusinessLogin = function(event) {
+    event.preventDefault();
+    const identifier = document.getElementById('login-identifier')?.value.trim().toLowerCase();
+    const password = document.getElementById('login-password')?.value;
+    const errorEl = document.getElementById('login-error-msg');
+
+    const businesses = getStoredBusinesses();
+    const match = businesses.find(b => (b.email.toLowerCase() === identifier || b.phone === identifier) && b.password === password);
+
+    if (match) {
+      if (errorEl) errorEl.classList.add('hidden');
+      setCurrentBusinessSession(match);
+      document.getElementById('business-login-form')?.reset();
+      window.switchAuthTab('dashboard');
+    } else {
+      if (errorEl) {
+        errorEl.textContent = 'Invalid email/phone or password. If you have not registered your business yet, please click "Register for Free".';
+        errorEl.classList.remove('hidden');
+      }
+    }
+  };
+
+  window.handleBusinessLogout = function() {
+    setCurrentBusinessSession(null);
+    const btnDash = document.getElementById('auth-tab-btn-dashboard');
+    if (btnDash) btnDash.classList.add('hidden');
+    window.switchAuthTab('login');
+  };
+
+  function renderMerchantDashboard() {
+    const container = document.getElementById('merchant-dashboard-content');
+    if (!container) return;
+    const biz = getCurrentBusinessSession();
+
+    if (!biz) {
+      container.innerHTML = `<p class="text-xs text-[#777777]">No active merchant session. Please sign in.</p>`;
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="space-y-4">
+        <!-- Verification Status Alert -->
+        <div class="p-4 rounded-xl border ${biz.verificationStatus === 'verified' ? 'bg-emerald-50 border-emerald-200' : 'bg-amber-50 border-amber-200'}">
+          <div class="flex items-center justify-between mb-2">
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold ${biz.verificationStatus === 'verified' ? 'text-emerald-800' : 'text-amber-800'}">
+              <span class="w-2 h-2 rounded-full ${biz.verificationStatus === 'verified' ? 'bg-emerald-600' : 'bg-amber-600 animate-pulse'}"></span>
+              ${biz.verificationStatus === 'verified' ? 'OFFICIALLY VERIFIED & PUBLISHED' : 'VERIFICATION IN PROGRESS (24-48 HRS)'}
+            </span>
+            <span class="text-[11px] font-mono text-[#777777]">ID: ${biz.id}</span>
+          </div>
+          <p class="text-xs text-[#202020] leading-relaxed">
+            ${biz.verificationStatus === 'verified' 
+              ? 'Your business has passed municipal and physical address verification and is now indexed on the public directory.' 
+              : 'Thank you for registering. In accordance with Shantipur Local Directory\'s strict anti-spam policy, commercial listings are not published automatically. Our municipal field team will verify your trade license and physical establishment in Shantipur before public listing.'}
+          </p>
+        </div>
+
+        <!-- Business Details Summary Card -->
+        <div class="bg-[#FAFAF8] border border-[#EAEAEA] rounded-xl p-4 space-y-2.5 text-xs">
+          <div class="flex items-center justify-between border-b border-[#EAEAEA] pb-2">
+            <span class="font-bold text-sm text-[#202020]">${biz.businessName}</span>
+            <span class="text-[11px] bg-white border border-[#EAEAEA] px-2 py-0.5 rounded font-medium text-[#777777]">${biz.category}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div><span class="text-[#777777]">Proprietor:</span> <strong class="text-[#202020]">${biz.ownerName}</strong></div>
+            <div><span class="text-[#777777]">Phone:</span> <strong class="text-[#202020]">${biz.phone}</strong></div>
+            <div><span class="text-[#777777]">Email:</span> <strong class="text-[#202020]">${biz.email}</strong></div>
+            <div><span class="text-[#777777]">Trade License:</span> <strong class="text-[#202020] font-mono">${biz.tradeLicense}</strong></div>
+          </div>
+          <div class="pt-1 text-[11px]">
+            <span class="text-[#777777]">Address:</span> <strong class="text-[#202020]">${biz.address}</strong>
+          </div>
+          <div class="pt-1 text-[11px] text-[#777777] border-t border-[#EAEAEA] leading-relaxed">
+            "${biz.description}"
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-between pt-2">
+          <span class="text-[11px] text-[#777777]">Free Municipal Portal • PIN: 741404</span>
+          <button onclick="window.handleBusinessLogout()" class="px-3.5 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-[#202020] text-xs font-semibold transition-colors">
+            Sign Out
+          </button>
+        </div>
+      </div>
+    `;
+  }
 
   // Weaver Wholesale Inquiry
   window.bookWeaverModal = function(name) {
@@ -853,4 +1009,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderListings();
   renderHeritageGallery();
   updateParikramaEstimates();
+  updateNavBusinessState();
 });
