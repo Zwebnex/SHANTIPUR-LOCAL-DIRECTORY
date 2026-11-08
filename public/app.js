@@ -229,7 +229,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const badge = lang === 'en' ? item.badge_en : item.badge_bn;
       const registryEntry = window.SANTIPUR_LISTING_IMAGE_REGISTRY ? window.SANTIPUR_LISTING_IMAGE_REGISTRY.getEntry(item.id) : null;
       const isVerified = registryEntry ? (registryEntry.imageVerified !== false) : true;
-      const imgSrc = (registryEntry && registryEntry.coverImage) || item.image_url || window.SHANTIPUR_ASSETS.getSlotPhoto(item.slot_key, item.image_url);
+      const rawImg = (registryEntry && registryEntry.coverImage) || item.image_url;
+      const imgSrc = (rawImg && rawImg.trim() !== '') ? rawImg : '/images/santipur/om-placeholder.svg';
 
       const verificationBadge = isVerified
         ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-50/95 px-2 py-0.5 rounded shadow-sm border border-emerald-200">
@@ -243,7 +244,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="bg-white border border-[#EAEAEA] rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#D94B42]/40 transition-all duration-200 flex flex-col group">
           <!-- Card Image Header -->
           <div class="relative h-52 overflow-hidden bg-gray-100">
-            <img src="${imgSrc}" alt="${title}" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300" onerror="this.src=window.SHANTIPUR_ASSETS.fallbacks.hero" />
+            <img src="${imgSrc}" alt="${title}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300" onerror="window.handleImageError(this)" />
             
             <!-- Category Badge Top-Left -->
             <div class="absolute top-3 left-3 bg-white/95 text-[#D94B42] text-[11px] font-semibold tracking-wide px-2.5 py-1 rounded-md shadow-sm border border-gray-100">
@@ -371,7 +372,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="bg-white border border-[#EAEAEA] rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#D94B42]/50 transition-all flex flex-col group cursor-pointer" onclick="window.openLightbox(${index})">
           <!-- Thumbnail Image -->
           <div class="relative h-48 overflow-hidden bg-gray-100">
-            <img src="${item.productionPath}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src=window.SHANTIPUR_ASSETS.fallbacks.hero" />
+            <img src="${item.productionPath}" alt="${item.title}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="window.handleImageError(this)" />
             
             <div class="absolute top-2.5 left-2.5">
               ${statusBadge}
@@ -559,7 +560,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="flex items-center gap-2 overflow-x-auto pb-1">
             ${allPhotos.map((photo, i) => `
               <button onclick="window.switchModalImage('${photo}')" data-thumb-src="${photo}" class="modal-sub-thumb shrink-0 w-16 h-12 rounded-lg overflow-hidden border border-[#EAEAEA] hover:border-[#D94B42] transition-all ${i === 0 ? 'ring-2 ring-[#D94B42] border-transparent' : ''}">
-                <img src="${photo}" class="w-full h-full object-cover" />
+                <img src="${photo}" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="window.handleImageError(this)" />
               </button>
             `).join('')}
           </div>
@@ -595,7 +596,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         <!-- Modal Photo -->
         <div class="relative h-64 shrink-0 bg-gray-100">
-          <img id="modal-main-img" src="${imgSrc}" alt="${title}" class="w-full h-full object-cover" onerror="this.src=window.SHANTIPUR_ASSETS.fallbacks.hero" />
+          <img id="modal-main-img" src="${imgSrc}" alt="${title}" decoding="async" class="w-full h-full object-cover" onerror="window.handleImageError(this)" />
           <div class="absolute bottom-3 left-3 bg-white/95 text-[#D94B42] text-xs font-semibold px-2.5 py-1 rounded-md shadow-sm border border-gray-100">
             ${category} • ${badge}
           </div>

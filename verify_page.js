@@ -108,46 +108,54 @@ async function verify() {
   await page.click('#detail-modal-content button');
   await new Promise(r => setTimeout(r, 400));
 
-  // 11. Verify Image Registry & Zero Duplicate Listing Images
-  const listingImageReport = await page.evaluate(() => {
+  // 11. Verify Lazy Loading & Om Placeholder Integration
+  const auditResults = await page.evaluate(() => {
+    const allImages = Array.from(document.querySelectorAll('img'));
+    const lazyImages = allImages.filter(img => img.getAttribute('loading') === 'lazy');
+    const asyncImages = allImages.filter(img => img.getAttribute('decoding') === 'async');
+    
+    // Check cards
     const cards = Array.from(document.querySelectorAll('#listings-container > div'));
-    const images = cards.map(c => {
+    const cardData = cards.map(c => {
       const title = c.querySelector('h3')?.innerText?.trim() || '';
       const img = c.querySelector('img')?.getAttribute('src') || '';
-      const badge = c.querySelector('.bottom-2\\.5')?.innerText?.trim() || '';
-      return { title, img, badge };
+      const isLazy = c.querySelector('img')?.getAttribute('loading') === 'lazy';
+      const isAsync = c.querySelector('img')?.getAttribute('decoding') === 'async';
+      const isOmPlaceholder = img.includes('om-placeholder.svg');
+      return { title, img, isLazy, isAsync, isOmPlaceholder };
     });
 
-    const imgMap = {};
-    const duplicates = [];
-    images.forEach(item => {
-      if (!imgMap[item.img]) {
-        imgMap[item.img] = [item.title];
-      } else {
-        imgMap[item.img].push(item.title);
-        duplicates.push({ img: item.img, titles: imgMap[item.img] });
-      }
-    });
+    const omListings = cardData.filter(c => c.isOmPlaceholder);
 
     return {
-      total: images.length,
-      uniqueImagesCount: Object.keys(imgMap).length,
-      duplicates,
-      images
+      totalImagesOnPage: allImages.length,
+      totalLazyImages: lazyImages.length,
+      totalAsyncImages: asyncImages.length,
+      cardData,
+      omListingsCount: omListings.length,
+      omListingsTitles: omListings.map(c => c.title)
     };
   });
 
-  console.log(`\n🖼️ Listing Images Audit:`);
-  console.log(`   Total Listings: ${listingImageReport.total}`);
-  console.log(`   Unique Cover Images: ${listingImageReport.uniqueImagesCount}`);
-  console.log(`   Duplicate Collisions: ${listingImageReport.duplicates.length}`);
-  if (listingImageReport.duplicates.length > 0) {
-    console.error('❌ DUPLICATES FOUND:', listingImageReport.duplicates);
-  } else {
-    console.log('✅ ZERO DUPLICATES FOUND ACROSS ALL 16 LISTING CARDS!');
-  }
+  console.log(`\n⚡ Performance & Lazy Loading Audit:`);
+  console.log(`   Total Images On Page: ${auditResults.totalImagesOnPage}`);
+  console.log(`   Images with loading="lazy": ${auditResults.totalLazyImages}`);
+  console.log(`   Images with decoding="async": ${auditResults.totalAsyncImages}`);
 
-  // 12. Capture Full-Page Verification Screenshot
+  console.log(`\n🕉️ Sacred Om Sign Absent-Image Integration Audit:`);
+  console.log(`   Listings displaying sacred Om placeholder: ${auditResults.omListingsCount}`);
+  auditResults.omListingsTitles.forEach(t => console.log(`   • ${t} (ॐ Sign Active)`));
+
+  // 12. Test Dynamic Error Fallback to Sacred Om Sign
+  const fallbackTestPassed = await page.evaluate(() => {
+    const testImg = document.createElement('img');
+    testImg.src = '/non-existent-image-404.jpg';
+    window.handleImageError(testImg);
+    return testImg.src.includes('om-placeholder.svg');
+  });
+  console.log(`\n🛡️ Dynamic Om Fallback on Absent/Broken Image: ${fallbackTestPassed ? 'PASSED (ॐ Symbol applied)' : 'FAILED'}`);
+
+  // 13. Capture Full-Page Verification Screenshot
   console.log('📸 Capturing Full-Page Screenshot to:', screenshotPath);
   await page.screenshot({ path: screenshotPath, fullPage: true });
 

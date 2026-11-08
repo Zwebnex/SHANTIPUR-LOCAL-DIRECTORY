@@ -49,24 +49,24 @@ window.SANTIPUR_LISTING_IMAGE_REGISTRY = {
     "chaduni_mata": {
       id: "chaduni_mata",
       name: "Ghor Chaduni & Bahir Chaduni Mata",
-      coverImage: "/images/santipur/placeholders/placeholder-chanduni-mata.svg",
+      coverImage: "/images/santipur/om-placeholder.svg",
       imageVerified: false,
       permissionStatus: "pending_verification",
-      source: "Dedicated Neutral Placeholder",
+      source: "Sacred Om Heritage Archival Placeholder",
       aspectRatio: "4:3",
       gallery: [],
-      notes: "Twin sanctums on Panchamundi Asana (~500 years). Dedicated neutral placeholder awaiting official Sevayat trust submission."
+      notes: "Twin sanctums on Panchamundi Asana (~500 years). Sacred Om sign displayed awaiting official Sevayat trust photographic documentation."
     },
     "poteswari": {
       id: "poteswari",
       name: "Maa Poteswari (Barajiakur)",
-      coverImage: "/images/santipur/placeholders/placeholder-poteswari-mata.svg",
+      coverImage: "/images/santipur/om-placeholder.svg",
       imageVerified: false,
       permissionStatus: "pending_verification",
-      source: "Dedicated Neutral Placeholder",
+      source: "Sacred Om Heritage Archival Placeholder",
       aspectRatio: "4:3",
       gallery: [],
-      notes: "Ancient sacred Pata cloth scroll tradition. Dedicated neutral placeholder awaiting community archive submission."
+      notes: "Ancient sacred Pata cloth scroll tradition. Sacred Om sign displayed awaiting community archive submission."
     },
     "siddheswari": {
       id: "siddheswari",
@@ -168,23 +168,23 @@ window.SANTIPUR_LISTING_IMAGE_REGISTRY = {
     "ghoralia_cluster": {
       id: "ghoralia_cluster",
       name: "Ghoralia Wholesale Weavers Guild",
-      coverImage: "/images/santipur/placeholders/placeholder-saree.svg",
+      coverImage: "/images/santipur/om-placeholder.svg",
       imageVerified: false,
       permissionStatus: "pending_verification",
-      source: "Dedicated Neutral Placeholder",
+      source: "Sacred Om Heritage Archival Placeholder",
       aspectRatio: "4:3",
       gallery: [],
-      notes: "Wholesale boutique and export weavers guild placeholder."
+      notes: "Wholesale boutique and export weavers guild sacred Om placeholder."
     },
 
     // 4. Artisans & Sweets
     "nikhuti": {
       id: "nikhuti",
       name: "200-Year-Old Authentic Shantipur Nikhuti",
-      coverImage: "/images/santipur/placeholders/placeholder-restaurant.svg",
+      coverImage: "/images/santipur/om-placeholder.svg",
       imageVerified: false,
       permissionStatus: "pending_verification",
-      source: "Dedicated Neutral Placeholder",
+      source: "Sacred Om Heritage Archival Placeholder",
       aspectRatio: "4:3",
       gallery: [],
       notes: "Slender oblong golden chhena sweets flavored with cardamom and cracked black pepper."
@@ -192,10 +192,10 @@ window.SANTIPUR_LISTING_IMAGE_REGISTRY = {
     "sutragarh_mritsilpi": {
       id: "sutragarh_mritsilpi",
       name: "Sutragarh Clay Idol & Terracotta Sculptors",
-      coverImage: "/images/santipur/placeholders/placeholder-clay-artisan.svg",
+      coverImage: "/images/santipur/om-placeholder.svg",
       imageVerified: false,
       permissionStatus: "pending_verification",
-      source: "Dedicated Neutral Placeholder",
+      source: "Sacred Om Heritage Archival Placeholder",
       aspectRatio: "4:3",
       gallery: [],
       notes: "Master clay artisans sculpting towering Kali idols and Bhanga Rash tableaus."
@@ -203,19 +203,19 @@ window.SANTIPUR_LISTING_IMAGE_REGISTRY = {
     "kansha_pitul_guild": {
       id: "kansha_pitul_guild",
       name: "Kansha-Pitul (Antique Bell Metal & Brass Guild)",
-      coverImage: "/images/santipur/placeholders/placeholder-bell-metal.svg",
+      coverImage: "/images/santipur/om-placeholder.svg",
       imageVerified: false,
       permissionStatus: "pending_verification",
-      source: "Dedicated Neutral Placeholder",
+      source: "Sacred Om Heritage Archival Placeholder",
       aspectRatio: "4:3",
       gallery: [],
       notes: "Traditional metal smiths crafting puja ghanta bells, heavy brass dhunuchis, and ceremonial bhog platters."
     }
   },
 
-  getCover(listingId, defaultFallback = '/images/santipur/placeholders/placeholder-services.svg') {
+  getCover(listingId, defaultFallback = '/images/santipur/om-placeholder.svg') {
     const entry = this.mappings[listingId];
-    if (entry && entry.coverImage) return entry.coverImage;
+    if (entry && entry.coverImage && entry.coverImage.trim() !== '') return entry.coverImage;
     return defaultFallback;
   },
 
@@ -223,3 +223,4 @@ window.SANTIPUR_LISTING_IMAGE_REGISTRY = {
     return this.mappings[listingId] || null;
   }
 };
+

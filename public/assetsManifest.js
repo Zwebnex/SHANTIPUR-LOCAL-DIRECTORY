@@ -164,11 +164,12 @@ window.SHANTIPUR_ASSETS = {
     }
   ],
 
-  // Fallback high-art procedural SVG shaders
+  // Fallback high-art procedural SVG shaders (Sacred Om Default)
   fallbacks: {
-    hero: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450"><rect width="800" height="450" fill="%231a1820"/><circle cx="400" cy="225" r="260" fill="%23d94b42" opacity="0.15"/><text x="50%" y="50%" font-family="sans-serif" font-size="24" font-weight="600" fill="%23fafaf8" text-anchor="middle">SHANTIPUR HERITAGE</text></svg>`,
-    temple: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450"><rect width="800" height="450" fill="%23221e1a"/><text x="50%" y="50%" font-family="sans-serif" font-size="22" font-weight="600" fill="%23b79550" text-anchor="middle">HISTORIC TEMPLE</text></svg>`,
-    tant: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450"><rect width="800" height="450" fill="%231a1e22"/><text x="50%" y="50%" font-family="sans-serif" font-size="22" font-weight="600" fill="%23eaeaea" text-anchor="middle">SHANTIPURI TANT HANDLOOM</text></svg>`
+    hero: "/images/santipur/om-placeholder.svg",
+    om: "/images/santipur/om-placeholder.svg",
+    temple: "/images/santipur/om-placeholder.svg",
+    tant: "/images/santipur/om-placeholder.svg"
   },
 
   getSlotPhoto(slotKey, defaultSrc) {

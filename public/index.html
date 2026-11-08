@@ -60,6 +60,15 @@
       border-radius: 3px;
     }
   </style>
+
+  <!-- Sacred Om Error Handler & Instant Fallback -->
+  <script>
+    window.handleImageError = function(img) {
+      if (!img) return;
+      img.onerror = null;
+      img.src = '/images/santipur/om-placeholder.svg';
+    };
+  </script>
 </head>
 <body class="min-h-screen flex flex-col bg-[#FAFAF8] text-[#202020]">
 
@@ -68,7 +77,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
       <!-- Left: Logo / Wordmark -->
       <a href="#" class="flex items-center gap-3 group">
-        <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" class="w-11 h-11 rounded-full object-cover shadow-sm border border-[#EAEAEA] group-hover:scale-105 transition-transform" />
+        <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" decoding="async" class="w-11 h-11 rounded-full object-cover shadow-sm border border-[#EAEAEA] group-hover:scale-105 transition-transform" onerror="window.handleImageError(this)" />
         <div>
           <div class="flex items-center gap-1.5">
             <span class="text-lg font-bold tracking-tight text-[#202020] group-hover:text-[#D94B42] transition-colors" data-i18n="siteTitle">SHANTIPUR</span>
@@ -318,15 +327,15 @@
       <div class="lg:col-span-5 grid grid-cols-2 gap-4">
         <!-- Main Tall Photograph (Sri Sri Radha Raman Jiu) -->
         <div class="col-span-2 h-72 sm:h-80 rounded-2xl overflow-hidden border border-[#EAEAEA] shadow-sm">
-          <img src="/images/santipur/vaishnava-heritage/santipur-sri-radha-raman-jiu-01.jpg" alt="Sri Sri Radha Raman Jiu Shantipur" class="w-full h-full object-cover" />
+          <img src="/images/santipur/vaishnava-heritage/santipur-sri-radha-raman-jiu-01.jpg" alt="Sri Sri Radha Raman Jiu Shantipur" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="window.handleImageError(this)" />
         </div>
         <!-- Supporting Photograph 1 (Maa Agameswari) -->
         <div class="h-40 rounded-xl overflow-hidden border border-[#EAEAEA] shadow-sm">
-          <img src="/images/santipur/maa-kali/santipur-maa-agameswari-idol-01.png" alt="Maa Agameswari Tala" class="w-full h-full object-cover" />
+          <img src="/images/santipur/maa-kali/santipur-maa-agameswari-idol-01.png" alt="Maa Agameswari Tala" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="window.handleImageError(this)" />
         </div>
         <!-- Supporting Photograph 2 (Night Immersion Ritual) -->
         <div class="h-40 rounded-xl overflow-hidden border border-[#EAEAEA] shadow-sm">
-          <img src="/images/santipur/festivals/santipur-bamakali-night-immersion-01.png" alt="Historic Midnight Dancing Immersion" class="w-full h-full object-cover" />
+          <img src="/images/santipur/festivals/santipur-bamakali-night-immersion-01.png" alt="Historic Midnight Dancing Immersion" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="window.handleImageError(this)" />
         </div>
       </div>
 
@@ -564,7 +573,7 @@
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </button>
 
-        <img id="lightbox-img" src="" alt="" class="max-h-[60vh] max-w-full object-contain rounded shadow-lg" />
+        <img id="lightbox-img" src="" alt="" decoding="async" class="max-h-[60vh] max-w-full object-contain rounded shadow-lg" onerror="window.handleImageError(this)" />
 
         <button onclick="window.nextLightbox()" class="absolute right-4 z-10 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-md transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -599,7 +608,7 @@
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
       <div>
         <div class="flex items-center justify-center sm:justify-start gap-2.5 mb-1.5">
-          <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" class="w-7 h-7 rounded-full object-cover" />
+          <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" loading="lazy" decoding="async" class="w-7 h-7 rounded-full object-cover" onerror="window.handleImageError(this)" />
           <span class="font-bold text-sm text-[#202020]">SHANTIPUR</span>
           <span class="text-xs text-[#777777]">• PIN 741404</span>
         </div>

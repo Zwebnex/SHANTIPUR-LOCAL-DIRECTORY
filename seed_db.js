@@ -156,7 +156,7 @@ const shrines = [
     history_bn: "পবিত্র পঞ্চমুণ্ডীর আসনে সাধক গোপীনাথের স্বপ্নাদেশপ্রাপ্তির মাধ্যমে এই জোড়া চাঁদুনী পুজো প্রতিষ্ঠিত হয়।",
     rituals_en: "Twin sanctums where esoteric Shakta offerings of unboiled rice, sacred bilva leaves, and fragrant dhunuchi incense invoke deep meditative quietude.",
     rituals_bn: "গভীর তান্ত্রিক সাধনায় অতল শান্ত ও তেজস্বী অর্ঘ্য নিবেদন করা হয়।",
-    image_url: "/images/santipur/placeholders/placeholder-chanduni-mata.svg",
+    image_url: "/images/santipur/om-placeholder.svg",
     audio_lore_url: "lore_chaduni",
     latitude: 23.2480,
     longitude: 88.4340
@@ -172,7 +172,7 @@ const shrines = [
     history_bn: "প্রাচীন পটচিত্র পূজা থেকে মৃন্ময়ী মূর্তিপূজায় উত্তরণের এক অনন্য জীবন্ত দলিল। কালীপূজা ও শান্তিপুর রাস উভয় উৎসবেরই অন্যতম প্রধান মিলনমেলা।",
     rituals_en: "Traditional folk alpona floor art, painted scroll hymns, and devotional singing echoing across centuries.",
     rituals_bn: "ঐতিহ্যবাহী আলপনা, প্রাচীন পটগীতি ও ভক্তিগীতি দ্বারা দেবীর বন্দনা।",
-    image_url: "/images/santipur/placeholders/placeholder-poteswari-mata.svg",
+    image_url: "/images/santipur/om-placeholder.svg",
     audio_lore_url: "lore_poteswari",
     latitude: 23.2540,
     longitude: 88.4250
@@ -270,7 +270,7 @@ const handloom_clusters = [
     specialty_bn: "পাইকারি সরাসরি বুটিক সরবরাহ ও রফতানিযোগ্য উৎসবের তাঁতের শাড়ি।",
     yarn_count: "80s-100s Cotton Silk Blend",
     contact_phone: "+91 98322 11223",
-    image_url: "/images/santipur/placeholders/placeholder-saree.svg"
+    image_url: "/images/santipur/om-placeholder.svg"
   }
 ];
 
@@ -307,7 +307,7 @@ const artisans_and_sweets = [
     description_en: "Invented in Shantipur: slender, oblong deep-golden sweets prepared from freshly curdled cow's milk chhena kneaded with ground green cardamom and a subtle fiery dash of cracked black pepper, deep-fried in pure ghee and soaked in warm cardamom syrup.",
     description_bn: "শান্তিপুরের অনন্য আবিষ্কার: খাঁটি ছানা, সুগন্ধি এলাচ এবং মৃদু গোলমরিচের গুঁড়োর অপূর্ব মেলবন্ধনে ঘিয়ে ভাজা রসালো সোনালী নিখুঁতি।",
     ingredients_or_material: "Chhena, Ghee, Green Cardamom, Black Pepper, Light Sugar Syrup",
-    image_url: "/images/santipur/placeholders/placeholder-restaurant.svg"
+    image_url: "/images/santipur/om-placeholder.svg"
   },
   {
     id: "sutragarh_mritsilpi",
@@ -318,7 +318,7 @@ const artisans_and_sweets = [
     description_en: "Generations of master clay artisans who sculpt Shantipur's soaring Kali idols and Bhanga Rash clay tableaus using sacred Ganga silt and straw frames.",
     description_bn: "গঙ্গার পলিমাটি ও খড়ের কাঠামোয় বংশপরম্পরায় নির্মিত সুবিশাল কালী প্রতিমা ও রাস উৎসবের মৃৎভাস্কর্য।",
     ingredients_or_material: "Ganga Silt, Straw, Jute Fiber, Natural Mineral Pigments",
-    image_url: "/images/santipur/placeholders/placeholder-clay-artisan.svg"
+    image_url: "/images/santipur/om-placeholder.svg"
   },
   {
     id: "kansha_pitul_guild",
@@ -329,7 +329,7 @@ const artisans_and_sweets = [
     description_en: "Traditional metal smiths crafting sonorous puja ghanta (bells), heavy brass dhunuchis for aarti, and ceremonial bhog platters.",
     description_bn: "ঐতিহ্যবাহী কাঁসা-পিতলের নিখুঁত পূজার ঘণ্টা, বৃহদাকার ধুনুচি ও ভোগ পাত্র তৈরির কারিগর সমাজ।",
     ingredients_or_material: "Bell Metal (Bronze 78/22), Brass, Copper",
-    image_url: "/images/santipur/placeholders/placeholder-bell-metal.svg"
+    image_url: "/images/santipur/om-placeholder.svg"
   }
 ];
 
