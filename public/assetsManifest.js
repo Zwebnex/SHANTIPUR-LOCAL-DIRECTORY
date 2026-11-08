@@ -1,6 +1,6 @@
 // assetsManifest.js - Central Asset Registry & Fallback Shaders for Shantipur Heritage Platform
 window.SHANTIPUR_ASSETS = {
-  version: "3.0.0",
+  version: "4.0.0",
   uploaded_photos: [
     {
       id: "hero_radha_raman",
@@ -27,19 +27,19 @@ window.SHANTIPUR_ASSETS = {
       tags: ["Agameswari", "Brick Gateway", "Tantric Pitha", "Historic Shrine"]
     },
     {
-      id: "kali_idol_monumental",
-      title: "Maa Mahishkhagi Monumental Idol (500 Years)",
+      id: "mahishkhagi_procession",
+      title: "Maa Mahishkhagi Historic Procession (500 Years)",
       category: "maa_kali",
-      src: "/images/santipur/maa-kali/santipur-maa-mahishkhagi-idol-01.png",
-      aspectRatio: "16:9",
-      tags: ["Mahishkhagi", "Vedic Marriage Ritual", "Krishnachandra", "Grand Idol"]
+      src: "/images/santipur/maa-kali/santipur-maa-mahishkhagi-procession-01.jpg",
+      aspectRatio: "3:4",
+      tags: ["Mahishkhagi", "Vedic Marriage Ritual", "Krishnachandra", "Grand Procession", "Sammya Brata"]
     },
     {
       id: "bamakali_idol",
       title: "Maa Bamakali Deity (Left Foot Forward)",
       category: "maa_kali",
       src: "/images/santipur/maa-kali/santipur-maa-bamakali-idol-01.png",
-      aspectRatio: "16:9",
+      aspectRatio: "3:4",
       tags: ["Bamakali", "Bama-pada", "Sutragarh", "Fierce Goddess"]
     },
     {
@@ -59,27 +59,27 @@ window.SHANTIPUR_ASSETS = {
       tags: ["Dancing Immersion", "Dhak Beats", "Midnight Procession", "Ghat"]
     },
     {
-      id: "chanduni_mata",
-      title: "Ghor & Bahir Chaduni Mata Dhunuchi Ritual",
-      category: "maa_kali",
-      src: "/images/santipur/maa-kali/santipur-chanduni-mata-dhunuchi-ritual-01.png",
-      aspectRatio: "16:9",
-      tags: ["Chanduni Bari", "Panchamundi Asana", "Dhunuchi", "Amavasya Aarti"]
+      id: "diwali_kali_worship",
+      title: "Diwali Kali Puja Worship in Santipur",
+      category: "festivals",
+      src: "/images/santipur/festivals/santipur-diwali-kali-worship-01.jpg",
+      aspectRatio: "3:4",
+      tags: ["Kali Puja", "Diwali", "Shalini Kundu", "Wiki Loves Folklore"]
     },
     {
-      id: "poteswari_photo",
-      title: "Maa Poteswari Deity (Barajiakur)",
-      category: "maa_kali",
-      src: "/images/santipur/maa-kali/santipur-maa-poteswari-idol-01.png",
-      aspectRatio: "16:9",
-      tags: ["Poteswari", "Pata Scroll Transition", "Barajiakur", "Vibrant Azure"]
+      id: "kali_devotion",
+      title: "Sacred Deities & Devotion of Santipur",
+      category: "festivals",
+      src: "/images/santipur/festivals/santipur-kali-devotion-01.jpg",
+      aspectRatio: "3:4",
+      tags: ["Devotion", "Spiritual Heritage", "Shalini Kundu"]
     },
     {
       id: "siddheswari_photo",
       title: "Sutragarh Siddheswari Kali Mandir",
       category: "maa_kali",
       src: "/images/santipur/maa-kali/santipur-siddheswari-kali-idol-01.png",
-      aspectRatio: "16:9",
+      aspectRatio: "3:4",
       tags: ["Siddheswari", "Sutragarh", "Weavers Guardian", "Sacred Shrine"]
     },
     {
@@ -87,7 +87,7 @@ window.SHANTIPUR_ASSETS = {
       title: "Shyamchand Mandir Atchala Architecture (1726 CE)",
       category: "temples",
       src: "/images/santipur/temples/santipur-shyamchand-temple-atchala-01.jpg",
-      aspectRatio: "16:9",
+      aspectRatio: "4:3",
       tags: ["Shyamchand", "Atchala", "1726 CE", "Terracotta", "ASI Protected"]
     },
     {
@@ -95,7 +95,7 @@ window.SHANTIPUR_ASSETS = {
       title: "Shyamchand Mandir Terracotta Relief Panel",
       category: "temples",
       src: "/images/santipur/temples/santipur-shyamchand-terracotta-relief-01.jpg",
-      aspectRatio: "16:9",
+      aspectRatio: "3:2",
       tags: ["Terracotta", "Frieze", "Krishnalila", "Merchant Fleets"]
     },
     {
@@ -103,7 +103,7 @@ window.SHANTIPUR_ASSETS = {
       title: "Jaleswar Shiva Temple Charchala Tower (ASI N-WB-54-d)",
       category: "temples",
       src: "/images/santipur/temples/santipur-jaleswar-shiva-temple-01.jpg",
-      aspectRatio: "16:9",
+      aspectRatio: "3:4",
       tags: ["Jaleswar", "Charchala", "Shiva", "Maharaja Raghuram Roy"]
     },
     {
@@ -119,7 +119,7 @@ window.SHANTIPUR_ASSETS = {
       title: "Sun-Drenched Traditional Tant Loom",
       category: "handloom",
       src: "/images/santipur/handloom/santipur-traditional-tant-loom-01.jpg",
-      aspectRatio: "16:9",
+      aspectRatio: "4:3",
       tags: ["Handloom", "Tant", "Pit Loom", "GI Tagged", "Cotton Warp"]
     },
     {
@@ -127,7 +127,7 @@ window.SHANTIPUR_ASSETS = {
       title: "Master Weaver Operating Flying Shuttle Loom",
       category: "handloom",
       src: "/images/santipur/handloom/santipur-tant-weaving-workshop-01.jpg",
-      aspectRatio: "16:9",
+      aspectRatio: "3:2",
       tags: ["Weaving Workshop", "100x100 Count", "Guti Bhanj", "Artisan"]
     },
     {
@@ -143,7 +143,7 @@ window.SHANTIPUR_ASSETS = {
       title: "Historic Panchpota Mosque Landmark",
       category: "historical_landmarks",
       src: "/images/santipur/historical-landmarks/santipur-panchpota-historic-mosque-01.jpg",
-      aspectRatio: "16:9",
+      aspectRatio: "3:2",
       tags: ["Panchpota", "NH-34", "Islamic Architecture", "Syncretic History"]
     },
     {
@@ -151,7 +151,7 @@ window.SHANTIPUR_ASSETS = {
       title: "Dignagar Historic Commercial Marketplace",
       category: "markets",
       src: "/images/santipur/markets/santipur-dignagar-bazaar-market-01.jpg",
-      aspectRatio: "16:9",
+      aspectRatio: "3:2",
       tags: ["Dignagar Bazaar", "Local Market", "NH-34", "Provisions"]
     },
     {
@@ -159,7 +159,7 @@ window.SHANTIPUR_ASSETS = {
       title: "Satyacharan Smriti Nimna Buniyadi Bidyalaya",
       category: "education",
       src: "/images/santipur/businesses/education/santipur-satyacharan-buniyadi-bidyalaya-01.jpg",
-      aspectRatio: "16:9",
+      aspectRatio: "3:2",
       tags: ["Primary Education", "Historic School", "Buniyadi", "Santipur"]
     }
   ],

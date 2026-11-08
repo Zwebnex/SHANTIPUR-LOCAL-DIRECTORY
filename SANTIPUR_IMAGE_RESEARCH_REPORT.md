@@ -171,3 +171,4 @@ Automated headless browser testing (`verify_page.js` powered by Puppeteer Core) 
 - **Network Failures:** `0` asset 404s.
 - **DOM Rendering:** All category cards, listing items, and gallery tiles rendered successfully.
 - **Visual Capture:** High-resolution full-page screenshot stored in `verification_preview.png`.
+

@@ -77,6 +77,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!appData) return [];
     const list = [];
 
+    const getResolvedCover = (id, fallback) => {
+      if (window.SANTIPUR_LISTING_IMAGE_REGISTRY && typeof window.SANTIPUR_LISTING_IMAGE_REGISTRY.getCover === 'function') {
+        const cover = window.SANTIPUR_LISTING_IMAGE_REGISTRY.getCover(id);
+        if (cover) return cover;
+      }
+      return fallback;
+    };
+
     // Sacred Pujas
     appData.shrines.forEach(s => {
       list.push({
@@ -92,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         desc_bn: s.history_bn,
         location: s.ward_location,
         location_pin: s.location_pin,
-        image_url: s.image_url,
+        image_url: getResolvedCover(s.id, s.image_url),
         slot_key: `shrine_${s.id}`,
         raw: s
       });
@@ -113,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         desc_bn: t.significance_bn,
         location: t.tradition,
         location_pin: 'https://maps.google.com/?q=' + encodeURIComponent(t.name_en + ' Shantipur'),
-        image_url: t.image_url,
+        image_url: getResolvedCover(t.id, t.image_url),
         slot_key: `temple_${t.id}`,
         raw: t
       });
@@ -134,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         desc_bn: h.specialty_bn,
         location: h.cluster_area,
         location_pin: 'https://maps.google.com/?q=' + encodeURIComponent(h.cluster_area + ' Shantipur'),
-        image_url: h.image_url,
+        image_url: getResolvedCover(h.id, h.image_url),
         slot_key: `handloom_${h.id}`,
         raw: h
       });
@@ -155,7 +163,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         desc_bn: a.description_bn,
         location: a.ingredients_or_material,
         location_pin: 'https://maps.google.com/?q=' + encodeURIComponent(a.title_en + ' Shantipur'),
-        image_url: a.image_url,
+        image_url: getResolvedCover(a.id, a.image_url),
         slot_key: `artisan_${a.id}`,
         raw: a
       });
@@ -219,7 +227,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       const desc = lang === 'en' ? item.desc_en : item.desc_bn;
       const category = lang === 'en' ? item.category_en : item.category_bn;
       const badge = lang === 'en' ? item.badge_en : item.badge_bn;
-      const imgSrc = window.SHANTIPUR_ASSETS.getSlotPhoto(item.slot_key, item.image_url);
+      const registryEntry = window.SANTIPUR_LISTING_IMAGE_REGISTRY ? window.SANTIPUR_LISTING_IMAGE_REGISTRY.getEntry(item.id) : null;
+      const isVerified = registryEntry ? (registryEntry.imageVerified !== false) : true;
+      const imgSrc = (registryEntry && registryEntry.coverImage) || item.image_url || window.SHANTIPUR_ASSETS.getSlotPhoto(item.slot_key, item.image_url);
+
+      const verificationBadge = isVerified
+        ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-50/95 px-2 py-0.5 rounded shadow-sm border border-emerald-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>${lang === 'en' ? 'Verified Authentic' : 'যাচাইকৃত সত্য'}
+          </span>`
+        : `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-800 bg-amber-50/95 px-2 py-0.5 rounded shadow-sm border border-amber-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>${lang === 'en' ? 'Verification Pending' : 'যাচাইকরণ প্রক্রিয়াধীন'}
+          </span>`;
 
       return `
         <div class="bg-white border border-[#EAEAEA] rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#D94B42]/40 transition-all duration-200 flex flex-col group">
@@ -230,6 +248,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             <!-- Category Badge Top-Left -->
             <div class="absolute top-3 left-3 bg-white/95 text-[#D94B42] text-[11px] font-semibold tracking-wide px-2.5 py-1 rounded-md shadow-sm border border-gray-100">
               ${category}
+            </div>
+
+            <!-- Verification Status Badge Bottom-Left -->
+            <div class="absolute bottom-2.5 left-3">
+              ${verificationBadge}
             </div>
 
             <!-- Era Badge Top-Right -->
@@ -471,6 +494,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   };
 
+  // Switch active photo in detail modal sub-gallery
+  window.switchModalImage = function(src) {
+    const mainImg = document.getElementById('modal-main-img');
+    if (mainImg) mainImg.src = src;
+    document.querySelectorAll('.modal-sub-thumb').forEach(t => {
+      if (t.getAttribute('data-thumb-src') === src) {
+        t.classList.add('ring-2', 'ring-[#D94B42]', 'border-transparent');
+      } else {
+        t.classList.remove('ring-2', 'ring-[#D94B42]', 'border-transparent');
+      }
+    });
+  };
+
   // Detail Modal Handler
   window.openDetailModal = function(id, type) {
     if (!appData) return;
@@ -489,7 +525,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const desc = lang === 'en' ? item.desc_en : item.desc_bn;
     const category = lang === 'en' ? item.category_en : item.category_bn;
     const badge = lang === 'en' ? item.badge_en : item.badge_bn;
-    const imgSrc = window.SHANTIPUR_ASSETS.getSlotPhoto(item.slot_key, item.image_url);
+
+    const registryEntry = window.SANTIPUR_LISTING_IMAGE_REGISTRY ? window.SANTIPUR_LISTING_IMAGE_REGISTRY.getEntry(item.id) : null;
+    const isVerified = registryEntry ? (registryEntry.imageVerified !== false) : true;
+    const imgSrc = (registryEntry && registryEntry.coverImage) || item.image_url || window.SHANTIPUR_ASSETS.getSlotPhoto(item.slot_key, item.image_url);
+    const gallery = (registryEntry && registryEntry.gallery) || [];
+    const sourceInfo = registryEntry ? registryEntry.source : 'Santipur Local Heritage Archive';
+    const licenseInfo = (registryEntry && registryEntry.license) ? registryEntry.license : 'Heritage Fair Use';
 
     let extraDetails = '';
     if (item.type === 'puja' && item.raw.rituals_en) {
@@ -506,6 +548,44 @@ document.addEventListener('DOMContentLoaded', async () => {
       `;
     }
 
+    let galleryHtml = '';
+    if (gallery.length > 0) {
+      const allPhotos = [imgSrc, ...gallery];
+      galleryHtml = `
+        <div class="mt-4 pt-4 border-t border-[#EAEAEA]">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#202020] mb-2">
+            ${lang === 'en' ? 'Archival Photographs & Perspectives' : 'ঐতিহাসিক আলোকচিত্র ও দৃশ্যপট'}
+          </h4>
+          <div class="flex items-center gap-2 overflow-x-auto pb-1">
+            ${allPhotos.map((photo, i) => `
+              <button onclick="window.switchModalImage('${photo}')" data-thumb-src="${photo}" class="modal-sub-thumb shrink-0 w-16 h-12 rounded-lg overflow-hidden border border-[#EAEAEA] hover:border-[#D94B42] transition-all ${i === 0 ? 'ring-2 ring-[#D94B42] border-transparent' : ''}">
+                <img src="${photo}" class="w-full h-full object-cover" />
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    const verificationBox = `
+      <div class="mt-4 pt-3 border-t border-[#EAEAEA] flex flex-wrap items-center justify-between gap-2 text-xs bg-[#FAFAF8] p-3 rounded-lg border border-[#EAEAEA]">
+        <div class="flex items-center gap-2 min-w-0">
+          ${isVerified 
+            ? `<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-800 bg-emerald-100/70 px-2 py-0.5 rounded border border-emerald-300 shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>${lang === 'en' ? 'Verified Authentic' : 'যাচাইকৃত সত্য'}
+               </span>`
+            : `<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-amber-800 bg-amber-100/70 px-2 py-0.5 rounded border border-amber-300 shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>${lang === 'en' ? 'Verification Pending' : 'যাচাইকরণ প্রক্রিয়াধীন'}
+               </span>`
+          }
+          <span class="text-[11px] text-[#777777] font-medium truncate" title="${sourceInfo}">
+            ${sourceInfo.startsWith('http') ? `<a href="${sourceInfo}" target="_blank" rel="noopener noreferrer" class="hover:underline text-[#D94B42]">Wikimedia Commons ↗</a>` : sourceInfo}
+          </span>
+        </div>
+        <span class="text-[10px] font-mono text-[#777777] bg-white px-2 py-0.5 rounded border border-gray-200 shrink-0">${licenseInfo}</span>
+      </div>
+    `;
+
     content.innerHTML = `
       <div class="relative bg-white rounded-2xl max-w-2xl w-full mx-4 shadow-xl border border-[#EAEAEA] overflow-hidden max-h-[90vh] flex flex-col">
         <!-- Close Button -->
@@ -515,7 +595,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         <!-- Modal Photo -->
         <div class="relative h-64 shrink-0 bg-gray-100">
-          <img src="${imgSrc}" alt="${title}" class="w-full h-full object-cover" onerror="this.src=window.SHANTIPUR_ASSETS.fallbacks.hero" />
+          <img id="modal-main-img" src="${imgSrc}" alt="${title}" class="w-full h-full object-cover" onerror="this.src=window.SHANTIPUR_ASSETS.fallbacks.hero" />
           <div class="absolute bottom-3 left-3 bg-white/95 text-[#D94B42] text-xs font-semibold px-2.5 py-1 rounded-md shadow-sm border border-gray-100">
             ${category} • ${badge}
           </div>
@@ -537,6 +617,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           </p>
 
           ${extraDetails}
+          ${galleryHtml}
+          ${verificationBox}
 
           <!-- Footer Action Buttons -->
           <div class="mt-6 pt-4 border-t border-[#EAEAEA] flex items-center justify-between gap-3">

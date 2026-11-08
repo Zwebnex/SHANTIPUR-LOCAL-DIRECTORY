@@ -4,7 +4,7 @@
     "district": "Nadia",
     "state": "West Bengal",
     "pincode": "741404",
-    "generated_at": "2026-11-08T06:30:47.123Z",
+    "generated_at": "2026-11-08T06:57:40.324Z",
     "status": "ok"
   },
   "shrines": [
@@ -35,7 +35,7 @@
       "history_bn": "পাঁচ শতাব্দীরও বেশি পূর্বে চ্যাটার্জি পরিবারের পর্ণকুটিরে এই পুজো শুরু হয়। পরবর্তীকালে নদিয়ার মহারাজা কৃষ্ণচন্দ্র রায় এখানে স্থায়ী ইটের মন্দির প্রতিষ্ঠা করে দেন।",
       "rituals_en": "The only Kali in Bengal worshipped with sacred Vedic Hindu Marriage Rituals (বিবাহ রীতি). Includes pre-dawn Dadhimangal ceremony when placed on altar (Paate Otha) and Bashi Biye next day. Animal sacrifice permanently ceased after a priest missed the auspicious Sandhikshan. Devotees carry the immense idol solely on their bare shoulders for immersion.",
       "rituals_bn": "সমগ্র বাংলায় এক অনন্য কালী, যাঁকে হিন্দু বৈদিক বিবাহ রীতিতে বরণ করা হয়। পাতে ওঠার সময় ভোরে দধিমঙ্গল ও পরদিন বাসি বিয়ের আচার পালিত হয়। সন্ধিক্ষণ অতিক্রান্ত হওয়ায় একবার পুরোহিত বলি বন্ধ করে দেন এবং এরপর থেকে চিরতরে বলিদানের সমাপ্তি ঘটে। ভক্তরা কাঁধে করে প্রতিমা বিসর্জনে নিয়ে যান।",
-      "image_url": "/images/santipur/maa-kali/santipur-maa-mahishkhagi-idol-01.png",
+      "image_url": "/images/santipur/maa-kali/santipur-maa-mahishkhagi-procession-01.jpg",
       "audio_lore_url": "lore_mahishkhagi",
       "latitude": 23.252,
       "longitude": 88.428
@@ -67,7 +67,7 @@
       "history_bn": "পবিত্র পঞ্চমুণ্ডীর আসনে সাধক গোপীনাথের স্বপ্নাদেশপ্রাপ্তির মাধ্যমে এই জোড়া চাঁদুনী পুজো প্রতিষ্ঠিত হয়।",
       "rituals_en": "Twin sanctums where esoteric Shakta offerings of unboiled rice, sacred bilva leaves, and fragrant dhunuchi incense invoke deep meditative quietude.",
       "rituals_bn": "গভীর তান্ত্রিক সাধনায় অতল শান্ত ও তেজস্বী অর্ঘ্য নিবেদন করা হয়।",
-      "image_url": "/images/santipur/maa-kali/santipur-chanduni-mata-dhunuchi-ritual-01.png",
+      "image_url": "/images/santipur/placeholders/placeholder-chanduni-mata.svg",
       "audio_lore_url": "lore_chaduni",
       "latitude": 23.248,
       "longitude": 88.434
@@ -83,7 +83,7 @@
       "history_bn": "প্রাচীন পটচিত্র পূজা থেকে মৃন্ময়ী মূর্তিপূজায় উত্তরণের এক অনন্য জীবন্ত দলিল। কালীপূজা ও শান্তিপুর রাস উভয় উৎসবেরই অন্যতম প্রধান মিলনমেলা।",
       "rituals_en": "Traditional folk alpona floor art, painted scroll hymns, and devotional singing echoing across centuries.",
       "rituals_bn": "ঐতিহ্যবাহী আলপনা, প্রাচীন পটগীতি ও ভক্তিগীতি দ্বারা দেবীর বন্দনা।",
-      "image_url": "/images/santipur/maa-kali/santipur-maa-poteswari-idol-01.png",
+      "image_url": "/images/santipur/placeholders/placeholder-poteswari-mata.svg",
       "audio_lore_url": "lore_poteswari",
       "latitude": 23.254,
       "longitude": 88.425
@@ -225,7 +225,7 @@
       "description_en": "Generations of master clay artisans who sculpt Shantipur's soaring Kali idols and Bhanga Rash clay tableaus using sacred Ganga silt and straw frames.",
       "description_bn": "গঙ্গার পলিমাটি ও খড়ের কাঠামোয় বংশপরম্পরায় নির্মিত সুবিশাল কালী প্রতিমা ও রাস উৎসবের মৃৎভাস্কর্য।",
       "ingredients_or_material": "Ganga Silt, Straw, Jute Fiber, Natural Mineral Pigments",
-      "image_url": "/images/santipur/placeholders/placeholder-services.svg"
+      "image_url": "/images/santipur/placeholders/placeholder-clay-artisan.svg"
     },
     {
       "id": "kansha_pitul_guild",
@@ -236,7 +236,7 @@
       "description_en": "Traditional metal smiths crafting sonorous puja ghanta (bells), heavy brass dhunuchis for aarti, and ceremonial bhog platters.",
       "description_bn": "ঐতিহ্যবাহী কাঁসা-পিতলের নিখুঁত পূজার ঘণ্টা, বৃহদাকার ধুনুচি ও ভোগ পাত্র তৈরির কারিগর সমাজ।",
       "ingredients_or_material": "Bell Metal (Bronze 78/22), Brass, Copper",
-      "image_url": "/images/santipur/placeholders/placeholder-services.svg"
+      "image_url": "/images/santipur/placeholders/placeholder-bell-metal.svg"
     }
   ]
 }
