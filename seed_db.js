@@ -156,7 +156,7 @@ const shrines = [
     history_bn: "পবিত্র পঞ্চমুণ্ডীর আসনে সাধক গোপীনাথের স্বপ্নাদেশপ্রাপ্তির মাধ্যমে এই জোড়া চাঁদুনী পুজো প্রতিষ্ঠিত হয়।",
     rituals_en: "Twin sanctums where esoteric Shakta offerings of unboiled rice, sacred bilva leaves, and fragrant dhunuchi incense invoke deep meditative quietude.",
     rituals_bn: "গভীর তান্ত্রিক সাধনায় অতল শান্ত ও তেজস্বী অর্ঘ্য নিবেদন করা হয়।",
-    image_url: "/images/santipur/om-placeholder.svg",
+    image_url: "/images/santipur/maa-kali/santipur-ghor-chanduni-mata-01.png",
     audio_lore_url: "lore_chaduni",
     latitude: 23.2480,
     longitude: 88.4340

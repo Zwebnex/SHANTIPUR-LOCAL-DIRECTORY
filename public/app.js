@@ -228,9 +228,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       const category = lang === 'en' ? item.category_en : item.category_bn;
       const badge = lang === 'en' ? item.badge_en : item.badge_bn;
       const registryEntry = window.SANTIPUR_LISTING_IMAGE_REGISTRY ? window.SANTIPUR_LISTING_IMAGE_REGISTRY.getEntry(item.id) : null;
-      const isVerified = registryEntry ? (registryEntry.imageVerified !== false) : true;
-      const rawImg = (registryEntry && registryEntry.coverImage) || item.image_url;
-      const imgSrc = (rawImg && rawImg.trim() !== '') ? rawImg : '/images/santipur/om-placeholder.svg';
+      const isVerified = registryEntry ? (registryEntry.image?.verified !== false && !registryEntry.placeholder?.enabled) : true;
+      const rawImg = (registryEntry && registryEntry.image && registryEntry.image.path) || (registryEntry && registryEntry.coverImage) || item.image_url;
+      const imgSrc = (rawImg && rawImg.trim() !== '' && !rawImg.includes('undefined')) ? rawImg : '/images/santipur/om-placeholder.svg';
 
       const verificationBadge = isVerified
         ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-50/95 px-2 py-0.5 rounded shadow-sm border border-emerald-200">
@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="bg-white border border-[#EAEAEA] rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#D94B42]/50 transition-all flex flex-col group cursor-pointer" onclick="window.openLightbox(${index})">
           <!-- Thumbnail Image -->
           <div class="relative h-48 overflow-hidden bg-gray-100">
-            <img src="${item.productionPath}" alt="${item.title}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="window.handleImageError(this)" />
+            <img src="${item.productionPath || '/images/santipur/om-placeholder.svg'}" alt="${item.title}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="window.handleImageError(this)" />
             
             <div class="absolute top-2.5 left-2.5">
               ${statusBadge}

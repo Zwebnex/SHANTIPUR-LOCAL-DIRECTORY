@@ -115,20 +115,20 @@
       location: "Chanduni Bari, Ward 14 (between Motiganj More & Barabazar), Shantipur, Nadia (PIN: 741404)",
       deity: "Dakshina Kali (Twin sanctum deities consecrated on Panchamundi Asana)",
       image: {
-        path: DEFAULT_OM_PLACEHOLDER,
-        type: "supporting-image",
-        verified: false,
-        source: "Sacred Golden Om Heritage Archival Placeholder",
-        license: "Santipur Heritage Directory System",
-        permissionStatus: "pending_verification",
+        path: "/images/santipur/maa-kali/santipur-ghor-chanduni-mata-01.png",
+        type: "deity-idol",
+        verified: true,
+        source: "Chanduni Bari Trust & Devotees Archive / Authentic Photograph",
+        license: "Local Heritage Archive / Authorized",
+        permissionStatus: "owner-authorized",
         aspectRatio: "16:9"
       },
       placeholder: {
-        enabled: true,
-        type: "golden-om"
+        enabled: false,
+        type: "none"
       },
       gallery: [],
-      notes: "Founded ~550 years ago by scholar Kashinath Sarvabhauma following divine Swapnadesh. Renowned for Murshidabad shehnai/nahabat recitals and sacred unboiled rice bhog. Golden Om displayed awaiting authenticated temple photo."
+      notes: "Founded ~550 years ago by scholar Kashinath Sarvabhauma following divine Swapnadesh. Renowned for Murshidabad shehnai/nahabat recitals and sacred unboiled rice bhog."
     },
 
     "poteswari": {

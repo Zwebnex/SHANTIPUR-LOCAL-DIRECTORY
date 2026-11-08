@@ -1,8 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
   <rect width="800" height="600" fill="#F8F8F5"/>
   <rect x="24" y="24" width="752" height="552" fill="none" stroke="#E6E6E0" stroke-width="2" stroke-dasharray="8 8" rx="12"/>
-  <circle cx="400" cy="230" r="64" fill="#EFEFEA"/>
-  <path d="M375 230 L425 230 M400 205 L400 255" stroke="#B79550" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="400" cy="230" r="68" fill="#F8F4EC" stroke="#B79550" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <circle cx="400" cy="230" r="56" fill="#F2ECE0" stroke="#B79550" stroke-width="1"/>
+  <text x="400" y="250" font-family="'Noto Serif Bengali', Georgia, serif" font-size="64" font-weight="bold" fill="#B79550" text-anchor="middle">ॐ</text>
   <text x="400" y="340" font-family="'Inter', -apple-system, sans-serif" font-size="22" font-weight="700" fill="#202020" text-anchor="middle">Maa Poteswari Deity</text>
   <text x="400" y="375" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="600" fill="#D94B42" text-anchor="middle" letter-spacing="1.5">480-YEAR SACRED PATA TRADITION</text>
   <text x="400" y="410" font-family="'Inter', -apple-system, sans-serif" font-size="12" font-weight="500" fill="#777777" text-anchor="middle">Barajiakur, Ward 15, Santipur • Sacred Puja Listing</text>
