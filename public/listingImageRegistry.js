@@ -77,10 +77,10 @@
         path: "/images/santipur/maa-kali/santipur-maa-bamakali-idol-01.png",
         type: "deity-idol",
         verified: true,
-        source: "Cultural images/BAMA Kaali.png (Bamakali Trust Committee)",
+        source: "Cultural images/বামাকালী মাতা.png (Bamakali Trust Committee & Local Devotees Archive)",
         license: "Community Cultural Archive / Authorized",
         permissionStatus: "authorized",
-        aspectRatio: "3:4"
+        aspectRatio: "16:9"
       },
       placeholder: {
         enabled: false,

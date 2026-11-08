@@ -100,3 +100,4 @@ Every image is mapped to a strict structural type:
   - **Images with `decoding="async"`:** `58 / 58`
   - **Om Fallback Test:** Passed
   - **Verification Screenshot:** Generated (`verification_preview.png`, ~5.2 MB)
+
