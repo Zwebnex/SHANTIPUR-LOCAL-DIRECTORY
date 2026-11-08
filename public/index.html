@@ -82,13 +82,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
       <!-- Left: Logo / Wordmark -->
       <a href="#" class="flex items-center gap-3.5 group">
-        <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" decoding="async" class="w-14 h-14 rounded-full object-cover shadow-sm border border-[#EAEAEA] group-hover:scale-105 transition-transform" onerror="window.handleImageError(this)" />
+        <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" decoding="async" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-sm border border-[#EAEAEA] group-hover:scale-105 transition-transform" onerror="window.handleImageError(this)" />
         <div>
           <div class="flex items-center gap-1.5">
-            <span class="text-xl font-extrabold tracking-tight text-[#202020] group-hover:text-[#D94B42] transition-colors" data-i18n="siteTitle">SHANTIPUR</span>
-            <span class="w-1.5 h-1.5 rounded-full bg-[#D94B42]"></span>
+            <span class="text-xl sm:text-2xl font-black tracking-tight text-[#202020] group-hover:text-[#D94B42] transition-colors" data-i18n="siteTitle">SHANTIPUR</span>
+            <span class="w-2 h-2 rounded-full bg-[#D94B42]"></span>
           </div>
-          <span class="text-[10px] font-semibold text-[#777777] tracking-wider uppercase block" data-i18n="siteSubtitle">NADIA, WEST BENGAL</span>
+          <span class="text-[10px] sm:text-xs font-semibold text-[#777777] tracking-wider uppercase block" data-i18n="siteSubtitle">NADIA, WEST BENGAL</span>
         </div>
       </a>
 
@@ -507,8 +507,8 @@
           <h3 id="lightbox-title" class="text-base font-bold text-[#202020]"></h3>
           <span id="lightbox-meta" class="text-xs text-[#777777]"></span>
         </div>
-        <button onclick="window.closeLightbox()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-[#202020] flex items-center justify-center font-bold text-sm transition-colors">
-          ✕
+        <button onclick="window.closeLightbox()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-[#202020] flex items-center justify-center transition-colors" aria-label="Close Lightbox">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
@@ -562,8 +562,8 @@
             <p class="text-xs text-[#777777]">Free Official Registration • Verification Before Publishing</p>
           </div>
         </div>
-        <button onclick="window.closeBusinessAuth()" class="w-8 h-8 rounded-full bg-white hover:bg-gray-100 text-[#202020] border border-[#EAEAEA] flex items-center justify-center font-bold text-sm transition-colors">
-          ✕
+        <button onclick="window.closeBusinessAuth()" class="w-8 h-8 rounded-full bg-white hover:bg-gray-100 text-[#202020] border border-[#EAEAEA] flex items-center justify-center transition-colors" aria-label="Close Modal">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
@@ -585,7 +585,9 @@
       <div id="auth-view-register" class="p-6 max-h-[70vh] overflow-y-auto space-y-4">
         <!-- Trust Guarantee Banner -->
         <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-start gap-3">
-          <div class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">✓</div>
+          <div class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+          </div>
           <div class="text-xs text-emerald-950 leading-relaxed">
             <strong class="font-bold block text-emerald-900 mb-0.5">100% Free Official Local Business Registration</strong>
             Shantipur Local Directory does not publish auto-generated or unverified listings. Register your business for free. Our municipal verification team verifies physical operation in Shantipur (PIN: 741404) before your card goes live.
@@ -716,10 +718,10 @@
         <!-- Col 1: Brand & Municipal Identity -->
         <div class="lg:col-span-1 space-y-4">
           <div class="flex items-center gap-3.5">
-            <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" loading="lazy" decoding="async" class="w-13 h-13 rounded-full object-cover shadow-sm border border-[#EAEAEA]" onerror="window.handleImageError(this)" />
+            <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Local Directory Logo" loading="lazy" decoding="async" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-sm border border-[#EAEAEA]" onerror="window.handleImageError(this)" />
             <div>
-              <h4 class="font-extrabold text-base text-[#202020] tracking-tight">SHANTIPUR</h4>
-              <span class="text-[10px] font-semibold text-[#777777] block uppercase tracking-wider">NADIA • PIN 741404</span>
+              <h4 class="font-black text-lg text-[#202020] tracking-tight">SHANTIPUR</h4>
+              <span class="text-[10px] sm:text-xs font-semibold text-[#777777] block uppercase tracking-wider">NADIA • PIN 741404</span>
             </div>
           </div>
           <p class="text-xs text-[#777777] leading-relaxed">
@@ -852,11 +854,13 @@
       </div>
 
       <!-- Agency Attribution & Technology Credits (ZWEBNEX) -->
-      <div class="bg-[#FAFAF8] border border-[#EAEAEA] rounded-2xl p-6 sm:p-7 mb-8 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="bg-[#FAFAF8] border border-[#EAEAEA] rounded-2xl p-6 sm:p-8 mb-8 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-6">
         <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-          <!-- Official ZWEBNEX Logo (Rendered as-is, preserving original colors, font, shape, and style) -->
-          <div class="shrink-0 bg-white px-5 py-3.5 rounded-xl border border-[#EAEAEA] shadow-2xs">
-            <img src="/images/branding/zwebnex-official-logo.png" alt="ZWEBNEX - A Premium Website Builder Agency" loading="lazy" decoding="async" class="h-12 sm:h-14 md:h-16 w-auto object-contain" />
+          <!-- Official ZWEBNEX Logos (Rendered as-is, strictly preserving original colors, font, shape, and style) -->
+          <div class="shrink-0 flex items-center gap-4 bg-white px-5 py-4 rounded-xl border border-[#EAEAEA] shadow-xs">
+            <img src="/images/branding/zwebnex-icon-orange.jpg" alt="ZWEBNEX Brand Icon" loading="lazy" decoding="async" class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl object-contain shadow-2xs" />
+            <div class="h-10 sm:h-12 w-px bg-gray-200"></div>
+            <img src="/images/branding/zwebnex-official-logo.png" alt="ZWEBNEX - A Premium Website Builder Agency" loading="lazy" decoding="async" class="h-12 sm:h-14 md:h-16 lg:h-18 w-auto object-contain" />
           </div>
           
           <div class="h-14 w-px bg-gray-200 hidden sm:block"></div>
