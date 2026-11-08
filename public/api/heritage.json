@@ -4,7 +4,7 @@
     "district": "Nadia",
     "state": "West Bengal",
     "pincode": "741404",
-    "generated_at": "2026-11-08T04:43:25.335Z",
+    "generated_at": "2026-11-08T06:30:47.123Z",
     "status": "ok"
   },
   "shrines": [
@@ -19,7 +19,7 @@
       "history_bn": "বৃহৎ তন্ত্রসার প্রণেতা তন্ত্রসাধক পণ্ডিত কৃষ্ণানন্দ আগমবাগীশ দ্বারা প্রতিষ্ঠিত। পরবর্তীতে শ্রী অদ্বৈত প্রভুর বংশধর মথুরেশ গোস্বামীর কন্যার সঙ্গে সার্বভৌম আগমবাগীশের ঐতিহাসিক বৈবাহিক সম্পর্কের মাধ্যমে শান্তিপুরে শাক্ত ও বৈষ্ণব ধর্মের মহামিলন ক্ষেত্র রচিত হয়।",
       "rituals_en": "Idol sculpted across 8-10 days starting right after Krishna Paksha. The sacred worship begins with midnight Chakshu Daan (painting the divine eyes). In strict accordance with Tantric tradition, the sacred Ghat is immersed immediately as dawn breaks and the night's puja concludes.",
       "rituals_bn": "কৃষ্ণপক্ষের পর ৮-১০ দিন ধরে সুবিশাল মৃন্ময়ী প্রতিমা নির্মিত হয়। মহানিশায় চক্ষু দানের সঙ্গে সঙ্গেই পুজো শুরু হয়। তন্ত্রোক্ত নিয়মে রাত্রি শেষে ভোর হতে না হতেই ঘট বিসর্জন সম্পন্ন হয়।",
-      "image_url": "uploads/Maa agameswari 1.png",
+      "image_url": "/images/santipur/maa-kali/santipur-maa-agameswari-idol-01.png",
       "audio_lore_url": "lore_agameswari",
       "latitude": 23.2505,
       "longitude": 88.432
@@ -35,7 +35,7 @@
       "history_bn": "পাঁচ শতাব্দীরও বেশি পূর্বে চ্যাটার্জি পরিবারের পর্ণকুটিরে এই পুজো শুরু হয়। পরবর্তীকালে নদিয়ার মহারাজা কৃষ্ণচন্দ্র রায় এখানে স্থায়ী ইটের মন্দির প্রতিষ্ঠা করে দেন।",
       "rituals_en": "The only Kali in Bengal worshipped with sacred Vedic Hindu Marriage Rituals (বিবাহ রীতি). Includes pre-dawn Dadhimangal ceremony when placed on altar (Paate Otha) and Bashi Biye next day. Animal sacrifice permanently ceased after a priest missed the auspicious Sandhikshan. Devotees carry the immense idol solely on their bare shoulders for immersion.",
       "rituals_bn": "সমগ্র বাংলায় এক অনন্য কালী, যাঁকে হিন্দু বৈদিক বিবাহ রীতিতে বরণ করা হয়। পাতে ওঠার সময় ভোরে দধিমঙ্গল ও পরদিন বাসি বিয়ের আচার পালিত হয়। সন্ধিক্ষণ অতিক্রান্ত হওয়ায় একবার পুরোহিত বলি বন্ধ করে দেন এবং এরপর থেকে চিরতরে বলিদানের সমাপ্তি ঘটে। ভক্তরা কাঁধে করে প্রতিমা বিসর্জনে নিয়ে যান।",
-      "image_url": "uploads/kali_idol_16x9_4k.png",
+      "image_url": "/images/santipur/maa-kali/santipur-maa-mahishkhagi-idol-01.png",
       "audio_lore_url": "lore_mahishkhagi",
       "latitude": 23.252,
       "longitude": 88.428
@@ -51,7 +51,7 @@
       "history_bn": "৫০০ বছরের সুপ্রাচীন জাগ্রত কালী। মা এখানে বাম চরণ সম্মুখে প্রসারিত করে অবস্থান করেন—যা ভয়ংকরা ও ভক্তরক্ষাকারিণী রূপের প্রতীক।",
       "rituals_en": "Legendary for the electrifying Dancing Immersion Procession. Hundreds of bearers shoulder the towering idol, swaying rhythmically in unison to frantic dhak beats and conch shells so the Goddess appears to dance through Shantipur's ancient lanes.",
       "rituals_bn": "বিখ্যাত নৃত্যরত বিসর্জন শোভাযাত্রা। শত শত সেবায়েত কাঁধে প্রতিমা বহন করে ঢাকের উন্মাদ তালে এমনভাবে নৃত্য করেন যেন স্বয়ং দেবী রাজপথে নৃত্য করছেন।",
-      "image_url": "uploads/Ornate Fierce Goddess Shrine in Blue Alcove.png",
+      "image_url": "/images/santipur/maa-kali/santipur-maa-bamakali-idol-01.png",
       "audio_lore_url": "lore_bamakali",
       "latitude": 23.245,
       "longitude": 88.438
@@ -67,7 +67,7 @@
       "history_bn": "পবিত্র পঞ্চমুণ্ডীর আসনে সাধক গোপীনাথের স্বপ্নাদেশপ্রাপ্তির মাধ্যমে এই জোড়া চাঁদুনী পুজো প্রতিষ্ঠিত হয়।",
       "rituals_en": "Twin sanctums where esoteric Shakta offerings of unboiled rice, sacred bilva leaves, and fragrant dhunuchi incense invoke deep meditative quietude.",
       "rituals_bn": "গভীর তান্ত্রিক সাধনায় অতল শান্ত ও তেজস্বী অর্ঘ্য নিবেদন করা হয়।",
-      "image_url": "uploads/Fiery Nighttime Kali Puja Ritual.png",
+      "image_url": "/images/santipur/maa-kali/santipur-chanduni-mata-dhunuchi-ritual-01.png",
       "audio_lore_url": "lore_chaduni",
       "latitude": 23.248,
       "longitude": 88.434
@@ -83,7 +83,7 @@
       "history_bn": "প্রাচীন পটচিত্র পূজা থেকে মৃন্ময়ী মূর্তিপূজায় উত্তরণের এক অনন্য জীবন্ত দলিল। কালীপূজা ও শান্তিপুর রাস উভয় উৎসবেরই অন্যতম প্রধান মিলনমেলা।",
       "rituals_en": "Traditional folk alpona floor art, painted scroll hymns, and devotional singing echoing across centuries.",
       "rituals_bn": "ঐতিহ্যবাহী আলপনা, প্রাচীন পটগীতি ও ভক্তিগীতি দ্বারা দেবীর বন্দনা।",
-      "image_url": "uploads/blue_kali_16x9_4k (1).png",
+      "image_url": "/images/santipur/maa-kali/santipur-maa-poteswari-idol-01.png",
       "audio_lore_url": "lore_poteswari",
       "latitude": 23.254,
       "longitude": 88.425
@@ -99,7 +99,7 @@
       "history_bn": "সূত্রাগড়ের তাঁতি সমাজ ও পণ্ডিতবর্গের দ্বারা শান্তিপুরের কারুশিল্প ঐতিহ্যের রক্ষাকর্ত্রী রূপে প্রতিষ্ঠিত।",
       "rituals_en": "Hand-pounded rice bhog, traditional brass bell chime offerings, and blessings for the weavers' looms.",
       "rituals_bn": "হাতে কোটা চালের ভোগ ও তাঁতের মাকু ছুঁইয়ে দেবীর চরণে কল্যাণ প্রার্থনা।",
-      "image_url": "uploads/kali_idol_16x9_4k.png",
+      "image_url": "/images/santipur/maa-kali/santipur-siddheswari-kali-idol-01.png",
       "audio_lore_url": "lore_siddheswari",
       "latitude": 23.243,
       "longitude": 88.441
@@ -114,7 +114,7 @@
       "tradition": "Gaudiya Vaishnavism / Advaita Lineage",
       "significance_en": "The ancestral seat of Sri Advaita Acharya's lineage. Houses the revered Sri Sri Radha Raman Jiu deity. Site of the celebrated historic Shakta-Vaishnava truce and epicenter of the 400-year-old Shantipur Bhanga Rash chariot and procession.",
       "significance_bn": "শ্রী অদ্বৈত আচার্য প্রভুর প্রধান আদি ভিটা। শ্রীশ্রী রাধারমণ জিউর নিত্য সেবা এবং শাক্ত-বৈষ্ণব মিলনের পীঠস্থান। বিখ্যাত শান্তিপুর রাসযাত্রার কেন্দ্রবিন্দু।",
-      "image_url": "uploads/Maa agameswari 1.png"
+      "image_url": "/images/santipur/vaishnava-heritage/santipur-sri-radha-raman-jiu-01.jpg"
     },
     {
       "id": "shyamchand_mandir",
@@ -124,17 +124,27 @@
       "tradition": "Terracotta Atchala Architecture",
       "significance_en": "One of Bengal's grandest Atchala (eight-roofed) brick temples, erected in Shyamchandpara by wealthy textile merchant Ramgopal Khan Chowdhury. Undeniable architectural proof of how Shantipur's 18th-century handloom fortunes built its sacred skyline.",
       "significance_bn": "১৭২৬ সালে বস্ত্রবণিক রামগোপাল খাঁ চৌধুরী নির্মিত বাংলার অন্যতম শ্রেষ্ঠ আটচালা মন্দির। প্রমাণ করে শান্তিপুরের তাঁতশিল্পের সমৃদ্ধি কীভাবে এই শহরের স্থাপত্য ইতিহাস গড়ে তুলেছিল।",
-      "image_url": "uploads/Ornate Fierce Goddess Shrine in Blue Alcove.png"
+      "image_url": "/images/santipur/temples/santipur-shyamchand-temple-atchala-01.jpg"
+    },
+    {
+      "id": "jaleswar_shiva",
+      "name_en": "Jaleswar Shiva Temple",
+      "name_bn": "জলেশ্বর শিব মন্দির (চারচালা টেরাকোটা)",
+      "founded_year": "Early 18th Century",
+      "tradition": "Shaiva Charchala Terracotta",
+      "significance_en": "Protected Monument (ASI N-WB-54-d) constructed under Maharaja Raghuram Roy of Nadia. Houses a self-manifested (Swayambhu) Shiva Lingam with intact terracotta panels depicting puranic battles.",
+      "significance_bn": "নদিয়ার মহারাজ রঘুরাম রায় নির্মিত সুপ্রাচীন চারচালা টেরাকোটা শিব মন্দির (এএসআই সুরক্ষিত)। স্বয়ম্ভু শিবলিঙ্গ ও অনন্য পৌরাণিক পোড়ামাটির কারুকার্য খচিত।",
+      "image_url": "/images/santipur/temples/santipur-jaleswar-shiva-temple-01.jpg"
     },
     {
       "id": "topkhana_mosque",
-      "name_en": "Topkhana Mosque (1703 CE)",
-      "name_bn": "তোপখানা মসজিদ (১৭০৩ খ্রিস্টাব্দ)",
+      "name_en": "Topkhana Mosque & Panchpota Landmark (1703 CE)",
+      "name_bn": "তোপখানা মসজিদ ও পঞ্চপোতা ঐতিহাসিক সৌধ",
       "founded_year": "1703 CE (~320 Years)",
       "tradition": "Mughal Indo-Islamic Brick Heritage",
       "significance_en": "Commissioned by Faujdar Gazi Mohammad Yar Khan during Aurangzeb's reign. Features imposing brick domes and arched colonnades, exemplifying Shantipur's rich syncretic multicultural heritage trail.",
       "significance_bn": "মুঘল আমলে ফৌজদার গাজী মহম্মদ ইয়ার খান নির্মিত ঐতিহাসিক মসজিদ। শান্তিপুরের বহুত্ববাদী ঐতিহাসিক মেলবন্ধনের উজ্জ্বল নিদর্শন।",
-      "image_url": "uploads/Fiery Nighttime Kali Puja Ritual.png"
+      "image_url": "/images/santipur/historical-landmarks/santipur-panchpota-historic-mosque-01.jpg"
     }
   ],
   "handloom_clusters": [
@@ -147,7 +157,7 @@
       "specialty_bn": "১০০x১০০ সুক্ষ্ম সুতোর খাঁটি শান্তিপুরী তাঁত, জটিল জাকোয়ার্ড নকশা এবং ঐতিহ্যবাহী গুটি ভাঁজ।",
       "yarn_count": "80s to 120s High Count Cotton & Zari",
       "contact_phone": "+91 98320 12345",
-      "image_url": "uploads/kali_idol_16x9_4k.png"
+      "image_url": "/images/santipur/handloom/santipur-traditional-tant-loom-01.jpg"
     },
     {
       "id": "dalal_para_cluster",
@@ -158,7 +168,7 @@
       "specialty_bn": "শান্তিপুরী জলচুরি ধুতি, নীলাম্বরী জামদানি এবং ভেষজ রঙে বোনা শাড়ি।",
       "yarn_count": "100s Fine Pure Cotton",
       "contact_phone": "+91 98321 67890",
-      "image_url": "uploads/blue_kali_16x9_4k (1).png"
+      "image_url": "/images/santipur/handloom/santipur-tant-weaving-workshop-01.jpg"
     },
     {
       "id": "ghoralia_cluster",
@@ -169,7 +179,7 @@
       "specialty_bn": "পাইকারি সরাসরি বুটিক সরবরাহ ও রফতানিযোগ্য উৎসবের তাঁতের শাড়ি।",
       "yarn_count": "80s-100s Cotton Silk Blend",
       "contact_phone": "+91 98322 11223",
-      "image_url": "uploads/Maa agameswari 1.png"
+      "image_url": "/images/santipur/placeholders/placeholder-saree.svg"
     }
   ],
   "haats": [
@@ -204,7 +214,7 @@
       "description_en": "Invented in Shantipur: slender, oblong deep-golden sweets prepared from freshly curdled cow's milk chhena kneaded with ground green cardamom and a subtle fiery dash of cracked black pepper, deep-fried in pure ghee and soaked in warm cardamom syrup.",
       "description_bn": "শান্তিপুরের অনন্য আবিষ্কার: খাঁটি ছানা, সুগন্ধি এলাচ এবং মৃদু গোলমরিচের গুঁড়োর অপূর্ব মেলবন্ধনে ঘিয়ে ভাজা রসালো সোনালী নিখুঁতি।",
       "ingredients_or_material": "Chhena, Ghee, Green Cardamom, Black Pepper, Light Sugar Syrup",
-      "image_url": "uploads/style_reference.jpg"
+      "image_url": "/images/santipur/placeholders/placeholder-restaurant.svg"
     },
     {
       "id": "sutragarh_mritsilpi",
@@ -215,7 +225,7 @@
       "description_en": "Generations of master clay artisans who sculpt Shantipur's soaring Kali idols and Bhanga Rash clay tableaus using sacred Ganga silt and straw frames.",
       "description_bn": "গঙ্গার পলিমাটি ও খড়ের কাঠামোয় বংশপরম্পরায় নির্মিত সুবিশাল কালী প্রতিমা ও রাস উৎসবের মৃৎভাস্কর্য।",
       "ingredients_or_material": "Ganga Silt, Straw, Jute Fiber, Natural Mineral Pigments",
-      "image_url": "uploads/kali_idol_16x9_4k.png"
+      "image_url": "/images/santipur/placeholders/placeholder-services.svg"
     },
     {
       "id": "kansha_pitul_guild",
@@ -226,7 +236,7 @@
       "description_en": "Traditional metal smiths crafting sonorous puja ghanta (bells), heavy brass dhunuchis for aarti, and ceremonial bhog platters.",
       "description_bn": "ঐতিহ্যবাহী কাঁসা-পিতলের নিখুঁত পূজার ঘণ্টা, বৃহদাকার ধুনুচি ও ভোগ পাত্র তৈরির কারিগর সমাজ।",
       "ingredients_or_material": "Bell Metal (Bronze 78/22), Brass, Copper",
-      "image_url": "uploads/Fiery Nighttime Kali Puja Ritual.png"
+      "image_url": "/images/santipur/placeholders/placeholder-services.svg"
     }
   ]
 }

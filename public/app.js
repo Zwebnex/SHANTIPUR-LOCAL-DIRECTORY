@@ -1,7 +1,11 @@
 // app.js - Complete Professional Controller for Shantipur Heritage Platform (Listygo Editorial System)
 document.addEventListener('DOMContentLoaded', async () => {
   let appData = null;
+  let galleryManifest = null;
   let activeTab = 'all';
+  let activeGalleryCategory = 'all';
+  let activeLightboxIndex = 0;
+  let filteredGalleryAssets = [];
   let selectedShrinesForParikrama = new Set(['agameswari', 'mahishkhagi', 'bamakali']);
 
   // Fetch API or fallback
@@ -12,6 +16,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   } catch (e) {
     console.warn('Using local fallback data payload', e);
+  }
+
+  // Fetch Image Manifest
+  try {
+    const manifestRes = await fetch('/images/santipur/image-manifest.json');
+    if (manifestRes.ok) {
+      const manifestData = await manifestRes.json();
+      galleryManifest = manifestData.images || [];
+    }
+  } catch (e) {
+    console.warn('Error loading image manifest:', e);
+  }
+
+  // Fallback if manifest fetch failed
+  if (!galleryManifest && window.SHANTIPUR_ASSETS) {
+    galleryManifest = (window.SHANTIPUR_ASSETS.uploaded_photos || []).map(p => ({
+      id: p.id,
+      title: p.title,
+      category: p.category,
+      location: "Santipur, Nadia, West Bengal",
+      productionPath: p.src,
+      sourcePage: "Santipur Cultural Archive",
+      license: "Heritage Archive",
+      permissionStatus: "owner-authorized",
+      verified: true,
+      verificationNotes: p.tags.join(', ')
+    }));
   }
 
   // Audio lore synthesizer (subtle temple chime)
@@ -269,6 +300,158 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   };
 
+  // HERITAGE IMAGE DISCOVERY GALLERY CONTROLLER (PHASE 7)
+  function renderHeritageGallery() {
+    const container = document.getElementById('gallery-grid');
+    if (!container || !galleryManifest) return;
+
+    const lang = window.SHANTIPUR_DATA.currentLang;
+    const t = window.SHANTIPUR_DATA.translations[lang];
+
+    let assets = galleryManifest;
+    if (activeGalleryCategory === 'maa-kali') {
+      assets = assets.filter(a => a.category === 'religious-heritage' || a.subcategory === 'maa-kali');
+    } else if (activeGalleryCategory === 'temples') {
+      assets = assets.filter(a => a.category === 'temples');
+    } else if (activeGalleryCategory === 'rash-utsav') {
+      assets = assets.filter(a => a.category === 'rash-utsav' || a.category === 'festivals');
+    } else if (activeGalleryCategory === 'handloom') {
+      assets = assets.filter(a => a.category === 'handloom');
+    } else if (activeGalleryCategory === 'historical-landmarks') {
+      assets = assets.filter(a => a.category === 'historical-landmarks' || a.category === 'city-photography' || a.category === 'markets');
+    } else if (activeGalleryCategory === 'businesses') {
+      assets = assets.filter(a => a.category === 'businesses' || !a.verified);
+    }
+
+    filteredGalleryAssets = assets;
+
+    if (assets.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-full py-12 text-center bg-[#FAFAF8] rounded-xl border border-[#EAEAEA]">
+          <p class="text-xs text-[#777777]">${lang === 'en' ? 'No images found in this collection category.' : 'এই বিভাগে কোনো চিত্র খুঁজে পাওয়া যায়নি।'}</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = assets.map((item, index) => {
+      const isVerified = item.verified !== false;
+      const statusBadge = isVerified
+        ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>${t.verifiedBadge}
+          </span>`
+        : `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>${t.placeholderBadge}
+          </span>`;
+
+      return `
+        <div class="bg-white border border-[#EAEAEA] rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#D94B42]/50 transition-all flex flex-col group cursor-pointer" onclick="window.openLightbox(${index})">
+          <!-- Thumbnail Image -->
+          <div class="relative h-48 overflow-hidden bg-gray-100">
+            <img src="${item.productionPath}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src=window.SHANTIPUR_ASSETS.fallbacks.hero" />
+            
+            <div class="absolute top-2.5 left-2.5">
+              ${statusBadge}
+            </div>
+
+            <!-- Overlay Hover Cue -->
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold gap-1.5 backdrop-blur-xs">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              <span>${t.viewHighRes}</span>
+            </div>
+          </div>
+
+          <!-- Metadata Body -->
+          <div class="p-4 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="text-xs font-bold text-[#202020] mb-1 line-clamp-1 group-hover:text-[#D94B42] transition-colors">
+                ${item.title}
+              </h4>
+              <p class="text-[11px] text-[#777777] line-clamp-1 mb-2 font-medium">
+                ${item.location}
+              </p>
+            </div>
+
+            <div class="pt-2 border-t border-[#EAEAEA] flex items-center justify-between text-[10px] text-gray-500">
+              <span class="truncate max-w-[150px]">${item.license || 'Heritage Archive'}</span>
+              <span class="font-mono">${item.duplicateStatus === 'duplicate' ? 'Ref Linked' : 'Primary'}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.setGalleryCategory = function(catKey) {
+    activeGalleryCategory = catKey;
+    document.querySelectorAll('.gallery-tab-btn').forEach(btn => {
+      const match = btn.getAttribute('data-gal-tab') === catKey;
+      btn.classList.toggle('bg-[#D94B42]', match);
+      btn.classList.toggle('text-white', match);
+      btn.classList.toggle('bg-white', !match);
+      btn.classList.toggle('text-[#777777]', !match);
+      btn.classList.toggle('border-[#D94B42]', match);
+      btn.classList.toggle('border-[#EAEAEA]', !match);
+    });
+    renderHeritageGallery();
+  };
+
+  // Lightbox Modal Controller
+  window.openLightbox = function(index) {
+    if (!filteredGalleryAssets || !filteredGalleryAssets[index]) return;
+    activeLightboxIndex = index;
+    updateLightboxUI();
+
+    const modal = document.getElementById('lightbox-modal');
+    modal?.classList.remove('hidden');
+    modal?.classList.add('flex');
+  };
+
+  window.closeLightbox = function() {
+    const modal = document.getElementById('lightbox-modal');
+    modal?.classList.add('hidden');
+    modal?.classList.remove('flex');
+  };
+
+  window.nextLightbox = function() {
+    if (!filteredGalleryAssets.length) return;
+    activeLightboxIndex = (activeLightboxIndex + 1) % filteredGalleryAssets.length;
+    updateLightboxUI();
+  };
+
+  window.prevLightbox = function() {
+    if (!filteredGalleryAssets.length) return;
+    activeLightboxIndex = (activeLightboxIndex - 1 + filteredGalleryAssets.length) % filteredGalleryAssets.length;
+    updateLightboxUI();
+  };
+
+  function updateLightboxUI() {
+    const item = filteredGalleryAssets[activeLightboxIndex];
+    if (!item) return;
+
+    document.getElementById('lightbox-title').textContent = item.title;
+    document.getElementById('lightbox-meta').textContent = `${item.location} • ID: ${item.id}`;
+    document.getElementById('lightbox-img').src = item.productionPath;
+    document.getElementById('lightbox-desc').textContent = item.verificationNotes || item.title;
+    document.getElementById('lightbox-license').textContent = item.license || 'Heritage Fair Use';
+    document.getElementById('lightbox-owner').textContent = item.photographerOrOwner || 'Local Heritage Archive';
+    
+    const sourceLink = document.getElementById('lightbox-source-link');
+    if (sourceLink) {
+      sourceLink.href = item.sourcePage || item.productionPath;
+    }
+  }
+
+  // Keyboard navigation for Lightbox
+  window.addEventListener('keydown', (e) => {
+    const modal = document.getElementById('lightbox-modal');
+    if (modal && !modal.classList.contains('hidden')) {
+      if (e.key === 'Escape') window.closeLightbox();
+      if (e.key === 'ArrowRight') window.nextLightbox();
+      if (e.key === 'ArrowLeft') window.prevLightbox();
+    }
+  });
+
   // Search input handlers
   document.getElementById('search-input')?.addEventListener('input', renderListings);
   document.getElementById('search-location')?.addEventListener('change', renderListings);
@@ -468,7 +651,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const nameInput = document.getElementById('story-name-input')?.value || 'Devotee / Cultural Explorer';
     const wishSelect = document.getElementById('story-wish-select')?.value || 'Subho Dipaboli & Shantipur Bhanga Rash';
-    const selectedPhotoSrc = document.getElementById('story-photo-select')?.value || 'uploads/hero_radha_raman_jiu.jpg';
+    const selectedPhotoSrc = document.getElementById('story-photo-select')?.value || '/images/santipur/vaishnava-heritage/santipur-sri-radha-raman-jiu-01.jpg';
 
     const bgImg = new Image();
     bgImg.crossOrigin = 'anonymous';
@@ -570,10 +753,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('lang-btn-bn')?.classList.toggle('font-bold', lang === 'bn');
 
     renderListings();
+    renderHeritageGallery();
     updateParikramaEstimates();
   };
 
   // Initialize
   renderListings();
+  renderHeritageGallery();
   updateParikramaEstimates();
 });

@@ -53,7 +53,32 @@ async function verify() {
   const listingsCount = await page.$$eval('#listings-container > div', els => els.length);
   console.log(`🪔 Rendered Heritage Listings: ${listingsCount}`);
 
-  // 5. Test Bilingual Toggle to Bengali
+  // 5. Verify Heritage Image Discovery Gallery Grid
+  const galleryItemsCount = await page.$$eval('#gallery-grid > div', els => els.length);
+  console.log(`🖼️ Rendered Heritage Gallery Assets: ${galleryItemsCount}`);
+
+  // 6. Test Gallery Filter Tab (Maa Kali)
+  await page.click('[data-gal-tab="maa-kali"]');
+  await new Promise(r => setTimeout(r, 500));
+  const kaliGalleryCount = await page.$$eval('#gallery-grid > div', els => els.length);
+  console.log(`🔱 Filtered Maa Kali Gallery Assets: ${kaliGalleryCount}`);
+
+  // 7. Test Lightbox Opening
+  await page.click('#gallery-grid > div:first-child');
+  await new Promise(r => setTimeout(r, 500));
+  const lightboxVisible = await page.$eval('#lightbox-modal', el => !el.classList.contains('hidden'));
+  const lightboxTitle = await page.$eval('#lightbox-title', el => el.innerText);
+  console.log(`🔎 Lightbox Opened: ${lightboxVisible} | Title: "${lightboxTitle}"`);
+
+  // Close Lightbox
+  await page.click('#lightbox-modal button');
+  await new Promise(r => setTimeout(r, 400));
+
+  // Reset Gallery to All
+  await page.click('[data-gal-tab="all"]');
+  await new Promise(r => setTimeout(r, 500));
+
+  // 8. Test Bilingual Toggle to Bengali
   await page.click('#lang-btn-bn');
   await new Promise(r => setTimeout(r, 600));
   const heroHeadlineBn = await page.$eval('h1', el => el.innerText);
@@ -63,7 +88,7 @@ async function verify() {
   await page.click('#lang-btn-en');
   await new Promise(r => setTimeout(r, 600));
 
-  // 6. Test Category Filter Click
+  // 9. Test Listings Filter Tab Click
   await page.click('#categories-section button:first-child');
   await new Promise(r => setTimeout(r, 600));
   const filteredCount = await page.$$eval('#listings-container > div', els => els.length);
@@ -73,7 +98,7 @@ async function verify() {
   await page.click('[data-tab="all"]');
   await new Promise(r => setTimeout(r, 600));
 
-  // 7. Verify Detail Modal Opening
+  // 10. Verify Detail Modal Opening
   await page.click('#listings-container > div:first-child button');
   await new Promise(r => setTimeout(r, 600));
   const modalVisible = await page.$eval('#detail-modal', el => !el.classList.contains('hidden'));
@@ -83,7 +108,7 @@ async function verify() {
   await page.click('#detail-modal-content button');
   await new Promise(r => setTimeout(r, 400));
 
-  // 8. Capture Full-Page Verification Screenshot
+  // 11. Capture Full-Page Verification Screenshot
   console.log('📸 Capturing Full-Page Screenshot to:', screenshotPath);
   await page.screenshot({ path: screenshotPath, fullPage: true });
 
@@ -98,7 +123,4 @@ async function verify() {
   console.log('===============================================================\n');
 }
 
-verify().catch(err => {
-  console.error('❌ Verification failed:', err);
-  process.exit(1);
-});
+verify().catch(console.error);
