@@ -1,7 +1,7 @@
 {
   "metadata": {
     "project": "Santipur Local Directory — Strictly Verified Unique Asset Library",
-    "totalAssetsCataloged": 33,
+    "totalAssetsCataloged": 31,
     "verifiedAssetsCount": 24,
     "placeholderAssetsCount": 9,
     "generatedTimestamp": "2026-11-08T06:58:58.158Z",
@@ -81,30 +81,6 @@
       "fileExists": true,
       "fileSizeBytes": 1794547,
       "sha256Hash": "45b7c164fd99de655e69c7db5ccc8f15035da16ef449c9066ee95cb2f6f9e652",
-      "duplicateStatus": "unique"
-    },
-    {
-      "id": "santipur-kali-004",
-      "title": "Maa Bamakali Sanctum Shrine",
-      "category": "religious-heritage",
-      "subcategory": "maa-kali",
-      "location": "Bamakali Tala, Sutragarh, Santipur, Nadia",
-      "originalFilename": "Cultural images/Ornate Fierce Goddess Shrine in Blue Alcove.png",
-      "productionPath": "/images/santipur/maa-kali/santipur-bamakali-shrine-sanctum-01.png",
-      "sourcePage": "Santipur Temple Preservation Forum",
-      "originalImageUrl": "Cultural images/Ornate Fierce Goddess Shrine in Blue Alcove.png",
-      "photographerOrOwner": "Santipur Temple Preservation Forum",
-      "license": "Heritage Archive / Directory Use",
-      "permissionStatus": "owner-authorized",
-      "verified": true,
-      "recommendedPlacement": [
-        "shrine-directory-bamakali-detail",
-        "heritage-gallery-sanctums"
-      ],
-      "verificationNotes": "Inner sanctum with characteristic arched niche, brass hanging bells, and ceremonial silver ornaments.",
-      "fileExists": true,
-      "fileSizeBytes": 2373555,
-      "sha256Hash": "c09bc50b524429fc0a149d0f520b85778ec7ddc8e83faeedc000738da6bb3e47",
       "duplicateStatus": "unique"
     },
     {
@@ -371,30 +347,6 @@
       "fileExists": true,
       "fileSizeBytes": 4012659,
       "sha256Hash": "b062672b8fe95e1b41c85aefb88ff432d80b0423a01caf2935f7e97d164b0e37",
-      "duplicateStatus": "unique"
-    },
-    {
-      "id": "santipur-festival-001",
-      "title": "Maa Bamakali Nighttime Dancing Immersion",
-      "category": "festivals",
-      "subcategory": "kali-puja-procession",
-      "location": "Babla Ghat & Main Parikrama Marg, Santipur, Nadia",
-      "originalFilename": "Cultural images/বামাকালী মাতা.png",
-      "productionPath": "/images/santipur/festivals/santipur-bamakali-night-immersion-01.png",
-      "sourcePage": "Bamakali Youth Sevak Sangha Archive",
-      "originalImageUrl": "Cultural images/বামাকালী মাতা.png",
-      "photographerOrOwner": "Bamakali Youth Sevak Sangha",
-      "license": "Local Heritage Archive / Authorized",
-      "permissionStatus": "owner-authorized",
-      "verified": true,
-      "recommendedPlacement": [
-        "festivals-kali-puja-feature",
-        "heritage-gallery-festivals"
-      ],
-      "verificationNotes": "Devotees balancing the massive clay idol of Maa Bamakali upon bare shoulders while dancing rhythmically across midnight streets.",
-      "fileExists": true,
-      "fileSizeBytes": 1794547,
-      "sha256Hash": "45b7c164fd99de655e69c7db5ccc8f15035da16ef449c9066ee95cb2f6f9e652",
       "duplicateStatus": "unique"
     },
     {
