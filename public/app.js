@@ -169,6 +169,52 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
+    // Educational Institutes (Colleges & Schools)
+    if (Array.isArray(appData.educational_institutes)) {
+      appData.educational_institutes.forEach(e => {
+        list.push({
+          id: e.id,
+          type: 'education',
+          category_en: e.category_en,
+          category_bn: e.category_bn,
+          badge_en: e.established_year,
+          badge_bn: e.established_year_bn,
+          name_en: e.name_en,
+          name_bn: e.name_bn,
+          desc_en: e.history_en,
+          desc_bn: e.history_bn,
+          location: e.address,
+          location_pin: 'https://maps.google.com/?q=' + encodeURIComponent(e.name_en + ' Shantipur'),
+          image_url: getResolvedCover(e.id, e.image_url),
+          slot_key: `edu_${e.id}`,
+          raw: e
+        });
+      });
+    }
+
+    // Official & Civic Institutes
+    if (Array.isArray(appData.official_institutes)) {
+      appData.official_institutes.forEach(o => {
+        list.push({
+          id: o.id,
+          type: 'official',
+          category_en: o.category_en,
+          category_bn: o.category_bn,
+          badge_en: o.badge_en || o.established_year,
+          badge_bn: o.badge_bn || o.established_year_bn,
+          name_en: o.name_en,
+          name_bn: o.name_bn,
+          desc_en: o.history_en,
+          desc_bn: o.history_bn,
+          location: o.address,
+          location_pin: 'https://maps.google.com/?q=' + encodeURIComponent(o.name_en + ' Shantipur'),
+          image_url: getResolvedCover(o.id, o.image_url),
+          slot_key: `off_${o.id}`,
+          raw: o
+        });
+      });
+    }
+
     return list;
   }
 
@@ -187,6 +233,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     else if (activeTab === 'temples') items = items.filter(i => i.type === 'temple');
     else if (activeTab === 'handloom') items = items.filter(i => i.type === 'handloom');
     else if (activeTab === 'artisans') items = items.filter(i => i.type === 'artisan');
+    else if (activeTab === 'education') items = items.filter(i => i.type === 'education');
+    else if (activeTab === 'official') items = items.filter(i => i.type === 'official');
 
     // Filter by search inputs
     const query = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
@@ -211,6 +259,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       else if (cat === 'temples') items = items.filter(i => i.type === 'temple');
       else if (cat === 'tant') items = items.filter(i => i.type === 'handloom');
       else if (cat === 'sweets') items = items.filter(i => i.type === 'artisan');
+      else if (cat === 'education') items = items.filter(i => i.type === 'education');
+      else if (cat === 'official') items = items.filter(i => i.type === 'official');
     }
 
     if (items.length === 0) {
@@ -343,6 +393,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       assets = assets.filter(a => a.category === 'handloom');
     } else if (activeGalleryCategory === 'historical-landmarks') {
       assets = assets.filter(a => a.category === 'historical-landmarks' || a.category === 'city-photography' || a.category === 'markets');
+    } else if (activeGalleryCategory === 'institutions') {
+      assets = assets.filter(a => a.category === 'institutions' || a.category === 'civic');
     } else if (activeGalleryCategory === 'businesses') {
       assets = assets.filter(a => a.category === 'businesses' || !a.verified);
     }
@@ -546,6 +598,37 @@ document.addEventListener('DOMContentLoaded', async () => {
           <p class="text-xs text-[#202020] leading-relaxed bg-[#FAFAF8] p-3 rounded-lg border border-[#EAEAEA]">
             ${rituals}
           </p>
+        </div>
+      `;
+    } else if (item.type === 'education') {
+      const founder = item.raw.founder ? `<p class="text-xs text-[#444444] mb-1"><strong class="text-[#202020]">${lang === 'en' ? 'Founder / Patron:' : 'প্রতিষ্ঠাতা / পৃষ্ঠপোষক:'}</strong> ${item.raw.founder}</p>` : '';
+      const affil = item.raw.affiliation ? `<p class="text-xs text-[#444444] mb-1"><strong class="text-[#202020]">${lang === 'en' ? 'Affiliation & Accreditation:' : 'অনুমোদন ও স্বীকৃতি:'}</strong> ${item.raw.affiliation}</p>` : '';
+      const portal = item.raw.official_website || item.raw.official_portal ? `<p class="text-xs text-[#444444]"><strong class="text-[#202020]">${lang === 'en' ? 'Official Portal:' : 'অফিসিয়াল পোর্টাল:'}</strong> <a href="${item.raw.official_website || item.raw.official_portal}" target="_blank" rel="noopener noreferrer" class="text-[#D94B42] hover:underline font-semibold">${item.raw.official_website || item.raw.official_portal}</a></p>` : '';
+      extraDetails = `
+        <div class="mt-4 pt-4 border-t border-[#EAEAEA]">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#D94B42] mb-1.5">
+            ${lang === 'en' ? 'Academic Credentials & Heritage Background' : 'একাডেমিক বিবরণ ও ঐতিহ্যগত পটভূমি'}
+          </h4>
+          <div class="bg-[#FAFAF8] p-3 rounded-lg border border-[#EAEAEA] space-y-1">
+            ${founder}
+            ${affil}
+            ${portal}
+          </div>
+        </div>
+      `;
+    } else if (item.type === 'official') {
+      const contact = item.raw.contact ? `<p class="text-xs text-[#444444] mb-1"><strong class="text-[#202020]">${lang === 'en' ? 'Helpline / Contact:' : 'যোগাযোগ ও হেল্পলাইন:'}</strong> ${item.raw.contact}</p>` : '';
+      const portal = item.raw.official_website ? `<p class="text-xs text-[#444444] mb-1"><strong class="text-[#202020]">${lang === 'en' ? 'Official Portal:' : 'অফিসিয়াল পোর্টাল:'}</strong> <a href="${item.raw.official_website}" target="_blank" rel="noopener noreferrer" class="text-[#D94B42] hover:underline font-semibold">${item.raw.official_website}</a></p>` : '';
+      extraDetails = `
+        <div class="mt-4 pt-4 border-t border-[#EAEAEA]">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#D94B42] mb-1.5">
+            ${lang === 'en' ? 'Civic Administration & Public Welfare' : 'প্রশাসনিক অধিক্ষেত্র ও নাগরিক পরিষেবা'}
+          </h4>
+          <div class="bg-[#FAFAF8] p-3 rounded-lg border border-[#EAEAEA] space-y-1">
+            <p class="text-xs text-[#444444] mb-1"><strong class="text-[#202020]">${lang === 'en' ? 'Office Location:' : 'কার্যালয়ের ঠিকানা:'}</strong> ${item.location}</p>
+            ${contact}
+            ${portal}
+          </div>
         </div>
       `;
     }

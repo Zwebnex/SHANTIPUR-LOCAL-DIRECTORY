@@ -461,6 +461,300 @@
       },
       gallery: [],
       notes: "Traditional metalsmiths crafting sonorous puja ghanta bells, heavy brass dhunuchis, and ceremonial bhog platters."
+    },
+
+    // =========================================================================
+    // 5. EDUCATIONAL INSTITUTIONS (COLLEGES & SCHOOLS)
+    // =========================================================================
+    "santipur_college": {
+      id: "santipur_college",
+      name: "Santipur College (Est. 1948)",
+      bengaliName: "শান্তিপুর কলেজ (স্থাপিত ১৯৪৮)",
+      category: "educational-institutes",
+      location: "N.S. Road, Santipur, Nadia, West Bengal - 741404",
+      deity: "Higher Education & Research Institution",
+      image: {
+        path: "/images/santipur/institutions/santipur-college-campus-01.jpg",
+        type: "temple-exterior",
+        verified: true,
+        source: "Santipur College Official Portal (santipurcollege.ac.in)",
+        license: "Official Institution Media / Public Information",
+        permissionStatus: "owner-authorized",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: false,
+        type: "none"
+      },
+      gallery: [],
+      notes: "Established July 22, 1948 by Pandit Lakshmi Kanta Moitra (Member of Constituent Assembly). Affiliated to University of Kalyani, UGC 2(f) & 12(B), NAAC Accredited."
+    },
+
+    "santipur_municipal_high_school": {
+      id: "santipur_municipal_high_school",
+      name: "Santipur Municipal High School (Est. 1854)",
+      bengaliName: "শান্তিপুর মিউনিসিপ্যাল হাই স্কুল (স্থাপিত ১৮৫৪)",
+      category: "educational-institutes",
+      location: "Shyamchandpara, Ward No. 8, Santipur, Nadia - 741404",
+      deity: "Heritage Higher Secondary School",
+      image: {
+        path: "/images/santipur/institutions/santipur-municipal-high-school-01.jpg",
+        type: "temple-exterior",
+        verified: true,
+        source: "Santipur Municipal High School Portal (smhshs.myschoolserver.com)",
+        license: "Official School Media / Educational Directory",
+        permissionStatus: "owner-authorized",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: false,
+        type: "none"
+      },
+      gallery: [],
+      notes: "Founded in 1854, one of the oldest schools in Nadia and Bengal. WBBSE & WBCHSE recognized, educating generations of scholars across 170 continuous years."
+    },
+
+    "radharani_nari_siksha_mandir": {
+      id: "radharani_nari_siksha_mandir",
+      name: "Radharani Nari Siksha Mandir (Est. 1934)",
+      bengaliName: "রাধারানী নারী শিক্ষা মন্দির (স্থাপিত ১৯৩৪)",
+      category: "educational-institutes",
+      location: "25 K.B. Pramanick Street, Madangopal Para, Ward 12, Santipur - 741404",
+      deity: "Pioneering Girls' Higher Secondary School",
+      image: {
+        path: "/images/santipur/institutions/santipur-radharani-nari-siksha-mandir-01.jpg",
+        type: "temple-exterior",
+        verified: true,
+        source: "Radharani Nari Siksha Mandir Official Portal (radharaninarisikshamandir.in)",
+        license: "Official Institution Media / Authorized",
+        permissionStatus: "owner-authorized",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: false,
+        type: "none"
+      },
+      gallery: [],
+      notes: "Established in 1934 as Shantipur Girls' High School, celebrating nine decades of dedicated female education and empowerment in Nadia district."
+    },
+
+    "sutragarh_mn_high_school": {
+      id: "sutragarh_mn_high_school",
+      name: "Sutragarh M.N. High School (Est. 1872)",
+      bengaliName: "সূত্রগড় এম.এন. উচ্চ বিদ্যালয় (স্থাপিত ১৮৭২)",
+      category: "educational-institutes",
+      location: "K.C. Das Road, Sutragarh, Ward 19, Santipur - 741404",
+      deity: "Historic Higher Secondary School",
+      image: {
+        path: DEFAULT_OM_PLACEHOLDER,
+        type: "supporting-image",
+        verified: false,
+        source: "Sacred Golden Om Heritage Archival Placeholder",
+        license: "Santipur Heritage Directory System",
+        permissionStatus: "pending_verification",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: true,
+        type: "golden-om"
+      },
+      gallery: [],
+      notes: "Established Nov 13, 1872 in the heart of Sutragarh's weaving community; elevated to High School in 1900 with generous land patronage."
+    },
+
+    "santipur_oriental_academy": {
+      id: "santipur_oriental_academy",
+      name: "Santipur Oriental Academy (Est. 1895)",
+      bengaliName: "শান্তিপুর ওরিয়েন্টাল একাডেমি (স্থাপিত ১৮৯৫)",
+      category: "educational-institutes",
+      location: "Nirmalendu Lahiri Street, Ward 14, Santipur - 741404",
+      deity: "Heritage Secondary School",
+      image: {
+        path: DEFAULT_OM_PLACEHOLDER,
+        type: "supporting-image",
+        verified: false,
+        source: "Sacred Golden Om Heritage Archival Placeholder",
+        license: "Santipur Heritage Directory System",
+        permissionStatus: "pending_verification",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: true,
+        type: "golden-om"
+      },
+      gallery: [],
+      notes: "Founded in 1895 during the Bengal Renaissance, blending oriental literature and modern science education for 130 years."
+    },
+
+    "santipur_hindu_high_school": {
+      id: "santipur_hindu_high_school",
+      name: "Santipur Hindu High School (Est. 1917)",
+      bengaliName: "শান্তিপুর হিন্দু হাই স্কুল (স্থাপিত ১৯১৭)",
+      category: "educational-institutes",
+      location: "69 Kashyap Para Road, Madangopal Para, Ward 6, Santipur - 741404",
+      deity: "Heritage Higher Secondary School",
+      image: {
+        path: DEFAULT_OM_PLACEHOLDER,
+        type: "supporting-image",
+        verified: false,
+        source: "Sacred Golden Om Heritage Archival Placeholder",
+        license: "Santipur Heritage Directory System",
+        permissionStatus: "pending_verification",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: true,
+        type: "golden-om"
+      },
+      gallery: [],
+      notes: "Established 1917 (heritage traces to 1855), renowned for classical Sanskrit studies, cultural heritage, and disciplined academics."
+    },
+
+    "saratkumari_girls_high_school": {
+      id: "saratkumari_girls_high_school",
+      name: "Saratkumari Girls' High School (Est. 1917)",
+      bengaliName: "শরৎকুমারী বালিকা বিদ্যালয় (স্থাপিত ১৯১৭)",
+      category: "educational-institutes",
+      location: "Lenin Sarani, Laxmitala, Ward 8, Santipur - 741404",
+      deity: "Historic Girls' High School",
+      image: {
+        path: DEFAULT_OM_PLACEHOLDER,
+        type: "supporting-image",
+        verified: false,
+        source: "Sacred Golden Om Heritage Archival Placeholder",
+        license: "Santipur Heritage Directory System",
+        permissionStatus: "pending_verification",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: true,
+        type: "golden-om"
+      },
+      gallery: [],
+      notes: "Established in 1917, over a century of dedicated women's literacy and empowerment near the historic Laxmitala commercial core."
+    },
+
+    // =========================================================================
+    // 6. OFFICIAL & CIVIC INSTITUTIONS
+    // =========================================================================
+    "shantipur_municipality": {
+      id: "shantipur_municipality",
+      name: "Shantipur Municipality (Est. 1853)",
+      bengaliName: "শান্তিপুর পুরসভা (স্থাপিত ১৮৫৩)",
+      category: "civic-administration",
+      location: "20, Netaji Subhash Road, P.O. Santipur, Nadia - 741404",
+      deity: "Civic Administration & Municipal Government",
+      image: {
+        path: "/images/santipur/institutions/santipur-municipality-building-01.jpg",
+        type: "temple-exterior",
+        verified: true,
+        source: "Shantipur Municipality Official Portal (santipurmunicipality.org)",
+        license: "Public Domain / Official Municipal Portal",
+        permissionStatus: "owner-authorized",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: false,
+        type: "none"
+      },
+      gallery: [],
+      notes: "Founded in 1853, the 2nd oldest municipality in West Bengal (First Chairman: Iswar Chandra Ghoshal). Managing 24 wards across 25.88 sq. km."
+    },
+
+    "shantipur_railway_station": {
+      id: "shantipur_railway_station",
+      name: "Shantipur Junction Railway Station (STB)",
+      bengaliName: "শান্তিপুর জংশন রেলওয়ে স্টেশন (STB)",
+      category: "civic-administration",
+      location: "Station Road, Santipur, Nadia, West Bengal - 741404",
+      deity: "Eastern Railway (Sealdah Division)",
+      image: {
+        path: "/images/santipur/institutions/santipur-railway-station-01.jpg",
+        type: "temple-exterior",
+        verified: true,
+        source: "Wikimedia Commons (Pinakpani, 2022)",
+        license: "CC BY-SA 4.0",
+        permissionStatus: "owner-authorized",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: false,
+        type: "none"
+      },
+      gallery: [],
+      notes: "Established 1905, broad gauge electrified in 1963–64. Major EMU terminal connecting Shantipur directly with Sealdah and Krishnanagar City."
+    },
+
+    "santipur_state_general_hospital": {
+      id: "santipur_state_general_hospital",
+      name: "Santipur State General Hospital (131 Beds)",
+      bengaliName: "শান্তিপুর স্টেট জেনারেল হাসপাতাল (১৩১ শয্যা)",
+      category: "civic-administration",
+      location: "Hospital Road / Adwaita Sarak, Santipur, Nadia - 741404",
+      deity: "Public Healthcare & Emergency Care",
+      image: {
+        path: DEFAULT_OM_PLACEHOLDER,
+        type: "supporting-image",
+        verified: false,
+        source: "Sacred Golden Om Heritage Archival Placeholder",
+        license: "Santipur Heritage Directory System",
+        permissionStatus: "pending_verification",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: true,
+        type: "golden-om"
+      },
+      gallery: [],
+      notes: "131-bed apex state government hospital offering round-the-clock emergency, trauma, maternity, OPD, and pathology services."
+    },
+
+    "santipur_police_station": {
+      id: "santipur_police_station",
+      name: "Santipur Police Station (Ranaghat District)",
+      bengaliName: "শান্তিপুর থানা (রানাঘাট পুলিশ জেলা)",
+      category: "civic-administration",
+      location: "Shyamchandpara (Near Shyamchand Mandir), Santipur, Nadia - 741404",
+      deity: "Civil Safety & Law Enforcement",
+      image: {
+        path: DEFAULT_OM_PLACEHOLDER,
+        type: "supporting-image",
+        verified: false,
+        source: "Sacred Golden Om Heritage Archival Placeholder",
+        license: "Santipur Heritage Directory System",
+        permissionStatus: "pending_verification",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: true,
+        type: "golden-om"
+      },
+      gallery: [],
+      notes: "Sub-divisional police station under Ranaghat Police District, protecting 111.94 sq. km across municipal and CD block areas."
+    },
+
+    "santipur_public_library": {
+      id: "santipur_public_library",
+      name: "Santipur Public Library (Sadharan Pathagar, Est. 1912)",
+      bengaliName: "শান্তিপুর সাধারণ পাঠাগার (স্থাপিত ১৯১২)",
+      category: "civic-administration",
+      location: "Madangopal Para, Santipur, Nadia - 741404",
+      deity: "Cultural & Literary Research Archive",
+      image: {
+        path: DEFAULT_OM_PLACEHOLDER,
+        type: "supporting-image",
+        verified: false,
+        source: "Sacred Golden Om Heritage Archival Placeholder",
+        license: "Santipur Heritage Directory System",
+        permissionStatus: "pending_verification",
+        aspectRatio: "16:9"
+      },
+      placeholder: {
+        enabled: true,
+        type: "golden-om"
+      },
+      gallery: [],
+      notes: "Founded in 1912, housing rare Sanskrit manuscripts, Vaishnava texts, and historic Bengal periodicals over 112 years."
     }
   };
 
