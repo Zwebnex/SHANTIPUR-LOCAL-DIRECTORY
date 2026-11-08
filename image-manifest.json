@@ -3,6 +3,13 @@
   "generated_at": "2026-11-08T11:16:00Z",
   "asset_mappings": [
     {
+      "section": "Global Header & Branding",
+      "listing_name": "Official Santipur Local Directory Logo",
+      "source_filename": "media_1794117760671_daa6eb28.jpg",
+      "target_image_path": "uploads/logo.png",
+      "reason_for_match": "Official circular emblem logo featuring Shantipur heritage temple, traditional handloom weaving loom, and Santipur Local Directory typography."
+    },
+    {
       "section": "Homepage Hero",
       "listing_name": "Hero Section Background",
       "source_filename": "media_1794115031342_ba5b1ba8.jpg",
@@ -74,3 +81,4 @@
     }
   ]
 }
+
