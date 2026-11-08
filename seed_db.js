@@ -147,8 +147,8 @@ const shrines = [
   },
   {
     id: "chaduni_mata",
-    name_en: "Ghor Chaduni & Bahir Chaduni Mata",
-    name_bn: "ঘর চাঁদুনী ও বাহির চাঁদুনী মাতা",
+    name_en: "Ghor Chaduni & Bahir Chaduni Mata (Chanduni Bari)",
+    name_bn: "ঘর চাঁদুনী ও বাহির চাঁদুনী মাতা (চাঁদুনী বাড়ি)",
     age_years: 450,
     ward_location: "Chanduni Bari, Ward 14, Shantipur",
     location_pin: "https://maps.google.com/?q=Chanduni+Bari+Shantipur",
@@ -179,7 +179,7 @@ const shrines = [
   },
   {
     id: "siddheswari",
-    name_en: "Siddheswari Kali Mandir",
+    name_en: "Siddheswari Kali Mandir (Sutragarh)",
     name_bn: "সিদ্ধেশ্বরী কালী মন্দির (সূত্রাগড়)",
     age_years: 380,
     ward_location: "K.C. Das Road, Sutragarh, Shantipur",
@@ -198,8 +198,8 @@ const shrines = [
 const temples = [
   {
     id: "boro_goswami_bari",
-    name_en: "Boro Goswami Bari",
-    name_bn: "বড় গোস্বামী বাড়ি",
+    name_en: "Sri Sri Radha Raman Jiu (Boro Goswami Bari)",
+    name_bn: "শ্রী শ্রী রাধারমণ জিউ (বড় গোস্বামী বাড়ি)",
     founded_year: "1484 CE (~540 Years)",
     tradition: "Gaudiya Vaishnavism / Advaita Lineage",
     significance_en: "The ancestral seat of Sri Advaita Acharya's lineage. Houses the revered Sri Sri Radha Raman Jiu deity. Site of the celebrated historic Shakta-Vaishnava truce and epicenter of the 400-year-old Shantipur Bhanga Rash chariot and procession.",
@@ -209,7 +209,7 @@ const temples = [
   {
     id: "shyamchand_mandir",
     name_en: "Shyamchand Mandir (1726 CE)",
-    name_bn: "শ্যামচাঁদ মন্দির (১৭২৬ খ্রিস্টাব্দ)",
+    name_bn: "শ্রী শ্যামচাঁদ জিউ মন্দির (১৭২৬ খ্রি.)",
     founded_year: "1726 CE (~300 Years)",
     tradition: "Terracotta Atchala Architecture",
     significance_en: "One of Bengal's grandest Atchala (eight-roofed) brick temples, erected in Shyamchandpara by wealthy textile merchant Ramgopal Khan Chowdhury. Undeniable architectural proof of how Shantipur's 18th-century handloom fortunes built its sacred skyline.",
@@ -218,8 +218,8 @@ const temples = [
   },
   {
     id: "jaleswar_shiva",
-    name_en: "Jaleswar Shiva Temple",
-    name_bn: "জলেশ্বর শিব মন্দির (চারচালা টেরাকোটা)",
+    name_en: "Jaleswar Shiva Temple (ASI Protected)",
+    name_bn: "শ্রী জলেশ্বর মহাদেব মন্দির (এএসআই চারচালা)",
     founded_year: "Early 18th Century",
     tradition: "Shaiva Charchala Terracotta",
     significance_en: "Protected Monument (ASI N-WB-54-d) constructed under Maharaja Raghuram Roy of Nadia. Houses a self-manifested (Swayambhu) Shiva Lingam with intact terracotta panels depicting puranic battles.",
@@ -242,7 +242,7 @@ const handloom_clusters = [
   {
     id: "sutragarh_cluster",
     name_en: "Sutragarh Master Weavers Hub",
-    name_bn: "সূত্রাগড় তাঁত শিল্প এলাকা",
+    name_bn: "সূত্রাগড় প্রধান তাঁতি পল্লী ও বয়ন কেন্দ্র",
     cluster_area: "Sutragarh & K.C. Das Road",
     specialty_en: "GI-Tagged Pure Shantipuri Tant Sarees with 100x100 ultrafine combed cotton, Jacquard borders, and signature Guti Bhanj pleat.",
     specialty_bn: "১০০x১০০ সুক্ষ্ম সুতোর খাঁটি শান্তিপুরী তাঁত, জটিল জাকোয়ার্ড নকশা এবং ঐতিহ্যবাহী গুটি ভাঁজ।",
@@ -312,7 +312,7 @@ const artisans_and_sweets = [
   {
     id: "sutragarh_mritsilpi",
     title_en: "Sutragarh Clay Idol & Terracotta Sculptors",
-    title_bn: "সূত্রাগড় মৃৎশিল্পী সমিতি (প্রতিমা ও পুতুল)",
+    title_bn: "সূত্রাগড় মৃৎশিল্পী সমিতি (কালীপ্রতিমা ও ভাস্কর্য)",
     category: "Sculpture & Sacred Art",
     origin_era: "15th Century (Advaita Era)",
     description_en: "Generations of master clay artisans who sculpt Shantipur's soaring Kali idols and Bhanga Rash clay tableaus using sacred Ganga silt and straw frames.",
@@ -323,7 +323,7 @@ const artisans_and_sweets = [
   {
     id: "kansha_pitul_guild",
     title_en: "Kansha-Pitul (Antique Bell Metal & Brass Guild)",
-    title_bn: "কাঁসা ও পিতল কারুশিল্প গিল্ড",
+    title_bn: "কাঁসা ও পিতল কারুশিল্প গিল্ড (পূজার সামগ্রী ও ধুনুচি)",
     category: "Bell Metal Metalcraft",
     origin_era: "17th Century",
     description_en: "Traditional metal smiths crafting sonorous puja ghanta (bells), heavy brass dhunuchis for aarti, and ceremonial bhog platters.",

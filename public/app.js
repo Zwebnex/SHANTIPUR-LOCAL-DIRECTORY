@@ -670,19 +670,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (estWalkEl) estWalkEl.textContent = `${walkMins} ${lang === 'en' ? 'Mins' : 'মিনিট'}`;
 
     if (selectedListEl && appData) {
-      selectedListEl.innerHTML = appData.shrines.map(s => {
+      const allParikramaSpots = [...appData.shrines, ...appData.temples];
+      selectedListEl.innerHTML = allParikramaSpots.map(s => {
         const isChecked = selectedShrinesForParikrama.has(s.id);
         const name = lang === 'en' ? s.name_en : s.name_bn;
+        const loc = s.ward_location || s.tradition;
+        const badge = s.age_years ? `~${s.age_years} ${lang === 'en' ? 'Yrs' : 'বছর'}` : (s.founded_year || 'Heritage');
         return `
           <label class="flex items-center justify-between p-3 rounded-lg border ${isChecked ? 'bg-[#FAFAF8] border-[#D94B42]/40' : 'bg-white border-[#EAEAEA]'} cursor-pointer hover:border-gray-300 transition-colors">
             <div class="flex items-center gap-3">
               <input type="checkbox" onchange="window.toggleParikramaShrine('${s.id}')" ${isChecked ? 'checked' : ''} class="w-4 h-4 text-[#D94B42] rounded border-gray-300 focus:ring-[#D94B42]">
               <div>
                 <span class="text-xs font-semibold text-[#202020] block">${name}</span>
-                <span class="text-[11px] text-[#777777]">${s.ward_location}</span>
+                <span class="text-[11px] text-[#777777]">${loc}</span>
               </div>
             </div>
-            <span class="text-[11px] font-mono text-gray-500">~${s.age_years} Yrs</span>
+            <span class="text-[11px] font-mono text-gray-500">${badge}</span>
           </label>
         `;
       }).join('');
@@ -692,7 +695,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Offline Parikrama Pass Downloader
   window.downloadParikramaPass = function() {
     if (!appData) return;
-    const selected = appData.shrines.filter(s => selectedShrinesForParikrama.has(s.id));
+    const allParikramaSpots = [...appData.shrines, ...appData.temples];
+    const selected = allParikramaSpots.filter(s => selectedShrinesForParikrama.has(s.id));
 
     let passText = `=========================================\n`;
     passText += `  SHANTIPUR HERITAGE PARIKRAMA PASS\n`;
@@ -704,9 +708,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     passText += `OPTIMIZED CIRCUIT ROUTE:\n`;
 
     selected.forEach((s, idx) => {
-      passText += `[${idx + 1}] ${s.name_en} (~${s.age_years} Years)\n`;
-      passText += `    Ward: ${s.ward_location}\n`;
-      passText += `    Ritual Note: ${s.rituals_en}\n\n`;
+      const title = s.name_en || s.name_bn;
+      const age = s.age_years ? `~${s.age_years} Years` : (s.founded_year || 'Heritage');
+      const loc = s.ward_location || s.tradition;
+      const note = s.rituals_en || s.significance_en || '';
+      passText += `[${idx + 1}] ${title} (${age})\n`;
+      passText += `    Location: ${loc}\n`;
+      if (note) passText += `    Heritage Note: ${note}\n`;
+      passText += `\n`;
     });
 
     passText += `KEY FESTIVAL RITUALS:\n`;

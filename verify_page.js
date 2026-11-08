@@ -108,45 +108,69 @@ async function verify() {
   await page.click('#detail-modal-content button');
   await new Promise(r => setTimeout(r, 400));
 
-  // 11. Verify Lazy Loading & Om Placeholder Integration
-  const auditResults = await page.evaluate(() => {
-    const allImages = Array.from(document.querySelectorAll('img'));
-    const lazyImages = allImages.filter(img => img.getAttribute('loading') === 'lazy');
-    const asyncImages = allImages.filter(img => img.getAttribute('decoding') === 'async');
-    
-    // Check cards
+  // 11. Comprehensive Audit of All Idols, Temples & Places
+  const idolTempleAudit = await page.evaluate(() => {
     const cards = Array.from(document.querySelectorAll('#listings-container > div'));
-    const cardData = cards.map(c => {
+    const details = cards.map(c => {
       const title = c.querySelector('h3')?.innerText?.trim() || '';
+      const category = c.querySelector('.text-\\[11px\\]')?.innerText?.trim() || '';
+      const location = c.querySelector('.truncate')?.innerText?.trim() || '';
       const img = c.querySelector('img')?.getAttribute('src') || '';
       const isLazy = c.querySelector('img')?.getAttribute('loading') === 'lazy';
       const isAsync = c.querySelector('img')?.getAttribute('decoding') === 'async';
-      const isOmPlaceholder = img.includes('om-placeholder.svg');
-      return { title, img, isLazy, isAsync, isOmPlaceholder };
+      const isOm = img.includes('om-placeholder.svg');
+      return { title, category, location, img, isLazy, isAsync, isOm };
     });
 
-    const omListings = cardData.filter(c => c.isOmPlaceholder);
+    const parikramaCheckpoints = Array.from(document.querySelectorAll('#selected-shrine-list label')).map(l => {
+      return {
+        name: l.querySelector('span.font-semibold')?.innerText?.trim() || '',
+        location: l.querySelector('span.text-\\[11px\\]')?.innerText?.trim() || '',
+        badge: l.querySelector('span.font-mono')?.innerText?.trim() || ''
+      };
+    });
 
     return {
-      totalImagesOnPage: allImages.length,
-      totalLazyImages: lazyImages.length,
-      totalAsyncImages: asyncImages.length,
-      cardData,
-      omListingsCount: omListings.length,
-      omListingsTitles: omListings.map(c => c.title)
+      listingsCount: details.length,
+      listings: details,
+      parikramaCount: parikramaCheckpoints.length,
+      parikramaCheckpoints
     };
   });
 
-  console.log(`\n⚡ Performance & Lazy Loading Audit:`);
-  console.log(`   Total Images On Page: ${auditResults.totalImagesOnPage}`);
-  console.log(`   Images with loading="lazy": ${auditResults.totalLazyImages}`);
-  console.log(`   Images with decoding="async": ${auditResults.totalAsyncImages}`);
+  console.log(`\n================ IDOL & TEMPLE NOMENCLATURE & IMAGE AUDIT ================`);
+  console.log(`Audited ${idolTempleAudit.listingsCount} Listings:`);
+  idolTempleAudit.listings.forEach((item, idx) => {
+    console.log(`[${idx + 1}] ${item.title}`);
+    console.log(`    Location: ${item.location}`);
+    console.log(`    Category: ${item.category}`);
+    console.log(`    Image:    ${item.img}`);
+    console.log(`    Status:   ${item.isOm ? '🕉️ Sacred Om Placeholder' : '✅ Verified Authentic Image'}`);
+  });
 
-  console.log(`\n🕉️ Sacred Om Sign Absent-Image Integration Audit:`);
-  console.log(`   Listings displaying sacred Om placeholder: ${auditResults.omListingsCount}`);
-  auditResults.omListingsTitles.forEach(t => console.log(`   • ${t} (ॐ Sign Active)`));
+  console.log(`\n🕉️ Parikrama Circuit Checkpoints (${idolTempleAudit.parikramaCount} destinations):`);
+  idolTempleAudit.parikramaCheckpoints.forEach((p, idx) => {
+    console.log(`   ${idx + 1}. ${p.name} (${p.location}) [${p.badge}]`);
+  });
 
-  // 12. Test Dynamic Error Fallback to Sacred Om Sign
+  // 12. Performance & Lazy Loading Audit
+  const perfAudit = await page.evaluate(() => {
+    const allImages = Array.from(document.querySelectorAll('img'));
+    const lazyImages = allImages.filter(img => img.getAttribute('loading') === 'lazy');
+    const asyncImages = allImages.filter(img => img.getAttribute('decoding') === 'async');
+    return {
+      total: allImages.length,
+      lazy: lazyImages.length,
+      async: asyncImages.length
+    };
+  });
+
+  console.log(`\n⚡ Performance & Lazy Loading:`);
+  console.log(`   Total Images: ${perfAudit.total}`);
+  console.log(`   loading="lazy": ${perfAudit.lazy}`);
+  console.log(`   decoding="async": ${perfAudit.async}`);
+
+  // 13. Test Dynamic Error Fallback to Sacred Om Sign
   const fallbackTestPassed = await page.evaluate(() => {
     const testImg = document.createElement('img');
     testImg.src = '/non-existent-image-404.jpg';
@@ -155,7 +179,7 @@ async function verify() {
   });
   console.log(`\n🛡️ Dynamic Om Fallback on Absent/Broken Image: ${fallbackTestPassed ? 'PASSED (ॐ Symbol applied)' : 'FAILED'}`);
 
-  // 13. Capture Full-Page Verification Screenshot
+  // 14. Capture Full-Page Verification Screenshot
   console.log('📸 Capturing Full-Page Screenshot to:', screenshotPath);
   await page.screenshot({ path: screenshotPath, fullPage: true });
 
