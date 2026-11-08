@@ -158,6 +158,21 @@ async function verify() {
   const footerColumnsCount = await page.$$eval('footer .grid > div', els => els.length);
   console.log(`🏛️ Professional Footer Columns: ${footerColumnsCount} (Expected: 5)`);
 
+  // 10e. Verify ZWEBNEX Agency Attribution & Logos
+  const zwebnexCheck = await page.evaluate(() => {
+    const bannerImg = document.querySelector('img[src*="zwebnex-logo-banner.jpg"]');
+    const iconImg = document.querySelector('img[src*="zwebnex-icon-orange.jpg"]');
+    const footerText = document.querySelector('footer').innerText;
+    return {
+      hasBanner: !!bannerImg,
+      hasIcon: !!iconImg,
+      hasZwebnexText: footerText.includes('ZWEBNEX'),
+      hasFoundersText: footerText.includes('Shankha Subhra Sadhukhan') && footerText.includes('Bipra Das'),
+      hasDesignerText: footerText.includes('Website Designed by')
+    };
+  });
+  console.log(`🚀 ZWEBNEX Agency Attribution: Banner=${zwebnexCheck.hasBanner}, Icon=${zwebnexCheck.hasIcon}, Founders=${zwebnexCheck.hasFoundersText}, Designer=${zwebnexCheck.hasDesignerText}`);
+
   // 11. Comprehensive Audit of All Idols, Temples & Places
   const idolTempleAudit = await page.evaluate(() => {
     const cards = Array.from(document.querySelectorAll('#listings-container > div'));
