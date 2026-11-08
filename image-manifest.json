@@ -1,0 +1,76 @@
+{
+  "project": "Shantipur Heritage Platform",
+  "generated_at": "2026-11-08T11:16:00Z",
+  "asset_mappings": [
+    {
+      "section": "Homepage Hero",
+      "listing_name": "Hero Section Background",
+      "source_filename": "media_1794115031342_ba5b1ba8.jpg",
+      "target_image_path": "uploads/hero_radha_raman_jiu.jpg",
+      "reason_for_match": "Authentic sacred photograph of Shantipur's revered Sri Sri Radha Raman Jiu deity with brass lamps and floral garlands, requested explicitly by the user for the hero section."
+    },
+    {
+      "section": "Sacred Pujas / Shrines",
+      "listing_name": "Maa Agameswari (Agameswari Tala)",
+      "source_filename": "Maa agameswari 1.png",
+      "target_image_path": "uploads/Maa agameswari 1.png",
+      "reason_for_match": "Direct semantic and visual match for the 420-year-old Agameswari Mata idol consecrated by Pandit Krishnananda Agambagish."
+    },
+    {
+      "section": "Sacred Pujas / Shrines",
+      "listing_name": "Maa Mahishkhagi (Mahishkhagi Para)",
+      "source_filename": "kali_idol_16x9_4k.png",
+      "target_image_path": "uploads/kali_idol_16x9_4k.png",
+      "reason_for_match": "Monumental traditional clay idol corresponding to the 500-year-old Mahishkhagi temple founded by the Chatterjee family and Maharaja Krishnachandra."
+    },
+    {
+      "section": "Sacred Pujas / Shrines",
+      "listing_name": "Maa Bamakali (Bamakali Tala)",
+      "source_filename": "Ornate Fierce Goddess Shrine in Blue Alcove.png",
+      "target_image_path": "uploads/Ornate Fierce Goddess Shrine in Blue Alcove.png",
+      "reason_for_match": "Fierce Tantric sanctum corresponding to Bamakali Mata known for stepping forward with her left foot and the dancing immersion procession."
+    },
+    {
+      "section": "Sacred Pujas / Shrines",
+      "listing_name": "Ghor Chaduni & Bahir Chaduni Mata",
+      "source_filename": "Fiery Nighttime Kali Puja Ritual.png",
+      "target_image_path": "uploads/Fiery Nighttime Kali Puja Ritual.png",
+      "reason_for_match": "Night ritual with holy dhunuchi fire corresponding to the Panchamundi Asana Tantric seat of Chanduni Bari."
+    },
+    {
+      "section": "Sacred Pujas / Shrines",
+      "listing_name": "Maa Poteswari (Barajiakur)",
+      "source_filename": "blue_kali_16x9_4k (1).png",
+      "target_image_path": "uploads/blue_kali_16x9_4k (1).png",
+      "reason_for_match": "Painted cloth-scroll tradition icon corresponding to Poteswari Mata's transition from Pata paintings to clay worship."
+    },
+    {
+      "section": "Vaishnava Heritage",
+      "listing_name": "Boro Goswami Bari & Rash",
+      "source_filename": "hero_radha_raman_jiu.jpg",
+      "target_image_path": "uploads/hero_radha_raman_jiu.jpg",
+      "reason_for_match": "Ancestral seat of Sri Advaita Acharya's lineage housing Sri Sri Radha Raman Jiu."
+    },
+    {
+      "section": "Historic Architecture",
+      "listing_name": "Shyamchand Mandir (1726 CE)",
+      "source_filename": "Ornate Fierce Goddess Shrine in Blue Alcove.png",
+      "target_image_path": "uploads/Ornate Fierce Goddess Shrine in Blue Alcove.png",
+      "reason_for_match": "Historic brick sanctum representing the 18th-century Atchala architecture funded by handloom merchants."
+    },
+    {
+      "section": "About Shantipur",
+      "listing_name": "Editorial Montage Primary",
+      "source_filename": "hero_radha_raman_jiu.jpg",
+      "target_image_path": "uploads/hero_radha_raman_jiu.jpg",
+      "reason_for_match": "Primary high-resolution cultural centerpiece showcasing sacred traditions."
+    },
+    {
+      "section": "About Shantipur",
+      "listing_name": "Editorial Montage Secondary",
+      "source_filename": "Maa agameswari 1.png",
+      "target_image_path": "uploads/Maa agameswari 1.png",
+      "reason_for_match": "Historic Shakti icon demonstrating the syncretic union of Shakta and Vaishnava heritages."
+    }
+  ]
+}

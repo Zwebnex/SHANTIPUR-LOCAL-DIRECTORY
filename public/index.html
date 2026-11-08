@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHANTIPUR | 500 Years Where Tantric Fire Meets the Loom (PIN: 741404)</title>
+  <title>Shantipur Heritage | Official Cultural Directory & Living History (PIN: 741404)</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <meta name="description" content="Autonomous cultural heritage engine for Shantipur, Nadia, West Bengal. Explore 500-year-old Kali Pujas, sacred Vaishnava sanctuaries, GI-tagged handloom weaves, and living lore in Zero-Gravity.">
+  <meta name="description" content="Discover the living cultural heritage of Shantipur, Nadia, West Bengal. Explore centuries of sacred traditions, historic 1726 CE temples, 500-year Kali Pujas, Vaishnava sanctuaries and GI-tagged Shantipuri handloom.">
 
-  <!-- Google Fonts: Cinzel & Inter -->
+  <!-- Inter & Plus Jakarta Sans Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,16 +19,17 @@
       theme: {
         extend: {
           colors: {
-            'bg-obsidian': '#07060B',
-            'accent-sindoor': '#D92626',
-            'accent-coral': '#FA5C38',
-            'accent-kansha': '#D4AF37',
-            'surface-kora': '#F6F2E6',
-            'accent-vaishnava': '#E88D2A'
+            'bg-base': '#FAFAF8',
+            'text-main': '#202020',
+            'text-muted': '#777777',
+            'accent-red': '#D94B42',
+            'accent-red-hover': '#B53830',
+            'accent-gold': '#B79550',
+            'border-light': '#EAEAEA',
+            'surface-white': '#FFFFFF'
           },
           fontFamily: {
-            serif: ['Cinzel', 'Tiro Bangla', 'serif'],
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
             bangla: ['Tiro Bangla', 'serif']
           }
         }
@@ -37,516 +38,510 @@
   </script>
 
   <style>
-    :root {
-      --bg-obsidian: #07060B;
-      --accent-sindoor: #D92626;
-      --accent-kansha: #D4AF37;
-      --surface-kora: #F6F2E6;
-      --accent-vaishnava: #E88D2A;
-    }
-
     body {
-      background-color: #07060B;
-      color: #F6F2E6;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      overflow-x: hidden;
-      selection-background-color: #D92626;
-      selection-color: #ffffff;
+      background-color: #FAFAF8;
+      color: #202020;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Style Reference Glassmorphism */
-    .glass-nav {
-      background: rgba(7, 6, 11, 0.75);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    .hero-bg {
+      background: linear-gradient(rgba(18, 16, 22, 0.65), rgba(18, 16, 22, 0.82)), url('uploads/hero_radha_raman_jiu.jpg') center/cover no-repeat;
     }
 
-    .glass-card {
-      background: rgba(19, 16, 28, 0.7);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(212, 175, 55, 0.25);
-    }
-
-    .glass-pill {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    /* Zero-G Floating Mode vs Bento Grid Mode */
-    .zero-g-mode {
-      perspective: 1200px;
-    }
-
-    .bento-grid-mode {
-      display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
-      gap: 2rem !important;
-    }
-
-    .bento-grid-mode .zero-g-floater {
-      transform: none !important;
-      transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
-    }
-
-    /* Loupe Hover Effect */
-    .loupe-image {
-      transition: transform 0.4s ease;
-    }
-    .loupe-image:hover {
-      transform: scale(1.3);
-      cursor: zoom-in;
-    }
-
-    /* Custom Scrollbar */
     ::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #07060B;
+      background: #FAFAF8;
     }
     ::-webkit-scrollbar-thumb {
-      background: #D92626;
-      border-radius: 4px;
+      background: #D94B42;
+      border-radius: 3px;
     }
   </style>
 </head>
-<body class="relative min-h-screen text-slate-100 antialiased selection:bg-[#D92626] selection:text-white">
+<body class="min-h-screen flex flex-col bg-[#FAFAF8] text-[#202020]">
 
-  <!-- Zero-Gravity Cultural Particle Canvas -->
-  <canvas id="cultural-particle-canvas" class="fixed inset-0 pointer-events-none z-10"></canvas>
-
-  <!-- Background Dynamic Vibe Glow Overlay -->
-  <div id="hero-vibe-overlay" class="fixed inset-0 pointer-events-none z-0 transition-all duration-1000 opacity-80" style="background: radial-gradient(ellipse at 50% 20%, rgba(217, 38, 38, 0.3) 0%, rgba(7, 6, 11, 0.95) 75%);"></div>
-
-  <!-- STICKY HEADER & NAVBAR (Styled after the uploaded Style Reference) -->
-  <header class="sticky top-0 z-40 glass-nav transition-all duration-300">
+  <!-- COMPACT, PROFESSIONAL NAVIGATION BAR (Styled after Listygo) -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#EAEAEA] transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-      <!-- Brand Logo -->
+      <!-- Left: Logo / Wordmark -->
       <a href="#" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#D92626] to-[#FA5C38] flex items-center justify-center text-white font-bold font-serif shadow-lg border border-[#D4AF37]/40 group-hover:scale-105 transition-transform">
-          শ
+        <div class="w-9 h-9 rounded-lg bg-[#D94B42] flex items-center justify-center text-white font-bold text-base shadow-sm">
+          S
         </div>
         <div>
-          <span class="text-xl sm:text-2xl font-black font-serif tracking-wider text-white group-hover:text-[#D4AF37] transition-colors" data-i18n="siteTitle">SHANTIPUR</span>
-          <span class="hidden sm:block text-[10px] text-gray-400 uppercase tracking-widest" data-i18n="siteSubtitle">Nadia, West Bengal • PIN 741404</span>
+          <div class="flex items-center gap-1.5">
+            <span class="text-lg font-bold tracking-tight text-[#202020] group-hover:text-[#D94B42] transition-colors" data-i18n="siteTitle">SHANTIPUR</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-[#D94B42]"></span>
+          </div>
+          <span class="text-[10px] font-semibold text-[#777777] tracking-wider uppercase block" data-i18n="siteSubtitle">NADIA, WEST BENGAL</span>
         </div>
       </a>
 
-      <!-- Center Controls: Dual-Mode Physics Switcher & Vibe Modes -->
-      <div class="hidden md:flex items-center gap-2">
-        <!-- Physics Switcher Toggle Pill -->
-        <button id="physics-toggle-pill" onclick="window.SHANTIPUR_PHYSICS.togglePhysics()" class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 flex items-center gap-2 bg-[#D92626]/20 border border-[#D92626] text-white shadow-[0_0_20px_rgba(217,38,38,0.5)] hover:scale-105">
-          <span data-i18n="physicsToggleOn">✦ Antigravity Physics: ON</span>
-        </button>
+      <!-- Centre: Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-xs font-semibold text-[#202020]">
+        <a href="#hero-section" class="hover:text-[#D94B42] transition-colors" data-i18n="navHome">Home</a>
+        <a href="#categories-section" class="hover:text-[#D94B42] transition-colors" data-i18n="navHeritage">Heritage</a>
+        <a href="#listings-section" class="hover:text-[#D94B42] transition-colors" data-i18n="navTemples">Temples</a>
+        <a href="#about-section" class="hover:text-[#D94B42] transition-colors" data-i18n="navFestivals">Festivals</a>
+        <a href="#handloom-section" class="hover:text-[#D94B42] transition-colors" data-i18n="navHandloom">Handloom</a>
+        <a href="#about-section" class="hover:text-[#D94B42] transition-colors" data-i18n="navCulture">Culture</a>
+      </nav>
 
-        <!-- Vibe Switchers -->
-        <div class="glass-pill rounded-full p-1 flex items-center gap-1">
-          <button id="vibe-btn-shakta" onclick="window.setVibe('shakta')" class="vibe-tab active-vibe px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-[#D92626] text-white" data-i18n="vibeShakta">
-            Shakta Midnight
-          </button>
-          <button id="vibe-btn-vaishnava" onclick="window.setVibe('vaishnava')" class="vibe-tab px-3 py-1.5 rounded-full text-xs font-bold transition-all text-gray-300 hover:text-white" data-i18n="vibeVaishnava">
-            Vaishnava Harmony
-          </button>
-          <button id="vibe-btn-tant" onclick="window.setVibe('tant')" class="vibe-tab px-3 py-1.5 rounded-full text-xs font-bold transition-all text-gray-300 hover:text-white" data-i18n="vibeTant">
-            The Golden Loom
-          </button>
-        </div>
-      </div>
-
-      <!-- Right Controls: Bilingual Switcher & Action Pill -->
+      <!-- Right: Language Switcher & Action CTA -->
       <div class="flex items-center gap-3">
-        <!-- Language Switcher Pill -->
-        <div class="glass-pill rounded-full p-1 flex items-center text-xs font-bold">
-          <button id="lang-btn-en" onclick="window.toggleLanguage('en')" class="px-2.5 py-1 rounded-full bg-white/20 text-white transition-all">EN</button>
-          <button id="lang-btn-bn" onclick="window.toggleLanguage('bn')" class="px-2.5 py-1 rounded-full text-gray-300 hover:text-white transition-all">বাংলা</button>
+        <!-- Language Selector -->
+        <div class="flex items-center gap-1 bg-[#FAFAF8] border border-[#EAEAEA] rounded-lg px-2.5 py-1.5 text-xs font-semibold text-[#777777]">
+          <button id="lang-btn-en" onclick="window.toggleLanguage('en')" class="text-[#D94B42] font-bold hover:text-[#202020] transition-colors">EN</button>
+          <span>/</span>
+          <button id="lang-btn-bn" onclick="window.toggleLanguage('bn')" class="hover:text-[#D94B42] transition-colors">বাংলা</button>
         </div>
 
-        <!-- Parikrama Quick Jump CTA -->
-        <a href="#parikrama-section" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-[#FA5C38] hover:bg-[#D92626] text-white transition-all shadow-lg hover:shadow-red-500/30">
-          <span>📍</span> Parikrama
+        <!-- Plan Parikrama Button (Matching Listygo "+ Add Listing") -->
+        <a href="#parikrama-section" class="inline-flex items-center gap-2 bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-sm transition-all duration-200">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          <span data-i18n="navParikramaBtn">Plan Parikrama</span>
         </a>
       </div>
     </div>
   </header>
 
-  <!-- MODULE 1: MONUMENTAL SPATIAL HERO (Matching the Uploaded Style Reference) -->
-  <section class="relative pt-12 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-20">
-    <div class="text-center max-w-4xl mx-auto mb-10">
-      <!-- Monumental Headline -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-md">
-        <span>✦</span> 500 YEARS OF SACRED SANCTUARY • 1409–2026 CE <span>✦</span>
+  <!-- HOMEPAGE HERO SECTION (Featuring uploaded Radha Raman Jiu photo & Listygo search bar) -->
+  <section id="hero-section" class="relative hero-bg py-24 sm:py-32 px-4 sm:px-6 lg:px-8 text-center text-white flex flex-col items-center justify-center min-h-[580px]">
+    <div class="max-w-4xl mx-auto z-10">
+      <!-- Small Uppercase Label -->
+      <div class="inline-block text-[11px] font-bold uppercase tracking-widest text-[#B79550] bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-md border border-[#B79550]/30 mb-4" data-i18n="heroBadge">
+        DISCOVER 500 YEARS OF LIVING HERITAGE
       </div>
-      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black font-serif text-white tracking-tight leading-[1.1] mb-6 drop-shadow-2xl" data-i18n="heroHeadline">
-        500 Years Where Tantric Fire Meets the Loom
-      </h1>
-      <p class="text-base sm:text-xl text-gray-300 font-light max-w-3xl mx-auto leading-relaxed" data-i18n="heroSubline">
-        Explore the ancient sanctuary of Agameswari, Mahishkhagi, 500-year dancing idols, sacred Vaishnava roots, and the 1409 CE GI-Tagged Shantipuri handloom legacy.
-      </p>
-    </div>
 
-    <!-- FLOATING MULTI-SEGMENT PILL SEARCH BAR (Exact Design from the Uploaded Style Reference) -->
-    <div class="max-w-3xl mx-auto mb-16">
-      <div class="bg-white rounded-full p-2 sm:p-2.5 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-2 border border-gray-100 transition-all focus-within:ring-4 focus-within:ring-[#FA5C38]/30">
-        <!-- Input Field Segment -->
-        <div class="flex-1 w-full flex items-center px-4 py-2">
-          <span class="text-gray-400 mr-2 text-base">🔍</span>
-          <input id="search-input" type="text" placeholder="Search 500-yr pujas, temples, weavers, sweets..." class="w-full bg-transparent text-gray-900 placeholder-gray-500 text-sm sm:text-base font-medium outline-none" data-i18n-placeholder="searchPlaceholder" />
+      <!-- Professional Clear Heading -->
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 leading-tight" data-i18n="heroHeadline">
+        Discover the Heritage of Shantipur
+      </h1>
+
+      <!-- Short Descriptive Paragraph -->
+      <p class="text-sm sm:text-base text-gray-200 max-w-2xl mx-auto mb-10 font-normal leading-relaxed" data-i18n="heroSubline">
+        Explore centuries of sacred traditions, historic temples, cultural celebrations, Vaishnava heritage and the renowned Shantipuri handloom.
+      </p>
+
+      <!-- PROMINENT HERITAGE SEARCH INTERFACE (Horizontal Desktop, Stacked Mobile) -->
+      <div class="bg-white p-2.5 sm:p-3 rounded-2xl sm:rounded-full shadow-2xl max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-2 border border-gray-100 text-left">
+        <!-- Search Input Segment -->
+        <div class="w-full sm:flex-1 flex items-center px-4 py-2 border-b sm:border-b-0 sm:border-r border-gray-200">
+          <svg class="w-4 h-4 text-gray-400 mr-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input id="search-input" type="text" placeholder="What are you looking for?" class="w-full bg-transparent text-[#202020] placeholder-gray-400 text-xs sm:text-sm font-medium outline-none" data-i18n-placeholder="searchPlaceholder" />
         </div>
 
-        <div class="hidden sm:block h-8 w-[1px] bg-gray-200"></div>
-
-        <!-- Category Dropdown Segment -->
-        <div class="w-full sm:w-auto px-4 py-2">
-          <select id="search-category" class="w-full bg-transparent text-gray-700 text-sm font-semibold outline-none cursor-pointer">
-            <option value="all" data-i18n="searchAllCategories">All Categories</option>
-            <option value="pujas" data-i18n="searchPujas">500-Yr Kali Pujas</option>
-            <option value="temples" data-i18n="searchTemples">Vaishnava & Historic Temples</option>
-            <option value="tant" data-i18n="searchTant">GI Tant Weavers & Haat</option>
-            <option value="sweets" data-i18n="searchSweets">Nikhuti Sweets & Crafts</option>
+        <!-- Locality / Ward Selector Segment -->
+        <div class="w-full sm:w-44 flex items-center px-4 py-2 border-b sm:border-b-0 sm:border-r border-gray-200">
+          <svg class="w-4 h-4 text-gray-400 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <select id="search-location" class="w-full bg-transparent text-xs sm:text-sm font-medium text-[#202020] outline-none cursor-pointer">
+            <option value="all" data-i18n="allLocations">All Localities</option>
+            <option value="agameswari" data-i18n="locAgameswari">Agameswari Tala</option>
+            <option value="mahishkhagi" data-i18n="locMahishkhagi">Mahishkhagi Para</option>
+            <option value="sutragarh" data-i18n="locSutragarh">Sutragarh</option>
+            <option value="barajiakur" data-i18n="locBarajiakur">Barajiakur</option>
+            <option value="shyamchand" data-i18n="locShyamchand">Shyamchandpara</option>
+            <option value="dalal" data-i18n="locDalalpara">Dalal Para</option>
           </select>
         </div>
 
-        <!-- Vibrant Coral Search Pill Button -->
-        <button id="search-btn" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-[#FA5C38] to-[#D92626] hover:from-[#D92626] hover:to-[#FA5C38] text-white text-sm font-extrabold tracking-wider uppercase shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap" data-i18n="exploreBtn">
-          EXPLORE HERITAGE
+        <!-- Category Selector Segment -->
+        <div class="w-full sm:w-44 flex items-center px-4 py-2">
+          <svg class="w-4 h-4 text-gray-400 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+          <select id="search-category" class="w-full bg-transparent text-xs sm:text-sm font-medium text-[#202020] outline-none cursor-pointer">
+            <option value="all" data-i18n="searchAllCategories">All Categories</option>
+            <option value="pujas" data-i18n="searchPujas">Sacred Pujas</option>
+            <option value="temples" data-i18n="searchTemples">Historic Temples</option>
+            <option value="tant" data-i18n="searchTant">Shantipuri Handloom</option>
+            <option value="sweets" data-i18n="searchSweets">Heritage Sweets & Guilds</option>
+          </select>
+        </div>
+
+        <!-- Search CTA Button -->
+        <button id="search-btn" class="w-full sm:w-auto px-7 py-3 rounded-xl sm:rounded-full bg-[#D94B42] hover:bg-[#B53830] text-white text-xs sm:text-sm font-bold tracking-wide uppercase shadow-md transition-colors flex items-center justify-center gap-2 shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <span data-i18n="searchBtn">Search</span>
+        </button>
+      </div>
+
+      <!-- Quick Search Tags -->
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-gray-300">
+        <span class="font-medium text-gray-400" data-i18n="popularTagsLabel">Popular Searches:</span>
+        <button onclick="window.searchByTag('Agameswari')" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition-colors">Maa Agameswari</button>
+        <button onclick="window.searchByTag('Boro Goswami')" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition-colors">Boro Goswami Bari</button>
+        <button onclick="window.searchByTag('Tant')" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition-colors">1409 CE Tant</button>
+        <button onclick="window.searchByTag('Nikhuti')" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition-colors">Nikhuti</button>
+        <button onclick="window.searchByTag('Sutragarh')" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition-colors">Sutragarh Haat</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY SECTION (Clean, minimal cards matching Listygo) -->
+  <section id="categories-section" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <span class="text-xs font-bold text-[#D94B42] uppercase tracking-wider block mb-1" data-i18n="catHeaderTag">DISCOVER BY CATEGORY</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-[#202020] tracking-tight" data-i18n="catHeaderTitle">
+        Explore Shantipur by Category
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <!-- 1. Historic Temples -->
+      <button onclick="window.filterByCategoryCard('temples')" class="bg-white border border-[#EAEAEA] hover:border-[#D94B42]/50 hover:shadow-md rounded-xl p-5 text-center transition-all duration-200 flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-[#FDF2F0] group-hover:bg-[#D94B42] flex items-center justify-center text-[#D94B42] group-hover:text-white mb-3 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        </div>
+        <h3 class="text-xs font-bold text-[#202020] mb-0.5 group-hover:text-[#D94B42] transition-colors" data-i18n="cat1Title">Historic Temples</h3>
+        <span class="text-[11px] text-[#777777]" data-i18n="cat1Count">3 Listings</span>
+      </button>
+
+      <!-- 2. Sacred Pujas -->
+      <button onclick="window.filterByCategoryCard('pujas')" class="bg-white border border-[#EAEAEA] hover:border-[#D94B42]/50 hover:shadow-md rounded-xl p-5 text-center transition-all duration-200 flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-[#FDF2F0] group-hover:bg-[#D94B42] flex items-center justify-center text-[#D94B42] group-hover:text-white mb-3 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
+        </div>
+        <h3 class="text-xs font-bold text-[#202020] mb-0.5 group-hover:text-[#D94B42] transition-colors" data-i18n="cat2Title">Sacred Pujas</h3>
+        <span class="text-[11px] text-[#777777]" data-i18n="cat2Count">6 Listings</span>
+      </button>
+
+      <!-- 3. Festivals & Rash -->
+      <button onclick="window.filterByCategoryCard('all')" class="bg-white border border-[#EAEAEA] hover:border-[#D94B42]/50 hover:shadow-md rounded-xl p-5 text-center transition-all duration-200 flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-[#FDF2F0] group-hover:bg-[#D94B42] flex items-center justify-center text-[#D94B42] group-hover:text-white mb-3 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke-width="2"/><line x1="16" y1="2" x2="16" y2="6" stroke-width="2"/><line x1="8" y1="2" x2="8" y2="6" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke-width="2"/></svg>
+        </div>
+        <h3 class="text-xs font-bold text-[#202020] mb-0.5 group-hover:text-[#D94B42] transition-colors" data-i18n="cat3Title">Festivals & Rash</h3>
+        <span class="text-[11px] text-[#777777]" data-i18n="cat3Count">2 Celebrations</span>
+      </button>
+
+      <!-- 4. Vaishnava Heritage -->
+      <button onclick="window.filterByCategoryCard('temples')" class="bg-white border border-[#EAEAEA] hover:border-[#D94B42]/50 hover:shadow-md rounded-xl p-5 text-center transition-all duration-200 flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-[#FDF2F0] group-hover:bg-[#D94B42] flex items-center justify-center text-[#D94B42] group-hover:text-white mb-3 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        </div>
+        <h3 class="text-xs font-bold text-[#202020] mb-0.5 group-hover:text-[#D94B42] transition-colors" data-i18n="cat4Title">Vaishnava Heritage</h3>
+        <span class="text-[11px] text-[#777777]" data-i18n="cat4Count">4 Sanctuaries</span>
+      </button>
+
+      <!-- 5. Shantipuri Handloom -->
+      <button onclick="window.filterByCategoryCard('handloom')" class="bg-white border border-[#EAEAEA] hover:border-[#D94B42]/50 hover:shadow-md rounded-xl p-5 text-center transition-all duration-200 flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-[#FDF2F0] group-hover:bg-[#D94B42] flex items-center justify-center text-[#D94B42] group-hover:text-white mb-3 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        </div>
+        <h3 class="text-xs font-bold text-[#202020] mb-0.5 group-hover:text-[#D94B42] transition-colors" data-i18n="cat5Title">Shantipuri Handloom</h3>
+        <span class="text-[11px] text-[#777777]" data-i18n="cat5Count">3 Weaving Hubs</span>
+      </button>
+
+      <!-- 6. Artisan Guilds -->
+      <button onclick="window.filterByCategoryCard('artisans')" class="bg-white border border-[#EAEAEA] hover:border-[#D94B42]/50 hover:shadow-md rounded-xl p-5 text-center transition-all duration-200 flex flex-col items-center group">
+        <div class="w-12 h-12 rounded-full bg-[#FDF2F0] group-hover:bg-[#D94B42] flex items-center justify-center text-[#D94B42] group-hover:text-white mb-3 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7" stroke-width="2"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" stroke-width="2"/></svg>
+        </div>
+        <h3 class="text-xs font-bold text-[#202020] mb-0.5 group-hover:text-[#D94B42] transition-colors" data-i18n="cat6Title">Artisan Guilds</h3>
+        <span class="text-[11px] text-[#777777]" data-i18n="cat6Count">3 Guilds</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- HERITAGE LISTINGS DISCOVERY SECTION (Matching Listygo Listing Cards) -->
+  <section id="listings-section" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <!-- Header with Filter Tabs -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-4 border-b border-[#EAEAEA]">
+      <div>
+        <span class="text-xs font-bold text-[#D94B42] uppercase tracking-wider block mb-1" data-i18n="listingsHeaderTag">FEATURED PLACES & SANCTUARIES</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#202020] tracking-tight" data-i18n="listingsHeaderTitle">
+          Explore Shantipur's Heritage
+        </h2>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="window.setFilterTab('all')" data-tab="all" class="filter-tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#D94B42] text-white border border-[#D94B42] transition-colors" data-i18n="filterAll">
+          All Listings
+        </button>
+        <button onclick="window.setFilterTab('pujas')" data-tab="pujas" class="filter-tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-[#777777] border border-[#EAEAEA] hover:border-gray-300 transition-colors" data-i18n="filterPujas">
+          Sacred Pujas
+        </button>
+        <button onclick="window.setFilterTab('temples')" data-tab="temples" class="filter-tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-[#777777] border border-[#EAEAEA] hover:border-gray-300 transition-colors" data-i18n="filterTemples">
+          Historic Temples
+        </button>
+        <button onclick="window.setFilterTab('handloom')" data-tab="handloom" class="filter-tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-[#777777] border border-[#EAEAEA] hover:border-gray-300 transition-colors" data-i18n="filterHandloom">
+          Handloom Hubs
+        </button>
+        <button onclick="window.setFilterTab('artisans')" data-tab="artisans" class="filter-tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white text-[#777777] border border-[#EAEAEA] hover:border-gray-300 transition-colors" data-i18n="filterArtisans">
+          Artisans & Sweets
         </button>
       </div>
     </div>
 
-    <!-- FLOATING BENTO CATEGORY CARDS ROW (Matching the Uploaded Style Reference "Explore by Category") -->
-    <div class="text-center mb-8">
-      <span class="text-xs font-bold text-[#D4AF37] tracking-widest uppercase" data-i18n="categoryTitle">EXPLORE CULTURAL PILLARS</span>
-      <h3 class="text-2xl font-bold font-serif text-white mt-1" data-i18n="categorySub">Discover living history across five centuries in Nadia</h3>
+    <!-- Responsive Listings Grid (Rendered by app.js) -->
+    <div id="listings-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Injected dynamically -->
     </div>
+  </section>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-5xl mx-auto mb-16">
-      <!-- Category 1: Shakta Kali Pujas -->
-      <a href="#shrines-section" class="bg-white hover:bg-gradient-to-b hover:from-[#FA5C38] hover:to-[#D92626] text-gray-800 hover:text-white rounded-2xl p-6 text-center shadow-xl transition-all duration-300 group flex flex-col items-center justify-center">
-        <div class="w-14 h-14 rounded-full bg-red-100 group-hover:bg-white/20 flex items-center justify-center text-2xl mb-3 transition-colors">
-          🪔
+  <!-- ABOUT SHANTIPUR SECTION (Two-Column Balanced Layout Matching Listygo Reference) -->
+  <section id="about-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full bg-white border-y border-[#EAEAEA]">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left Column: Editorial Multi-Photo Montage -->
+      <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+        <!-- Main Tall Photograph (Sri Sri Radha Raman Jiu) -->
+        <div class="col-span-2 h-72 sm:h-80 rounded-2xl overflow-hidden border border-[#EAEAEA] shadow-sm">
+          <img src="uploads/hero_radha_raman_jiu.jpg" alt="Sri Sri Radha Raman Jiu Shantipur" class="w-full h-full object-cover" />
         </div>
-        <h4 class="font-bold text-sm sm:text-base font-serif mb-1" data-i18n="cat1Title">Shakta Shrines</h4>
-        <span class="text-xs text-gray-500 group-hover:text-red-100" data-i18n="cat1Sub">6 Ancient Deities</span>
-      </a>
-
-      <!-- Category 2: Vaishnava & Temples -->
-      <a href="#temples-section" class="bg-white hover:bg-gradient-to-b hover:from-[#FA5C38] hover:to-[#D92626] text-gray-800 hover:text-white rounded-2xl p-6 text-center shadow-xl transition-all duration-300 group flex flex-col items-center justify-center">
-        <div class="w-14 h-14 rounded-full bg-amber-100 group-hover:bg-white/20 flex items-center justify-center text-2xl mb-3 transition-colors">
-          🏛️
+        <!-- Supporting Photograph 1 (Maa Agameswari) -->
+        <div class="h-40 rounded-xl overflow-hidden border border-[#EAEAEA] shadow-sm">
+          <img src="uploads/Maa agameswari 1.png" alt="Maa Agameswari Tala" class="w-full h-full object-cover" />
         </div>
-        <h4 class="font-bold text-sm sm:text-base font-serif mb-1" data-i18n="cat2Title">Vaishnava Shrines</h4>
-        <span class="text-xs text-gray-500 group-hover:text-amber-100" data-i18n="cat2Sub">Advaita Heritage</span>
-      </a>
-
-      <!-- Category 3: Tant Handlooms (Active Card Style from Ref) -->
-      <a href="#handloom-section" class="bg-gradient-to-b from-[#FA5C38] to-[#D92626] text-white rounded-2xl p-6 text-center shadow-2xl transition-all duration-300 group flex flex-col items-center justify-center ring-4 ring-[#FA5C38]/40">
-        <div class="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-2xl mb-3">
-          🧵
-        </div>
-        <h4 class="font-bold text-sm sm:text-base font-serif mb-1" data-i18n="cat3Title">Tant Handlooms</h4>
-        <span class="text-xs text-red-100 font-medium" data-i18n="cat3Sub">1409 CE Weaves</span>
-      </a>
-
-      <!-- Category 4: Wholesale Haats -->
-      <a href="#haat-section" class="bg-white hover:bg-gradient-to-b hover:from-[#FA5C38] hover:to-[#D92626] text-gray-800 hover:text-white rounded-2xl p-6 text-center shadow-xl transition-all duration-300 group flex flex-col items-center justify-center">
-        <div class="w-14 h-14 rounded-full bg-emerald-100 group-hover:bg-white/20 flex items-center justify-center text-2xl mb-3 transition-colors">
-          🏮
-        </div>
-        <h4 class="font-bold text-sm sm:text-base font-serif mb-1" data-i18n="cat4Title">Wholesale Haats</h4>
-        <span class="text-xs text-gray-500 group-hover:text-emerald-100" data-i18n="cat4Sub">Pre-Dawn 3 AM</span>
-      </a>
-
-      <!-- Category 5: 200-Yr Nikhuti -->
-      <a href="#sweets-section" class="bg-white hover:bg-gradient-to-b hover:from-[#FA5C38] hover:to-[#D92626] text-gray-800 hover:text-white rounded-2xl p-6 text-center shadow-xl transition-all duration-300 group flex flex-col items-center justify-center">
-        <div class="w-14 h-14 rounded-full bg-orange-100 group-hover:bg-white/20 flex items-center justify-center text-2xl mb-3 transition-colors">
-          🍯
-        </div>
-        <h4 class="font-bold text-sm sm:text-base font-serif mb-1" data-i18n="cat5Title">200-Yr Nikhuti</h4>
-        <span class="text-xs text-gray-500 group-hover:text-orange-100" data-i18n="cat5Sub">Artisan Guilds</span>
-      </a>
-    </div>
-
-    <!-- LIVE FESTIVAL COUNTDOWN TICKER -->
-    <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <!-- Kali Puja Countdown -->
-      <div class="glass-card rounded-2xl p-5 border border-[#D92626]/40 flex items-center justify-between gap-4">
-        <div>
-          <span class="text-xs text-[#FA5C38] font-bold uppercase tracking-wider block" data-i18n="countdownKali">Kartik Amavasya (Kali Puja)</span>
-          <span class="text-sm text-gray-300 font-serif">Mahanisha Midnight Rituals</span>
-        </div>
-        <div class="flex items-center gap-2 font-mono text-center">
-          <div class="bg-black/60 px-2.5 py-1.5 rounded-lg border border-red-500/30">
-            <span id="cd-kali-days" class="text-lg font-bold text-white">00</span>
-            <span class="text-[9px] text-gray-400 block uppercase" data-i18n="days">Days</span>
-          </div>
-          <div class="bg-black/60 px-2.5 py-1.5 rounded-lg border border-red-500/30">
-            <span id="cd-kali-hours" class="text-lg font-bold text-white">00</span>
-            <span class="text-[9px] text-gray-400 block uppercase" data-i18n="hours">Hrs</span>
-          </div>
-          <div class="bg-black/60 px-2.5 py-1.5 rounded-lg border border-red-500/30">
-            <span id="cd-kali-mins" class="text-lg font-bold text-white">00</span>
-            <span class="text-[9px] text-gray-400 block uppercase" data-i18n="mins">Mins</span>
-          </div>
+        <!-- Supporting Photograph 2 (Night Aarti Ritual) -->
+        <div class="h-40 rounded-xl overflow-hidden border border-[#EAEAEA] shadow-sm">
+          <img src="uploads/Fiery Nighttime Kali Puja Ritual.png" alt="Fiery Amavasya Ritual" class="w-full h-full object-cover" />
         </div>
       </div>
 
-      <!-- Bhanga Rash Countdown -->
-      <div class="glass-card rounded-2xl p-5 border border-[#D4AF37]/40 flex items-center justify-between gap-4">
+      <!-- Right Column: Narrative & Concise Highlights -->
+      <div class="lg:col-span-7 space-y-6">
         <div>
-          <span class="text-xs text-[#D4AF37] font-bold uppercase tracking-wider block" data-i18n="countdownRash">Shantipur Bhanga Rash</span>
-          <span class="text-sm text-gray-300 font-serif">Advaita Lineage Chariot Yatra</span>
+          <span class="text-xs font-bold text-[#D94B42] uppercase tracking-wider block mb-1.5" data-i18n="aboutTag">ABOUT SHANTIPUR</span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-[#202020] tracking-tight leading-snug" data-i18n="aboutTitle">
+            A City of Sacred Traditions and Living Heritage
+          </h2>
         </div>
-        <div class="flex items-center gap-2 font-mono text-center">
-          <div class="bg-black/60 px-2.5 py-1.5 rounded-lg border border-amber-500/30">
-            <span id="cd-rash-days" class="text-lg font-bold text-white">00</span>
-            <span class="text-[9px] text-gray-400 block uppercase" data-i18n="days">Days</span>
+
+        <p class="text-xs sm:text-sm text-[#777777] leading-relaxed" data-i18n="aboutDesc">
+          Situated on the banks of the sacred Bhagirathi River in Nadia, West Bengal (PIN: 741404), Shantipur has flourished for over five centuries as an extraordinary convergence of Tantric scholarship, Sri Advaita Acharya's Gaudiya Vaishnava lineage, and the celebrated GI-tagged Shantipuri handloom weaving tradition.
+        </p>
+
+        <!-- 3 Highlights with Clean Lucide Checkmark Icons -->
+        <div class="space-y-4 pt-2">
+          <!-- Highlight 1 -->
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-[#FDF2F0] flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-3.5 h-3.5 text-[#D94B42]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-[#202020]" data-i18n="aboutPoint1Title">500 Years of Sacred Shrines</h4>
+              <p class="text-xs text-[#777777] leading-relaxed mt-0.5" data-i18n="aboutPoint1Desc">Consecrated by Pandit Krishnananda Agambagish and venerable scholar families, maintaining unique living rituals including Vedic marriage rites and synchronized immersion processions.</p>
+            </div>
           </div>
-          <div class="bg-black/60 px-2.5 py-1.5 rounded-lg border border-amber-500/30">
-            <span id="cd-rash-hours" class="text-lg font-bold text-white">00</span>
-            <span class="text-[9px] text-gray-400 block uppercase" data-i18n="hours">Hrs</span>
+
+          <!-- Highlight 2 -->
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-[#FDF2F0] flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-3.5 h-3.5 text-[#D94B42]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-[#202020]" data-i18n="aboutPoint2Title">Syncretic Architectural Skyline</h4>
+              <p class="text-xs text-[#777777] leading-relaxed mt-0.5" data-i18n="aboutPoint2Desc">Home to Bengal's monumental 1726 CE Atchala terracotta temples, the historic ancestral seat of Boro Goswami Bari, and the 1703 CE Topkhana Mosque.</p>
+            </div>
+          </div>
+
+          <!-- Highlight 3 -->
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-[#FDF2F0] flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-3.5 h-3.5 text-[#D94B42]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-[#202020]" data-i18n="aboutPoint3Title">GI-Tagged Handloom & Pre-Dawn Haats</h4>
+              <p class="text-xs text-[#777777] leading-relaxed mt-0.5" data-i18n="aboutPoint3Desc">A thriving 1409 CE craft lineage of over 10,000 master weavers producing 100x100 fine cotton counts, traded at the legendary Sutragarh wholesale markets.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- MODULE 2: THE OLDEST KALI PUJAS SPATIAL ATLAS -->
-  <section id="shrines-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-20 relative">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-white/10 pb-6">
-      <div>
-        <div class="flex items-center gap-2 text-xs font-bold text-[#D92626] uppercase tracking-widest mb-2">
-          <span>✦</span> SACRED SHAKTA CONSTELLATION <span>✦</span>
-        </div>
-        <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-white tracking-tight">
-          The 500-Year-Old Kali Pujas
+  <!-- PARIKRAMA PLANNER SECTION (Clean, Minimal Card Layout) -->
+  <section id="parikrama-section" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <div class="bg-white border border-[#EAEAEA] rounded-2xl p-8 sm:p-10 shadow-sm">
+      <div class="max-w-2xl mb-8">
+        <span class="text-xs font-bold text-[#D94B42] uppercase tracking-wider block mb-1" data-i18n="parikramaTag">HERITAGE ITINERARY</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#202020] tracking-tight" data-i18n="parikramaTitle">
+          Smart Toto & Walking Parikrama Planner
         </h2>
-      </div>
-      <p class="text-sm text-gray-400 max-w-md mt-4 md:mt-0 font-sans">
-        Hover to experience 3D specular sheen tilt. In Zero-G mode, grab and toss cards across the cosmos. Click 'Deep-Dive' for audio lore and sacred history.
-      </p>
-    </div>
-
-    <!-- Shrines Grid / Zero-G Container -->
-    <div id="floating-cards-container" class="zero-g-mode">
-      <div id="shrines-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Rendered dynamically by app.js -->
-      </div>
-    </div>
-  </section>
-
-  <!-- SMART TOTO & WALKING PARIKRAMA BUILDER -->
-  <section id="parikrama-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-20 relative">
-    <div class="glass-card rounded-3xl p-8 sm:p-12 border border-[#D92626]/40 shadow-2xl relative overflow-hidden">
-      <div class="max-w-3xl mb-8">
-        <span class="text-xs font-bold text-[#FA5C38] tracking-widest uppercase block mb-2" data-i18n="parikramaTitle">Smart Toto & Walking Parikrama Planner</span>
-        <h3 class="text-3xl sm:text-4xl font-extrabold font-serif text-white mb-4">
-          Personalized Shantipur Night Circuit
-        </h3>
-        <p class="text-gray-300 text-sm leading-relaxed" data-i18n="parikramaSub">
-          Select your chosen Kali shrines to calculate an optimized route across Shantipur's heritage wards.
+        <p class="text-xs sm:text-sm text-[#777777] mt-2 leading-relaxed" data-i18n="parikramaSub">
+          Select historic shrines to plan an optimized circuit across Shantipur's heritage wards with precise transit estimates.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        <!-- Checkpoint List -->
-        <div class="lg:col-span-2 space-y-3">
-          <h4 class="text-xs font-bold text-[#D4AF37] uppercase tracking-wider mb-2">Selected Checkpoints (Re-orderable)</h4>
-          <div id="selected-shrine-list" class="space-y-2">
-            <!-- Dynamically populated -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Shrine Checkboxes Column -->
+        <div class="lg:col-span-8">
+          <div id="selected-shrine-list" class="space-y-2.5">
+            <!-- Populated dynamically -->
           </div>
         </div>
 
-        <!-- Calculated Estimates & Download Box -->
-        <div class="bg-black/60 rounded-2xl p-6 border border-white/10 space-y-5">
-          <h4 class="text-sm font-bold text-white uppercase tracking-wider">Route Estimates</h4>
+        <!-- Calculator & Action Card -->
+        <div class="lg:col-span-4 bg-[#FAFAF8] border border-[#EAEAEA] rounded-xl p-6 space-y-4">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#202020]">Calculated Travel Times</h4>
 
-          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="text-xl">🛺</span>
-              <span class="text-xs text-gray-300" data-i18n="estToto">Toto Ride Time</span>
-            </div>
-            <span id="est-toto-time" class="text-sm font-mono font-bold text-amber-300">45 Mins</span>
+          <div class="p-3.5 bg-white border border-[#EAEAEA] rounded-lg flex items-center justify-between">
+            <span class="text-xs font-medium text-[#777777]" data-i18n="estToto">Toto Ride Time</span>
+            <span id="est-toto-time" class="text-xs font-bold font-mono text-[#D94B42]">45 Mins</span>
           </div>
 
-          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="text-xl">🚶</span>
-              <span class="text-xs text-gray-300" data-i18n="estWalk">Walking Time</span>
-            </div>
-            <span id="est-walk-time" class="text-sm font-mono font-bold text-emerald-300">95 Mins</span>
+          <div class="p-3.5 bg-white border border-[#EAEAEA] rounded-lg flex items-center justify-between">
+            <span class="text-xs font-medium text-[#777777]" data-i18n="estWalk">Walking Time</span>
+            <span id="est-walk-time" class="text-xs font-bold font-mono text-[#202020]">95 Mins</span>
           </div>
 
-          <button onclick="window.downloadParikramaPass()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#D92626] to-[#FA5C38] hover:from-[#FA5C38] hover:to-[#D92626] text-white font-bold text-xs tracking-wider uppercase shadow-xl transition-all flex items-center justify-center gap-2" data-i18n="downloadPass">
-            <span>📥</span> Download Offline Parikrama Pass
+          <button onclick="window.downloadParikramaPass()" class="w-full py-3 rounded-lg bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold tracking-wide uppercase shadow-sm transition-colors flex items-center justify-center gap-2" data-i18n="downloadPass">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span>Download Offline Pass</span>
           </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- MODULE 3: THE SYNCRETIC SOUL (Vaishnava-Shakta Heritage Architecture) -->
-  <section id="temples-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-20 relative">
-    <div class="mb-12">
-      <span class="text-xs font-bold text-[#E88D2A] uppercase tracking-widest block mb-2">SYNCRETIC HERITAGE & ATCHALA ARCHITECTURE</span>
-      <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-white">
-        Boro Goswami Bari, Shyamchand & Topkhana
+  <!-- SHANTIPURI HANDLOOM & LIVE HAAT RADAR -->
+  <section id="handloom-section" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <div class="max-w-2xl mb-10">
+      <span class="text-xs font-bold text-[#D94B42] uppercase tracking-wider block mb-1" data-i18n="tantTag">GI-TAGGED TEXTILE TRADITION</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-[#202020] tracking-tight" data-i18n="tantTitle">
+        Shantipuri Tant & Live Haat Directory
       </h2>
-    </div>
-
-    <div id="temples-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Rendered dynamically by app.js -->
-    </div>
-  </section>
-
-  <!-- MODULE 4: "LOOM IN ZERO-G" & HYPERLOCAL BUSINESS HUB -->
-  <section id="handloom-section" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-20 relative">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-white/10 pb-6">
-      <div>
-        <span class="text-xs font-bold text-[#D4AF37] uppercase tracking-widest block mb-2" data-i18n="tantTitle">Loom in Zero-G: GI-Tagged Shantipuri Tant</span>
-        <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-white">
-          Handloom Weaves & Wholesale Hub
-        </h2>
-      </div>
-      <p class="text-sm text-gray-300 max-w-md mt-4 md:mt-0" data-i18n="tantSub">
-        Ultrafine 100x100 count cotton and Jamdani borders woven since 1409 CE. Hover to inspect weave thread count with the magnifying loupe.
+      <p class="text-xs sm:text-sm text-[#777777] mt-2" data-i18n="tantSub">
+        Ultrafine 100x100 combed cotton counts, signature Guti Bhanj pleating, and needle-woven Jamdani borders preserved since 1409 CE.
       </p>
     </div>
 
-    <!-- Weaving Clusters Grid -->
-    <div id="handloom-container" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-      <!-- Rendered dynamically -->
-    </div>
-
-    <!-- Live Haat Radar -->
-    <div id="haat-section" class="mb-16">
-      <h3 class="text-2xl font-bold font-serif text-white mb-6 flex items-center gap-2">
-        <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
-        <span data-i18n="liveHaatRadar">Live Haat Radar & Wholesale Schedule</span>
-      </h3>
-      <div id="haats-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Rendered dynamically -->
+    <!-- Haat Schedule Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <!-- Haat 1 -->
+      <div class="bg-white border border-[#EAEAEA] rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Weekly Haat Active
+          </span>
+          <span class="text-xs font-mono text-[#777777]">Sutragarh, PIN 741404</span>
+        </div>
+        <h3 class="text-base font-bold text-[#202020] mb-1">Bango & Ghosh Tant Kaporer Haat</h3>
+        <p class="text-xs font-semibold text-[#D94B42] mb-2 font-mono">Every Thursday & Sunday: 3:00 AM – 11:00 AM (Plus Wed & Sat Evening Sessions)</p>
+        <p class="text-xs text-[#777777] leading-relaxed mb-4">Asia's premier weekly handloom exchange where over 10,000 master weavers assemble by lantern light to trade authentic GI-tagged sarees directly with pan-India merchants.</p>
+        <button onclick="window.bookWeaverModal('Sutragarh Master Weavers')" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#D94B42] hover:text-[#B53830] transition-colors">
+          <span>Inquire via WhatsApp</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
       </div>
-    </div>
 
-    <!-- 200-Year-Old Nikhuti Sweet & Artisan Guilds -->
-    <div id="sweets-section">
-      <div class="mb-8">
-        <span class="text-xs font-bold text-[#FA5C38] uppercase tracking-widest block mb-2" data-i18n="sweetTitle">200-Year-Old Authentic Shantipur Nikhuti & Guilds</span>
-        <h3 class="text-3xl font-bold font-serif text-white">
-          Chhena Confectionery, Mritsilpi & Bell Metal
-        </h3>
-      </div>
-      <div id="sweets-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Rendered dynamically -->
+      <!-- Haat 2 -->
+      <div class="bg-white border border-[#EAEAEA] rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Daily Market
+          </span>
+          <span class="text-xs font-mono text-[#777777]">Near Shantipur Station</span>
+        </div>
+        <h3 class="text-base font-bold text-[#202020] mb-1">Santipur Municipal Cloth Mart</h3>
+        <p class="text-xs font-semibold text-[#D94B42] mb-2 font-mono">Daily Morning & Mid-day Sessions (Peak Mondays & Fridays)</p>
+        <p class="text-xs text-[#777777] leading-relaxed mb-4">Convenient transit market for retail tourists and small boutique owners seeking authentic certified Shantipuri cotton and silk sarees.</p>
+        <button onclick="window.bookWeaverModal('Municipal Weavers Mart')" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#D94B42] hover:text-[#B53830] transition-colors">
+          <span>Inquire via WhatsApp</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- MODULE 5: CUSTOM SHANTIPUR PARIKRAMA & GREETINGS STORY PASS GENERATOR -->
-  <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto z-20 relative">
-    <div class="glass-card rounded-3xl p-8 sm:p-12 border border-[#D4AF37]/40 shadow-2xl">
-      <div class="text-center max-w-2xl mx-auto mb-10">
-        <span class="text-xs font-bold text-[#D4AF37] uppercase tracking-widest block mb-2" data-i18n="generatorTitle">Custom Shantipur Parikrama & Greetings Pass Generator</span>
-        <h3 class="text-3xl sm:text-4xl font-extrabold font-serif text-white mb-3">
-          Create Your Official Story Pass
-        </h3>
-        <p class="text-sm text-gray-300" data-i18n="generatorSub">
-          Create a personalized 1080x1920 Instagram/WhatsApp Story Pass with your name and blessings.
+  <!-- STORY PASS GENERATOR SECTION -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <div class="bg-white border border-[#EAEAEA] rounded-2xl p-8 sm:p-10 shadow-sm">
+      <div class="max-w-2xl mb-8">
+        <span class="text-xs font-bold text-[#D94B42] uppercase tracking-wider block mb-1" data-i18n="generatorTag">OFFICIAL PASS GENERATOR</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#202020] tracking-tight" data-i18n="generatorTitle">
+          Custom Shantipur Parikrama & Greetings Pass
+        </h2>
+        <p class="text-xs sm:text-sm text-[#777777] mt-2" data-i18n="generatorSub">
+          Generate an authentic, high-resolution 1080x1920 Story Card with your name and date for festival sharing.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
         <!-- Form Inputs -->
-        <div class="space-y-4">
+        <div class="md:col-span-7 space-y-4">
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-300 mb-1" data-i18n="yourName">Your Full Name</label>
-            <input id="story-name-input" type="text" value="Arunabha Goswami" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/20 text-white font-medium outline-none focus:border-[#D4AF37]" />
+            <label class="block text-xs font-bold uppercase text-[#202020] mb-1.5" data-i18n="yourName">Your Full Name</label>
+            <input id="story-name-input" type="text" value="Arunabha Goswami" class="w-full px-4 py-2.5 rounded-lg border border-[#EAEAEA] text-xs sm:text-sm text-[#202020] font-medium outline-none focus:border-[#D94B42]" />
           </div>
 
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-300 mb-1" data-i18n="selectWish">Select Message / Blessing</label>
-            <select id="story-wish-select" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/20 text-white font-medium outline-none focus:border-[#D4AF37]">
-              <option value="Subho Dipaboli & Shantipur Bhanga Rash!">Subho Dipaboli & Shantipur Bhanga Rash!</option>
-              <option value="May Maa Agameswari bless you with wisdom & strength.">May Maa Agameswari bless you with wisdom & strength.</option>
-              <option value="Honoring 500 years of Tantric & Vaishnava harmony.">Honoring 500 years of Tantric & Vaishnava harmony.</option>
-              <option value="Celebrating the master weavers of Shantipuri Tant.">Celebrating the master weavers of Shantipuri Tant.</option>
+            <label class="block text-xs font-bold uppercase text-[#202020] mb-1.5" data-i18n="selectWish">Select Message / Dedication</label>
+            <select id="story-wish-select" class="w-full px-4 py-2.5 rounded-lg border border-[#EAEAEA] text-xs sm:text-sm text-[#202020] font-medium outline-none focus:border-[#D94B42]">
+              <option value="Subho Dipaboli & Shantipur Bhanga Rash">Subho Dipaboli & Shantipur Bhanga Rash</option>
+              <option value="May Maa Agameswari bless you with wisdom and courage">May Maa Agameswari bless you with wisdom and courage</option>
+              <option value="Honoring 500 years of sacred Shantipur heritage">Honoring 500 years of sacred Shantipur heritage</option>
+              <option value="Celebrating 1409 CE Shantipuri Tant handloom master weavers">Celebrating 1409 CE Shantipuri Tant handloom master weavers</option>
             </select>
           </div>
 
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-300 mb-1">Select Shrine Background</label>
-            <select id="story-photo-select" class="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/20 text-white font-medium outline-none focus:border-[#D4AF37]">
-              <option value="uploads/kali_idol_16x9_4k.png">Mahishkhagi / Grand Kali Idol</option>
-              <option value="uploads/Maa agameswari 1.png">Maa Agameswari (400+ Years)</option>
-              <option value="uploads/Fiery Nighttime Kali Puja Ritual.png">Night Fiery Dhunuchi Ritual</option>
+            <label class="block text-xs font-bold uppercase text-[#202020] mb-1.5">Select Shrine Photograph</label>
+            <select id="story-photo-select" class="w-full px-4 py-2.5 rounded-lg border border-[#EAEAEA] text-xs sm:text-sm text-[#202020] font-medium outline-none focus:border-[#D94B42]">
+              <option value="uploads/hero_radha_raman_jiu.jpg">Sri Sri Radha Raman Jiu Deities</option>
+              <option value="uploads/Maa agameswari 1.png">Maa Agameswari (420 Years)</option>
+              <option value="uploads/kali_idol_16x9_4k.png">Maa Mahishkhagi (500 Years)</option>
+              <option value="uploads/Fiery Nighttime Kali Puja Ritual.png">Night Aarti Ritual & Dhunuchi</option>
               <option value="uploads/Ornate Fierce Goddess Shrine in Blue Alcove.png">Maa Bamakali Sanctuary</option>
-              <option value="uploads/blue_kali_16x9_4k (1).png">Poteswari Mata Azure Form</option>
             </select>
           </div>
 
-          <button onclick="window.generateStoryCard()" class="w-full py-4 rounded-xl bg-gradient-to-r from-[#FA5C38] to-[#D92626] hover:from-[#D92626] hover:to-[#FA5C38] text-white font-extrabold text-sm uppercase tracking-wider shadow-2xl transition-all duration-300 flex items-center justify-center gap-2">
-            <span>✨</span> <span data-i18n="generateStory">Generate & Download Pass</span>
+          <button onclick="window.generateStoryCard()" class="w-full py-3.5 rounded-lg bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-colors flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span data-i18n="generateStory">Generate & Download Pass</span>
           </button>
         </div>
 
-        <!-- Live Visual Preview of Card -->
-        <div class="flex justify-center">
-          <div class="relative w-64 h-[420px] rounded-2xl overflow-hidden border-4 border-[#D4AF37] shadow-2xl bg-black/90 flex flex-col justify-between p-4 text-center">
-            <div class="text-[10px] text-[#D92626] font-bold uppercase tracking-wider">✦ 500 Years Heritage ✦</div>
+        <!-- Preview Card -->
+        <div class="md:col-span-5 flex justify-center">
+          <div class="w-60 h-80 rounded-xl bg-gray-900 border-2 border-[#D94B42] shadow-md p-4 text-white flex flex-col justify-between text-center">
+            <div class="text-[10px] font-bold uppercase text-[#B79550] tracking-wider">SHANTIPUR 741404</div>
             <div class="my-auto">
-              <span class="text-xs text-[#D4AF37] block font-mono">OFFICIAL PASS</span>
-              <h4 class="text-lg font-bold font-serif text-white">Your Name Here</h4>
-              <p class="text-[11px] text-[#FA5C38] italic mt-1">"Subho Dipaboli & Bhanga Rash"</p>
+              <span class="text-[11px] text-gray-400 block font-mono">HERITAGE PASS</span>
+              <h4 class="text-base font-bold text-white mt-1">Your Name</h4>
+              <p class="text-xs text-[#D94B42] italic mt-1 font-serif">Subho Dipaboli & Rash</p>
             </div>
-            <div class="text-[9px] text-gray-400">1080x1920 Instagram HD Output</div>
+            <div class="text-[9px] text-gray-400 font-mono">1080x1920 Story Output</div>
           </div>
-          <!-- Hidden High-Res Rendering Canvas -->
           <canvas id="story-canvas" class="hidden"></canvas>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- DEEP DIVE MODAL -->
-  <div id="deep-dive-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-xl">
-    <div id="deep-dive-content" class="w-full flex justify-center"></div>
+  <!-- DETAIL MODAL -->
+  <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div id="detail-modal-content" class="w-full flex justify-center"></div>
   </div>
 
-  <!-- PHOTO SWAPPER MODAL -->
-  <div id="photo-swapper-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-xl">
-    <div class="relative rounded-2xl bg-[#0D0A14] border border-[#D4AF37] p-6 max-w-2xl w-full mx-4 shadow-2xl">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold font-serif text-white">Select Any Uploaded Photograph for this Card</h3>
-        <button onclick="window.closePhotoSwapper()" class="text-gray-400 hover:text-white text-lg font-bold">✕</button>
+  <!-- PROFESSIONAL FOOTER -->
+  <footer class="mt-auto bg-white border-t border-[#EAEAEA] py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      <div>
+        <div class="flex items-center justify-center sm:justify-start gap-2 mb-1.5">
+          <div class="w-6 h-6 rounded bg-[#D94B42] text-white font-bold text-xs flex items-center justify-center">S</div>
+          <span class="font-bold text-sm text-[#202020]">SHANTIPUR</span>
+          <span class="text-xs text-[#777777]">• PIN 741404</span>
+        </div>
+        <p class="text-xs text-[#777777]" data-i18n="footerDesc">
+          Official Cultural Heritage & Municipal Directory Portal for Shantipur, Nadia, West Bengal.
+        </p>
       </div>
-      <div id="photo-swapper-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-        <!-- Rendered by app.js -->
-      </div>
-      <div class="text-xs text-gray-400 text-center">
-        Selection is instantly persisted in your browser's local memory.
-      </div>
-    </div>
-  </div>
 
-  <!-- FOOTER -->
-  <footer class="border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-20 relative text-center">
-    <div class="flex items-center justify-center gap-2 mb-4">
-      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#D92626] to-[#FA5C38] flex items-center justify-center text-white font-serif font-bold text-sm">শ</div>
-      <span class="font-serif font-black text-white tracking-wider">SHANTIPUR 741404</span>
-    </div>
-    <p class="text-xs text-gray-400 max-w-md mx-auto mb-2" data-i18n="footerText">
-      Dedicated to the enduring cultural legacy of Shantipur, Nadia, West Bengal (PIN 741404).
-    </p>
-    <div class="text-[11px] text-gray-500 font-mono">
-      Built with Google Antigravity • Dual-Mode Matter.js Physics • GI-Tagged Shantipuri Tant Registry
+      <div class="text-xs text-[#777777]">
+        <p data-i18n="footerCopyright">Shantipur Heritage Platform. All authentic historical data verified from Nadia district gazetteers.</p>
+      </div>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script src="assetsManifest.js"></script>
   <script src="shantipurData.js"></script>
-  <script src="physicsEngine.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

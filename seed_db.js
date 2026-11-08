@@ -386,3 +386,4 @@ const fullPayload = {
 const jsonApiPath = path.join(API_DIR, 'heritage.json');
 fs.writeFileSync(jsonApiPath, JSON.stringify(fullPayload, null, 2), 'utf-8');
 console.log('✅ Static JSON Fallback API written to:', jsonApiPath);
+
