@@ -219,6 +219,30 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
 
+    // Registered Social Welfare & NGOs
+    if (Array.isArray(appData.ngos)) {
+      appData.ngos.forEach(n => {
+        list.push({
+          id: n.id,
+          type: 'ngo',
+          category_en: n.category_en,
+          category_bn: n.category_bn,
+          badge_en: n.badge_en || n.established_year,
+          badge_bn: n.badge_bn || n.established_year_bn,
+          name_en: n.name_en,
+          name_bn: n.name_bn,
+          desc_en: n.history_en,
+          desc_bn: n.history_bn,
+          location: n.address,
+          contact: n.contact,
+          location_pin: 'https://maps.google.com/?q=' + encodeURIComponent(n.name_en + ' Shantipur'),
+          image_url: getResolvedCover(n.id, n.image_url),
+          slot_key: `ngo_${n.id}`,
+          raw: n
+        });
+      });
+    }
+
     return list;
   }
 
@@ -252,6 +276,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       else if (activeTab === 'artisans') items = items.filter(i => i.type === 'artisan');
       else if (activeTab === 'education') items = items.filter(i => i.type === 'education');
       else if (activeTab === 'official') items = items.filter(i => i.type === 'official');
+      else if (activeTab === 'ngos') items = items.filter(i => i.type === 'ngo');
     }
 
     if (query) {
@@ -278,6 +303,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       else if (cat === 'sweets') items = items.filter(i => i.type === 'artisan');
       else if (cat === 'education') items = items.filter(i => i.type === 'education');
       else if (cat === 'official') items = items.filter(i => i.type === 'official');
+      else if (cat === 'ngos') items = items.filter(i => i.type === 'ngo');
     }
 
     if (items.length === 0) {
@@ -885,6 +911,24 @@ document.addEventListener('DOMContentLoaded', async () => {
           </h4>
           <div class="bg-[#FAFAF8] p-3 rounded-lg border border-[#EAEAEA] space-y-1">
             <p class="text-xs text-[#444444] mb-1"><strong class="text-[#202020]">${lang === 'en' ? 'Office Location:' : 'কার্যালয়ের ঠিকানা:'}</strong> ${item.location}</p>
+            ${contact}
+            ${portal}
+          </div>
+        </div>
+      `;
+    } else if (item.type === 'ngo') {
+      const reg = item.badge_en ? `<p class="text-xs text-[#444444] mb-1"><strong class="text-[#202020]">${lang === 'en' ? 'Registration / Darpan:' : 'নিবন্ধন ও দর্পণ তথ্য:'}</strong> ${lang === 'en' ? item.badge_en : item.badge_bn}</p>` : '';
+      const address = item.location ? `<p class="text-xs text-[#444444] mb-1"><strong class="text-[#202020]">${lang === 'en' ? 'Registered Office:' : 'নিবন্ধিত কার্যালয়:'}</strong> ${item.location}</p>` : '';
+      const contact = item.contact ? `<p class="text-xs text-[#444444] mb-1"><strong class="text-[#202020]">${lang === 'en' ? 'Contact / Helplines:' : 'যোগাযোগ ও হেল্পলাইন:'}</strong> ${item.contact}</p>` : '';
+      const portal = item.raw.official_website ? `<p class="text-xs text-[#444444]"><strong class="text-[#202020]">${lang === 'en' ? 'Official Portal:' : 'অফিসিয়াল পোর্টাল:'}</strong> <a href="${item.raw.official_website}" target="_blank" rel="noopener noreferrer" class="text-[#D94B42] hover:underline font-semibold">${item.raw.official_website}</a></p>` : '';
+      extraDetails = `
+        <div class="mt-4 pt-4 border-t border-[#EAEAEA]">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#D94B42] mb-1.5">
+            ${lang === 'en' ? 'Social Welfare & Registration Credentials' : 'সমাজসেবা ও নিবন্ধন সংক্রান্ত তথ্য'}
+          </h4>
+          <div class="bg-[#FAFAF8] p-3 rounded-lg border border-[#EAEAEA] space-y-1">
+            ${reg}
+            ${address}
             ${contact}
             ${portal}
           </div>
@@ -1721,19 +1765,38 @@ document.addEventListener('DOMContentLoaded', async () => {
   // CIVIC & EMERGENCY DIRECTORY MODAL SYSTEM
   // ==============================================================================
 
+  let activeCivicCategory = 'all';
+
+  function applyCivicFilter() {
+    const searchInput = document.getElementById('civic-search-input');
+    const q = (searchInput?.value || '').toLowerCase().trim();
+    const cards = document.querySelectorAll('.civic-card');
+
+    cards.forEach(card => {
+      const cardCat = card.getAttribute('data-category');
+      const matchesCat = (activeCivicCategory === 'all' || cardCat === activeCivicCategory);
+      const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+      const text = card.textContent.toLowerCase();
+      const matchesQuery = (!q || keywords.includes(q) || text.includes(q));
+
+      if (matchesCat && matchesQuery) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
   window.openCivicDirectoryModal = function (category = 'all') {
     const modal = document.getElementById('civic-directory-modal');
     if (!modal) return;
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    if (category) {
-      window.filterCivicDirectory(category);
-    }
     const searchInput = document.getElementById('civic-search-input');
     if (searchInput) {
       searchInput.value = '';
-      window.handleCivicSearch('');
     }
+    window.filterCivicDirectory(category || 'all');
   };
 
   window.closeCivicDirectoryModal = function () {
@@ -1744,6 +1807,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   window.filterCivicDirectory = function (cat) {
+    activeCivicCategory = cat;
     document.querySelectorAll('.civic-tab-btn').forEach(btn => {
       const isMatch = btn.getAttribute('data-civic-tab') === cat;
       btn.classList.toggle('active', isMatch);
@@ -1753,29 +1817,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       btn.classList.toggle('text-[#555555]', !isMatch);
     });
 
-    const cards = document.querySelectorAll('.civic-card');
-    cards.forEach(card => {
-      const cardCat = card.getAttribute('data-category');
-      if (cat === 'all' || cardCat === cat) {
-        card.classList.remove('hidden');
-      } else {
-        card.classList.add('hidden');
-      }
-    });
+    applyCivicFilter();
   };
 
   window.handleCivicSearch = function (query) {
-    const q = (query || '').toLowerCase().trim();
-    const cards = document.querySelectorAll('.civic-card');
-    cards.forEach(card => {
-      const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
-      const text = card.textContent.toLowerCase();
-      if (!q || keywords.includes(q) || text.includes(q)) {
-        card.classList.remove('hidden');
-      } else {
-        card.classList.add('hidden');
-      }
-    });
+    applyCivicFilter();
   };
 
   window.copyCivicContact = function (text, btnElement) {

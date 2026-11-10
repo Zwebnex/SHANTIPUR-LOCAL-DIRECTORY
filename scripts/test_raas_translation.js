@@ -48,3 +48,4 @@ async function testRaasTranslation() {
 }
 
 testRaasTranslation().catch(console.error);
+
