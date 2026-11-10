@@ -1584,6 +1584,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Bilingual Switcher
   window.toggleLanguage = function(lang) {
+    try {
+      localStorage.setItem('santipur_preferred_lang', lang);
+    } catch (e) {}
+
     window.SHANTIPUR_DATA.currentLang = lang;
     const t = window.SHANTIPUR_DATA.translations[lang];
 
@@ -1794,4 +1798,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderHeritageGallery();
   updateParikramaEstimates();
   updateNavAuthState();
+
+  // Restore preferred language
+  try {
+    const savedLang = localStorage.getItem('santipur_preferred_lang');
+    if (savedLang === 'bn' || savedLang === 'en') {
+      window.toggleLanguage(savedLang);
+    }
+  } catch (e) {}
 });

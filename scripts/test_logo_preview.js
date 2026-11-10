@@ -31,3 +31,4 @@ async function testLogo() {
 }
 
 testLogo().catch(console.error);
+
