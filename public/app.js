@@ -8,21 +8,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   let filteredGalleryAssets = [];
   let selectedShrinesForParikrama = new Set(['agameswari', 'mahishkhagi', 'bamakali']);
 
-  // Fetch API or fallback
+  // Fetch API and Image Manifest in parallel for maximum speed
   try {
-    const res = await fetch('api/heritage.json');
-    if (res.ok) {
-      appData = await res.json();
-    }
-  } catch (e) {
-    console.warn('Using local fallback data payload', e);
-  }
+    const [heritagePromise, manifestPromise] = await Promise.allSettled([
+      fetch('api/heritage.json'),
+      fetch('/images/santipur/image-manifest.json')
+    ]);
 
-  // Fetch Image Manifest
-  try {
-    const manifestRes = await fetch('/images/santipur/image-manifest.json');
-    if (manifestRes.ok) {
-      const manifestData = await manifestRes.json();
+    if (heritagePromise.status === 'fulfilled' && heritagePromise.value.ok) {
+      appData = await heritagePromise.value.json();
+    }
+    if (manifestPromise.status === 'fulfilled' && manifestPromise.value.ok) {
+      const manifestData = await manifestPromise.value.json();
       galleryManifest = (manifestData.images || []).filter(item => 
         item.id !== 'santipur-city-002' && 
         item.subcategory !== 'emblem-logo' && 
@@ -30,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       );
     }
   } catch (e) {
-    console.warn('Error loading image manifest:', e);
+    console.warn('Data initialization notice:', e);
   }
 
   // Fallback if manifest fetch failed
@@ -730,7 +727,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div onclick="window.openDetailModal('${item.id}', '${item.type}'); window.hideLiveSearchDropdown();" class="p-2 hover:bg-[#FAFAF8] rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-colors group">
           <div class="flex items-center gap-2.5 min-w-0">
             <div class="w-8 h-8 rounded-lg bg-gray-100 shrink-0 overflow-hidden border border-[#EAEAEA]">
-              <img src="${item.image_url || '/images/santipur/om-placeholder.svg'}" alt="${title}" class="w-full h-full object-cover" onerror="window.handleImageError(this)" />
+              <img src="${item.image_url || '/images/santipur/om-placeholder.svg'}" alt="${title}" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="window.handleImageError(this)" />
             </div>
             <div class="min-w-0">
               <div class="text-xs font-bold text-[#111827] group-hover:text-[#D94B42] transition-colors truncate">${title}</div>
