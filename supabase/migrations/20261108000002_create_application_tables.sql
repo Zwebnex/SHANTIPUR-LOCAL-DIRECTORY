@@ -134,8 +134,10 @@ AS $$
 DECLARE
     v_full_name TEXT;
     v_role TEXT := 'registered_user';
+    v_phone TEXT;
 BEGIN
     v_full_name := COALESCE(new.raw_user_meta_data->>'full_name', 'Resident of Shantipur');
+    v_phone := new.raw_user_meta_data->>'phone';
     
     -- Check if user metadata requested business_owner role
     IF (new.raw_user_meta_data->>'role') = 'business_owner' THEN
@@ -144,9 +146,11 @@ BEGIN
 
     -- SECURITY GUARANTEE: Newly registered users can NEVER self-assign 'admin'
     -- 'admin' role can only be assigned by project owner or direct database promotion
-    INSERT INTO public.profiles (id, full_name, role)
-    VALUES (new.id, v_full_name, v_role)
-    ON CONFLICT (id) DO NOTHING;
+    INSERT INTO public.profiles (id, full_name, role, phone)
+    VALUES (new.id, v_full_name, v_role, v_phone)
+    ON CONFLICT (id) DO UPDATE SET
+        full_name = EXCLUDED.full_name,
+        phone = COALESCE(EXCLUDED.phone, public.profiles.phone);
 
     RETURN new;
 END;

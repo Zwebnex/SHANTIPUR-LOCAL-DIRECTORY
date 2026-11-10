@@ -483,27 +483,6 @@ const catalogEntries = [
     ],
     verificationNotes: "Passenger platforms and overhead footbridge capturing daily commuters and textile traders."
   },
-  {
-    id: "santipur-city-002",
-    title: "Official Santipur Local Directory Seal",
-    category: "city-photography",
-    subcategory: "emblem-logo",
-    location: "Civic Center, Santipur, Nadia",
-    originalFilename: "logo.png",
-    productionPath: "/images/santipur/city-photography/santipur-local-directory-emblem-01.png",
-    sourcePage: "Santipur Heritage Platform Branding",
-    originalImageUrl: "uploads/logo.png",
-    photographerOrOwner: "Santipur Civic Directory Initiative",
-    license: "Official Brand Asset / Platform Identifier",
-    permissionStatus: "owner-authorized",
-    verified: true,
-    recommendedPlacement: [
-      "navbar-branding-logo",
-      "footer-branding-logo",
-      "favicon"
-    ],
-    verificationNotes: "Circular crest incorporating Santipur's iconic Atchala temple spire, authentic handloom loom, and civic discovery typography."
-  },
 
   // 6. Local Markets & Education
   {

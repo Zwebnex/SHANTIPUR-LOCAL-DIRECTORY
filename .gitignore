@@ -1,8 +1,27 @@
+# Environment & Secrets (STRICT SECURITY - DO NOT UPLOAD)
+.env
+.env*
+.env.*
+.env.local
+.env.example
+*.env
+*.pem
+*.key
+credentials.json
+service-account*.json
+
+# Dependencies & System
 node_modules/
 .DS_Store
 *.log
-.env
-.env.local
-.env.*.local
-*.pem
-*.key
+.system_generated/
+.agents/
+.antigravity-plugin/
+
+# Temporary Previews
+*.png.tmp
+hero_contrast_fix_preview.png
+desktop_nav_preview.png
+mobile_nav_preview.png
+routes_verification_preview.png
+verification_preview.png

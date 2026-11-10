@@ -519,31 +519,6 @@
       "duplicateStatus": "unique"
     },
     {
-      "id": "santipur-city-002",
-      "title": "Official Santipur Local Directory Seal",
-      "category": "city-photography",
-      "subcategory": "emblem-logo",
-      "location": "Civic Center, Santipur, Nadia",
-      "originalFilename": "logo.png",
-      "productionPath": "/images/santipur/city-photography/santipur-local-directory-emblem-01.png",
-      "sourcePage": "Santipur Heritage Platform Branding",
-      "originalImageUrl": "uploads/logo.png",
-      "photographerOrOwner": "Santipur Civic Directory Initiative",
-      "license": "Official Brand Asset / Platform Identifier",
-      "permissionStatus": "owner-authorized",
-      "verified": true,
-      "recommendedPlacement": [
-        "navbar-branding-logo",
-        "footer-branding-logo",
-        "favicon"
-      ],
-      "verificationNotes": "Circular crest incorporating Santipur's iconic Atchala temple spire, authentic handloom loom, and civic discovery typography.",
-      "fileExists": true,
-      "fileSizeBytes": 393813,
-      "sha256Hash": "e462de30d3f7459322e6dde1f29f6f26d5fb7bd1818f97e10dd692e06557d5fb",
-      "duplicateStatus": "unique"
-    },
-    {
       "id": "santipur-market-001",
       "title": "Dignagar Historic Commercial Market",
       "category": "markets",

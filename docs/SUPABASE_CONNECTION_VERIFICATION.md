@@ -110,3 +110,4 @@ Once your key is pasted into `.env.local`:
    - **Status:** `200 OK`
 6. Switch to your Supabase Dashboard → **Authentication → Users**:
    - The new test user will immediately appear in the table!
+

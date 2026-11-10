@@ -197,7 +197,7 @@
   }
 
   // REAL SUPABASE SIGNUP (NO MOCK FALLBACK)
-  async function signUp({ email, password, fullName, role = 'registered_user' }) {
+  async function signUp({ email, password, fullName, phone, role = 'registered_user' }) {
     if (!isConfigured || !supabaseClient) {
       return {
         success: false,
@@ -230,6 +230,7 @@
         options: {
           data: {
             full_name: fullName.trim(),
+            phone: phone ? phone.trim() : null,
             role: safeRole,
           },
           emailRedirectTo: window.location.origin + '/#login',
@@ -238,7 +239,11 @@
 
       if (error) {
         console.error('❌ Supabase Auth signup error:', error);
-        return { success: false, error: error.message };
+        let errorMsg = error.message;
+        if (errorMsg.toLowerCase().includes('rate limit') || error.status === 429 || error.code === 'over_email_send_rate_limit') {
+          errorMsg = 'Supabase Email Rate Limit Reached (Free tier allows max 3-4 verification emails/hour). To bypass this immediately: In your Supabase Dashboard → Authentication → Providers → Email, turn OFF "Confirm email" and click Save.';
+        }
+        return { success: false, error: errorMsg };
       }
 
       // Check if user already exists in Supabase Auth (Supabase returns empty identities array for existing users)

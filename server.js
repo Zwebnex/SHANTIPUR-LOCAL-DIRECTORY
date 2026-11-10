@@ -101,7 +101,9 @@ const MIME_TYPES = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.svg': 'image/svg+xml',
-  '.txt': 'text/plain; charset=utf-8'
+  '.webp': 'image/webp',
+  '.txt': 'text/plain; charset=utf-8',
+  '.xml': 'application/xml; charset=utf-8'
 };
 
 const server = http.createServer((req, res) => {
@@ -213,11 +215,19 @@ const server = http.createServer((req, res) => {
     return res.end('403 Forbidden');
   }
 
+  // Check if directory with index.html, or if file exists directly, or with .html extension
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+    const idxPath = path.join(filePath, 'index.html');
+    if (fs.existsSync(idxPath)) filePath = idxPath;
+  } else if (!fs.existsSync(filePath) && fs.existsSync(filePath + '.html')) {
+    filePath = filePath + '.html';
+  }
+
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // Single Page Application fallback for authentication routes (/login, /signup, etc.)
-      const spaRoutes = ['/login', '/signup', '/forgot-password', '/reset-password'];
-      if (spaRoutes.includes(cleanPath)) {
+      // Single Page Application fallback for routes (/routes, /routes/:slug, /login, /signup, etc.)
+      const spaRoutes = ['/login', '/signup', '/forgot-password', '/reset-password', '/routes'];
+      if (cleanPath.startsWith('/routes') || spaRoutes.includes(cleanPath)) {
         filePath = path.join(PUBLIC_DIR, 'index.html');
       } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });

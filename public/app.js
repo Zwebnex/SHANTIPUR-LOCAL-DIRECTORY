@@ -23,7 +23,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const manifestRes = await fetch('/images/santipur/image-manifest.json');
     if (manifestRes.ok) {
       const manifestData = await manifestRes.json();
-      galleryManifest = manifestData.images || [];
+      galleryManifest = (manifestData.images || []).filter(item => 
+        item.id !== 'santipur-city-002' && 
+        item.subcategory !== 'emblem-logo' && 
+        !(item.title && item.title.toLowerCase().includes('directory seal'))
+      );
     }
   } catch (e) {
     console.warn('Error loading image manifest:', e);
@@ -228,30 +232,43 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let items = getUnifiedListings();
 
-    // Filter by active tab
-    if (activeTab === 'pujas') items = items.filter(i => i.type === 'puja');
-    else if (activeTab === 'temples') items = items.filter(i => i.type === 'temple');
-    else if (activeTab === 'handloom') items = items.filter(i => i.type === 'handloom');
-    else if (activeTab === 'artisans') items = items.filter(i => i.type === 'artisan');
-    else if (activeTab === 'education') items = items.filter(i => i.type === 'education');
-    else if (activeTab === 'official') items = items.filter(i => i.type === 'official');
-
     // Filter by search inputs
-    const query = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
+    const searchInput = document.getElementById('search-input');
+    const query = (searchInput?.value || '').toLowerCase().trim();
     const loc = (document.getElementById('search-location')?.value || 'all').toLowerCase();
     const cat = (document.getElementById('search-category')?.value || 'all').toLowerCase();
 
+    // Toggle Clear Search Button
+    const clearBtn = document.getElementById('search-clear-btn');
+    if (clearBtn) {
+      clearBtn.classList.toggle('hidden', query.length === 0);
+    }
+
+    // Only apply active tab filter if there is no global text query OR if query is empty
+    if (!query) {
+      if (activeTab === 'pujas') items = items.filter(i => i.type === 'puja');
+      else if (activeTab === 'temples') items = items.filter(i => i.type === 'temple');
+      else if (activeTab === 'handloom') items = items.filter(i => i.type === 'handloom');
+      else if (activeTab === 'artisans') items = items.filter(i => i.type === 'artisan');
+      else if (activeTab === 'education') items = items.filter(i => i.type === 'education');
+      else if (activeTab === 'official') items = items.filter(i => i.type === 'official');
+    }
+
     if (query) {
       items = items.filter(i =>
-        i.name_en.toLowerCase().includes(query) ||
-        i.name_bn.toLowerCase().includes(query) ||
-        i.location.toLowerCase().includes(query) ||
-        i.desc_en.toLowerCase().includes(query)
+        (i.name_en && i.name_en.toLowerCase().includes(query)) ||
+        (i.name_bn && i.name_bn.toLowerCase().includes(query)) ||
+        (i.location && i.location.toLowerCase().includes(query)) ||
+        (i.desc_en && i.desc_en.toLowerCase().includes(query)) ||
+        (i.desc_bn && i.desc_bn.toLowerCase().includes(query)) ||
+        (i.category_en && i.category_en.toLowerCase().includes(query)) ||
+        (i.category_bn && i.category_bn.toLowerCase().includes(query)) ||
+        (i.badge_en && i.badge_en.toLowerCase().includes(query))
       );
     }
 
     if (loc !== 'all') {
-      items = items.filter(i => i.location.toLowerCase().includes(loc));
+      items = items.filter(i => i.location && i.location.toLowerCase().includes(loc));
     }
 
     if (cat !== 'all') {
@@ -265,8 +282,30 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (items.length === 0) {
       container.innerHTML = `
-        <div class="col-span-full py-16 text-center bg-white rounded-2xl border border-[#EAEAEA]">
-          <p class="text-sm font-medium text-[#777777]">${lang === 'en' ? 'No heritage listings found matching your search criteria.' : 'আপনার অনুসন্ধানের সাথে মিলিয়ে কোনো স্থান পাওয়া যায়নি।'}</p>
+        <div class="col-span-full py-14 px-4 text-center bg-white rounded-2xl border border-[#EAEAEA] shadow-2xs">
+          <div class="w-12 h-12 rounded-full bg-gray-100 text-[#4B5563] flex items-center justify-center mx-auto mb-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <h4 class="text-base font-bold text-[#111827] mb-1">
+            ${lang === 'en' ? 'No matching Santipur listings found' : 'আপনার অনুসন্ধানের সাথে মিলিয়ে কোনো স্থান পাওয়া যায়নি'}
+          </h4>
+          <p class="text-xs text-[#6B7280] mb-5 max-w-md mx-auto">
+            ${query 
+              ? (lang === 'en' ? `No listings matched "${query}". Try one of the verified suggestions below:` : `"${query}" এর সাথে কোনো তালিকা মেলেনি। নিচের যেকোনো একটি নির্বাচন করুন:`)
+              : (lang === 'en' ? 'Try adjusting your locality or category filter criteria.' : 'আপনার এলাকা বা বিভাগের ফিল্টার পরিবর্তন করে পুনরায় চেষ্টা করুন।')
+            }
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-2 max-w-xl mx-auto">
+            <button type="button" onclick="window.searchByTag('Agameswari')" class="px-3 py-1.5 rounded-lg bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-xs font-semibold text-[#111827] transition-colors">Maa Agameswari</button>
+            <button type="button" onclick="window.searchByTag('Shyamchand')" class="px-3 py-1.5 rounded-lg bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-xs font-semibold text-[#111827] transition-colors">Shyamchand Mandir</button>
+            <button type="button" onclick="window.searchByTag('Boro Goswami')" class="px-3 py-1.5 rounded-lg bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-xs font-semibold text-[#111827] transition-colors">Boro Goswami Bari</button>
+            <button type="button" onclick="window.searchByTag('Santipur College')" class="px-3 py-1.5 rounded-lg bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-xs font-semibold text-[#111827] transition-colors">Santipur College</button>
+            <button type="button" onclick="window.searchByTag('Tant')" class="px-3 py-1.5 rounded-lg bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-xs font-semibold text-[#111827] transition-colors">Shantipuri Tant</button>
+            <button type="button" onclick="window.searchByTag('Police')" class="px-3 py-1.5 rounded-lg bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-xs font-semibold text-[#111827] transition-colors">Police Station</button>
+            <button type="button" onclick="window.clearHeroSearch()" class="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 text-xs font-bold text-red-700 transition-colors">
+              ${lang === 'en' ? 'Reset All Filters' : 'সকল ফিল্টার রিসেট'}
+            </button>
+          </div>
         </div>
       `;
       return;
@@ -284,10 +323,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const verificationBadge = isVerified
         ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-50/95 px-2 py-0.5 rounded shadow-sm border border-emerald-200">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>${lang === 'en' ? 'Verified Authentic' : 'যাচাইকৃত সত্য'}
+            <svg class="w-3 h-3 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            <span>${lang === 'en' ? 'Verified Authentic' : 'যাচাইকৃত সত্য'}</span>
           </span>`
         : `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-800 bg-amber-50/95 px-2 py-0.5 rounded shadow-sm border border-amber-200">
-            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>${lang === 'en' ? 'Verification Pending' : 'যাচাইকরণ প্রক্রিয়াধীন'}
+            <svg class="w-3 h-3 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v5l3 3"/></svg>
+            <span>${lang === 'en' ? 'Verification Pending' : 'যাচাইকরণ প্রক্রিয়াধীন'}</span>
           </span>`;
 
       return `
@@ -414,10 +455,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       const isVerified = item.verified !== false;
       const statusBadge = isVerified
         ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>${t.verifiedBadge}
+            <svg class="w-3 h-3 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            <span>${t.verifiedBadge}</span>
           </span>`
         : `<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>${t.placeholderBadge}
+            <svg class="w-3 h-3 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v5l3 3"/></svg>
+            <span>${t.placeholderBadge}</span>
           </span>`;
 
       return `
@@ -528,20 +571,236 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Search input handlers
-  document.getElementById('search-input')?.addEventListener('input', renderListings);
-  document.getElementById('search-location')?.addEventListener('change', renderListings);
-  document.getElementById('search-category')?.addEventListener('change', renderListings);
+  // Search input handlers & Advanced Real-Time Instant Filter
+  const heroSearchInput = document.getElementById('search-input');
+  heroSearchInput?.addEventListener('input', (e) => {
+    renderListings();
+    renderSearchLiveDropdown(e.target.value);
+  });
+
+  heroSearchInput?.addEventListener('focus', (e) => {
+    if (e.target.value && e.target.value.trim().length >= 2) {
+      renderSearchLiveDropdown(e.target.value);
+    }
+  });
+
+  heroSearchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      window.hideLiveSearchDropdown();
+      renderListings();
+      document.getElementById('listings-section')?.scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'Escape') {
+      window.hideLiveSearchDropdown();
+    }
+  });
+
+  // Hide dropdown on click outside
+  document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('search-live-dropdown');
+    const searchInput = document.getElementById('search-input');
+    if (dropdown && !dropdown.contains(e.target) && e.target !== searchInput) {
+      window.hideLiveSearchDropdown();
+    }
+  });
+
+  document.getElementById('search-location')?.addEventListener('change', () => {
+    renderListings();
+    window.hideLiveSearchDropdown();
+  });
+  document.getElementById('search-category')?.addEventListener('change', () => {
+    renderListings();
+    window.hideLiveSearchDropdown();
+  });
   document.getElementById('search-btn')?.addEventListener('click', () => {
+    window.hideLiveSearchDropdown();
     renderListings();
     document.getElementById('listings-section')?.scrollIntoView({ behavior: 'smooth' });
   });
+
+  // Live Auto-suggest Dropdown Controller
+  function renderSearchLiveDropdown(rawQuery) {
+    const dropdown = document.getElementById('search-live-dropdown');
+    if (!dropdown) return;
+
+    const q = (rawQuery || '').toLowerCase().trim();
+    if (!q || q.length < 2) {
+      dropdown.classList.add('hidden');
+      dropdown.innerHTML = '';
+      return;
+    }
+
+    const lang = window.SHANTIPUR_DATA.currentLang;
+    const listings = getUnifiedListings();
+    const destinations = (window.SHANTIPUR_GIS_DATA && window.SHANTIPUR_GIS_DATA.destinations) || [];
+
+    // Find directory matches
+    const matchedListings = listings.filter(i =>
+      (i.name_en && i.name_en.toLowerCase().includes(q)) ||
+      (i.name_bn && i.name_bn.toLowerCase().includes(q)) ||
+      (i.location && i.location.toLowerCase().includes(q)) ||
+      (i.desc_en && i.desc_en.toLowerCase().includes(q))
+    ).slice(0, 4);
+
+    // Find route destination matches (Bejpara Ground, etc.)
+    const matchedDestinations = destinations.filter(d =>
+      (d.name && d.name.toLowerCase().includes(q)) ||
+      (d.bengali_name && d.bengali_name.toLowerCase().includes(q)) ||
+      (d.address && d.address.toLowerCase().includes(q)) ||
+      (d.description && d.description.toLowerCase().includes(q))
+    ).slice(0, 3);
+
+    // Civic services matches (Police, Hospital, Municipality, Fire)
+    const civicEntries = [
+      { id: 'police', title: 'Santipur Police Station (শান্তিপুর থানা)', sub: 'Shyamchandpara • 03472-278030', keywords: 'police thana cop emergency 112 100 ranaghat' },
+      { id: 'hospital', title: 'Santipur State General Hospital', sub: 'Hospital Road • 03472-278244', keywords: 'hospital medical doctor emergency casualty 102 108' },
+      { id: 'civic', title: 'Shantipur Municipality (শান্তিপুর পুরসভা)', sub: 'Netaji Subhash Road • 03472-278029', keywords: 'municipality civic wards tax death birth certificate' },
+      { id: 'fire', title: 'Santipur Fire & Rescue Station', sub: 'Ranaghat Subdivision • 101 / 03472-278101', keywords: 'fire rescue brigade disaster emergency 101' }
+    ];
+    const matchedCivic = civicEntries.filter(c =>
+      c.title.toLowerCase().includes(q) || c.keywords.includes(q)
+    ).slice(0, 2);
+
+    const totalCount = matchedListings.length + matchedDestinations.length + matchedCivic.length;
+
+    if (totalCount === 0) {
+      dropdown.innerHTML = `
+        <div class="p-4 text-center">
+          <p class="text-xs font-bold text-[#111827] mb-1">
+            ${lang === 'en' ? `No matching Santipur listings found for "${rawQuery}"` : `"${rawQuery}" এর জন্য কোনো তালিকা মেলেনি`}
+          </p>
+          <p class="text-[11px] text-[#6B7280] mb-3">
+            ${lang === 'en' ? 'Try these popular verified places:' : 'জনপ্রিয় স্থানসমূহ:'}
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-1.5">
+            <button type="button" onclick="window.selectLiveSearchItem('Agameswari')" class="px-2.5 py-1 rounded-md bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-[11px] font-semibold text-[#111827]">Maa Agameswari</button>
+            <button type="button" onclick="window.selectLiveSearchItem('Bejpara')" class="px-2.5 py-1 rounded-md bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-[11px] font-semibold text-[#111827]">Bejpara Ground</button>
+            <button type="button" onclick="window.selectLiveSearchItem('Shyamchand')" class="px-2.5 py-1 rounded-md bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-[11px] font-semibold text-[#111827]">Shyamchand</button>
+            <button type="button" onclick="window.selectLiveSearchItem('Police')" class="px-2.5 py-1 rounded-md bg-[#FAFAF8] hover:bg-gray-100 border border-[#EAEAEA] text-[11px] font-semibold text-[#111827]">Police Station</button>
+          </div>
+        </div>
+      `;
+      dropdown.classList.remove('hidden');
+      return;
+    }
+
+    let html = `
+      <div class="px-3 py-1.5 flex items-center justify-between text-[11px] font-bold text-[#6B7280] bg-[#FAFAF8] rounded-t-xl mb-1">
+        <span>${lang === 'en' ? `Found ${totalCount} instant matches` : `${totalCount}টি মিল পাওয়া গেছে`}</span>
+        <button type="button" onclick="window.clearHeroSearch()" class="text-xs text-[#D94B42] hover:underline font-semibold">${lang === 'en' ? 'Clear' : 'মুছুন'}</button>
+      </div>
+      <div class="space-y-1">
+    `;
+
+    // 1. Directory Listings
+    matchedListings.forEach(item => {
+      const title = lang === 'en' ? item.name_en : item.name_bn;
+      const cat = lang === 'en' ? item.category_en : item.category_bn;
+      html += `
+        <div onclick="window.openDetailModal('${item.id}', '${item.type}'); window.hideLiveSearchDropdown();" class="p-2 hover:bg-[#FAFAF8] rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-colors group">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-lg bg-gray-100 shrink-0 overflow-hidden border border-[#EAEAEA]">
+              <img src="${item.image_url || '/images/santipur/om-placeholder.svg'}" alt="${title}" class="w-full h-full object-cover" onerror="window.handleImageError(this)" />
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-[#111827] group-hover:text-[#D94B42] transition-colors truncate">${title}</div>
+              <div class="text-[10px] text-[#6B7280] truncate">${item.location}</div>
+            </div>
+          </div>
+          <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-gray-100 text-[#4B5563] shrink-0">${cat}</span>
+        </div>
+      `;
+    });
+
+    // 2. Route Destinations
+    matchedDestinations.forEach(dest => {
+      const name = lang === 'en' ? dest.name : (dest.bengali_name || dest.name);
+      html += `
+        <div onclick="window.focusDestinationOnMap('${dest.slug}'); window.hideLiveSearchDropdown();" class="p-2 hover:bg-amber-50/60 rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-colors group">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-[#111827] group-hover:text-[#D94B42] transition-colors truncate">${name}</div>
+              <div class="text-[10px] text-[#6B7280] truncate">${dest.address}</div>
+            </div>
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-900 shrink-0">Route Map</span>
+        </div>
+      `;
+    });
+
+    // 3. Civic Contacts
+    matchedCivic.forEach(civic => {
+      html += `
+        <div onclick="window.openCivicDirectoryModal(); window.hideLiveSearchDropdown();" class="p-2 hover:bg-red-50/60 rounded-xl flex items-center justify-between gap-3 cursor-pointer transition-colors group">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-lg bg-red-100 text-red-800 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-[#111827] group-hover:text-red-700 transition-colors truncate">${civic.title}</div>
+              <div class="text-[10px] text-[#6B7280] truncate">${civic.sub}</div>
+            </div>
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-red-100 text-red-900 shrink-0">Civic Desk</span>
+        </div>
+      `;
+    });
+
+    html += `
+      </div>
+      <div class="pt-2 mt-2 border-t border-gray-100 text-center">
+        <button type="button" onclick="document.getElementById('listings-section')?.scrollIntoView({ behavior: 'smooth' }); window.hideLiveSearchDropdown();" class="text-xs font-bold text-[#D94B42] hover:underline inline-flex items-center gap-1">
+          <span>${lang === 'en' ? 'View all filtered results in directory' : 'ডিরেক্টরিতে সকল ফলাফল দেখুন'}</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+    `;
+
+    dropdown.innerHTML = html;
+    dropdown.classList.remove('hidden');
+  }
+
+  window.hideLiveSearchDropdown = function() {
+    const dropdown = document.getElementById('search-live-dropdown');
+    if (dropdown) dropdown.classList.add('hidden');
+  };
+
+  window.selectLiveSearchItem = function(term) {
+    const input = document.getElementById('search-input');
+    if (input) {
+      input.value = term;
+      const clearBtn = document.getElementById('search-clear-btn');
+      if (clearBtn) clearBtn.classList.remove('hidden');
+      renderListings();
+      renderSearchLiveDropdown(term);
+      document.getElementById('listings-section')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  window.clearHeroSearch = function() {
+    const input = document.getElementById('search-input');
+    const clearBtn = document.getElementById('search-clear-btn');
+    if (input) input.value = '';
+    if (clearBtn) clearBtn.classList.add('hidden');
+    window.hideLiveSearchDropdown();
+    const loc = document.getElementById('search-location');
+    const cat = document.getElementById('search-category');
+    if (loc) loc.value = 'all';
+    if (cat) cat.value = 'all';
+    renderListings();
+  };
 
   // Popular search tag clicks
   window.searchByTag = function(term) {
     const input = document.getElementById('search-input');
     if (input) {
       input.value = term;
+      const clearBtn = document.getElementById('search-clear-btn');
+      if (clearBtn) clearBtn.classList.remove('hidden');
+      window.hideLiveSearchDropdown();
       renderListings();
       document.getElementById('listings-section')?.scrollIntoView({ behavior: 'smooth' });
     }
@@ -657,10 +916,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="flex items-center gap-2 min-w-0">
           ${isVerified 
             ? `<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-800 bg-emerald-100/70 px-2 py-0.5 rounded border border-emerald-300 shrink-0">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>${lang === 'en' ? 'Verified Authentic' : 'যাচাইকৃত সত্য'}
+                <svg class="w-3.5 h-3.5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                <span>${lang === 'en' ? 'Verified Authentic' : 'যাচাইকৃত সত্য'}</span>
                </span>`
             : `<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-amber-800 bg-amber-100/70 px-2 py-0.5 rounded border border-amber-300 shrink-0">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>${lang === 'en' ? 'Verification Pending' : 'যাচাইকরণ প্রক্রিয়াধীন'}
+                <svg class="w-3.5 h-3.5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v5l3 3"/></svg>
+                <span>${lang === 'en' ? 'Verification Pending' : 'যাচাইকরণ প্রক্রিয়াধীন'}</span>
                </span>`
           }
           <span class="text-[11px] text-[#777777] font-medium truncate" title="${sourceInfo}">
@@ -840,21 +1101,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     const user = window.ShantipurAuth ? window.ShantipurAuth.getUser() : null;
     const profile = window.ShantipurAuth ? window.ShantipurAuth.getProfile() : null;
     const navLabel = document.getElementById('nav-auth-label');
-    const navBtn = document.getElementById('nav-auth-btn');
+    const mobileLabel = document.getElementById('mobile-auth-label');
 
-    if (navLabel) {
-      if (user) {
-        const displayName = profile?.full_name || user.email?.split('@')[0] || 'My Account';
-        const role = profile?.role || 'user';
-        let roleBadge = '';
-        if (role === 'admin') roleBadge = ' (Admin)';
-        else if (role === 'business_owner') roleBadge = ' (Merchant)';
-        navLabel.textContent = displayName + roleBadge;
-      } else {
-        const lang = window.SHANTIPUR_DATA ? window.SHANTIPUR_DATA.currentLang : 'en';
-        navLabel.textContent = lang === 'en' ? 'Sign In' : 'প্রবেশ করুন';
-      }
+    const lang = window.SHANTIPUR_DATA ? window.SHANTIPUR_DATA.currentLang : 'en';
+    let textToDisplay = lang === 'en' ? 'Sign In' : 'প্রবেশ করুন';
+
+    if (user) {
+      const displayName = profile?.full_name || user.email?.split('@')[0] || 'My Account';
+      const role = profile?.role || 'user';
+      let roleBadge = '';
+      if (role === 'admin') roleBadge = ' (Admin)';
+      else if (role === 'business_owner') roleBadge = ' (Merchant)';
+      textToDisplay = displayName + roleBadge;
     }
+
+    if (navLabel) navLabel.textContent = textToDisplay;
+    if (mobileLabel) mobileLabel.textContent = textToDisplay;
   }
 
   // Live Auth state subscriber
@@ -1042,6 +1304,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     event.preventDefault();
     const name = document.getElementById('signup-name')?.value.trim();
     const email = document.getElementById('signup-email')?.value.trim();
+    const phone = document.getElementById('signup-phone')?.value.trim();
     const roleRadio = document.querySelector('input[name="signup-role"]:checked');
     const role = roleRadio ? roleRadio.value : 'registered_user';
     const password = document.getElementById('signup-password')?.value;
@@ -1073,6 +1336,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         email,
         password,
         fullName: name,
+        phone,
         role
       });
 
@@ -1286,7 +1550,10 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="p-4 rounded-xl border ${userBiz.verificationStatus === 'verified' ? 'bg-emerald-50 border-emerald-200' : 'bg-amber-50 border-amber-200'}">
             <div class="flex items-center justify-between mb-2">
               <span class="inline-flex items-center gap-1.5 text-xs font-bold ${userBiz.verificationStatus === 'verified' ? 'text-emerald-800' : 'text-amber-800'}">
-                <span class="w-2 h-2 rounded-full ${userBiz.verificationStatus === 'verified' ? 'bg-emerald-600' : 'bg-amber-600 animate-pulse'}"></span>
+                ${userBiz.verificationStatus === 'verified' 
+                  ? `<svg class="w-3.5 h-3.5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>` 
+                  : `<svg class="w-3.5 h-3.5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v5l3 3"/></svg>`
+                }
                 ${userBiz.verificationStatus === 'verified' ? 'OFFICIALLY VERIFIED & PUBLISHED' : 'VERIFICATION IN PROGRESS (24-48 HRS)'}
               </span>
               <span class="text-[11px] font-mono text-[#777777]">ID: ${userBiz.id}</span>
@@ -1339,6 +1606,187 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderListings();
     renderHeritageGallery();
     updateParikramaEstimates();
+  };
+
+  // ==============================================================================
+  // NAVIGATION DROPDOWNS & RESPONSIVE MOBILE ACCORDION SYSTEM
+  // ==============================================================================
+
+  // 1. Mobile Menu Toggle
+  window.toggleMobileMenu = function (forceClose = false) {
+    const drawer = document.getElementById('mobile-menu-drawer');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    const toggleBtn = document.getElementById('mobile-menu-toggle-btn');
+    if (!drawer) return;
+
+    const isCurrentlyOpen = !drawer.classList.contains('hidden');
+    const shouldClose = forceClose || isCurrentlyOpen;
+
+    if (shouldClose) {
+      drawer.classList.add('hidden');
+      if (hamburgerIcon) hamburgerIcon.classList.remove('hidden');
+      if (closeIcon) closeIcon.classList.add('hidden');
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+    } else {
+      drawer.classList.remove('hidden');
+      if (hamburgerIcon) hamburgerIcon.classList.add('hidden');
+      if (closeIcon) closeIcon.classList.remove('hidden');
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+    }
+  };
+
+  // 2. Mobile Accordion Toggle
+  window.toggleMobileAccordion = function (accId) {
+    const target = document.getElementById(accId);
+    const icon = document.getElementById(`${accId}-icon`);
+    if (!target) return;
+
+    const isHidden = target.classList.contains('hidden');
+
+    // Close other mobile accordions for accordion behavior
+    ['acc-routes', 'acc-heritage', 'acc-institutes', 'acc-civic'].forEach(id => {
+      if (id !== accId) {
+        document.getElementById(id)?.classList.add('hidden');
+        document.getElementById(`${id}-icon`)?.classList.remove('rotate-180');
+      }
+    });
+
+    if (isHidden) {
+      target.classList.remove('hidden');
+      if (icon) icon.classList.add('rotate-180');
+    } else {
+      target.classList.add('hidden');
+      if (icon) icon.classList.remove('rotate-180');
+    }
+  };
+
+  // 3. Desktop Dropdown Touch / Click Toggle (supports tablets & click accessibility)
+  window.toggleNavDropdown = function (btn) {
+    const parent = btn.closest('.nav-dropdown-item');
+    if (!parent) return;
+    const menu = parent.querySelector('.dropdown-menu');
+    if (!menu) return;
+
+    const isOpen = menu.classList.contains('active-dropdown');
+
+    // Close all other dropdowns
+    document.querySelectorAll('.dropdown-menu.active-dropdown').forEach(m => {
+      m.classList.remove('active-dropdown', 'opacity-100', 'pointer-events-auto', 'translate-y-0');
+      m.closest('.nav-dropdown-item')?.querySelector('button')?.setAttribute('aria-expanded', 'false');
+    });
+
+    if (!isOpen) {
+      menu.classList.add('active-dropdown', 'opacity-100', 'pointer-events-auto', 'translate-y-0');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  };
+
+  // Dismiss dropdowns on outside click or escape key
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-dropdown-item')) {
+      document.querySelectorAll('.dropdown-menu.active-dropdown').forEach(m => {
+        m.classList.remove('active-dropdown', 'opacity-100', 'pointer-events-auto', 'translate-y-0');
+        m.closest('.nav-dropdown-item')?.querySelector('button')?.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.dropdown-menu.active-dropdown').forEach(m => {
+        m.classList.remove('active-dropdown', 'opacity-100', 'pointer-events-auto', 'translate-y-0');
+      });
+      window.closeCivicDirectoryModal();
+      window.toggleMobileMenu(true);
+    }
+  });
+
+  // 4. Smooth Navigate to Routes
+  window.navigateToRoutes = function (trailSlug) {
+    const routesSec = document.getElementById('routes-section');
+    if (routesSec) {
+      routesSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (trailSlug && typeof window.selectCuratedTrail === 'function') {
+      window.selectCuratedTrail(trailSlug);
+    }
+  };
+
+  // ==============================================================================
+  // CIVIC & EMERGENCY DIRECTORY MODAL SYSTEM
+  // ==============================================================================
+
+  window.openCivicDirectoryModal = function (category = 'all') {
+    const modal = document.getElementById('civic-directory-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    if (category) {
+      window.filterCivicDirectory(category);
+    }
+    const searchInput = document.getElementById('civic-search-input');
+    if (searchInput) {
+      searchInput.value = '';
+      window.handleCivicSearch('');
+    }
+  };
+
+  window.closeCivicDirectoryModal = function () {
+    const modal = document.getElementById('civic-directory-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  };
+
+  window.filterCivicDirectory = function (cat) {
+    document.querySelectorAll('.civic-tab-btn').forEach(btn => {
+      const isMatch = btn.getAttribute('data-civic-tab') === cat;
+      btn.classList.toggle('active', isMatch);
+      btn.classList.toggle('bg-[#202020]', isMatch);
+      btn.classList.toggle('text-white', isMatch);
+      btn.classList.toggle('bg-[#FAFAF8]', !isMatch);
+      btn.classList.toggle('text-[#555555]', !isMatch);
+    });
+
+    const cards = document.querySelectorAll('.civic-card');
+    cards.forEach(card => {
+      const cardCat = card.getAttribute('data-category');
+      if (cat === 'all' || cardCat === cat) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  };
+
+  window.handleCivicSearch = function (query) {
+    const q = (query || '').toLowerCase().trim();
+    const cards = document.querySelectorAll('.civic-card');
+    cards.forEach(card => {
+      const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+      const text = card.textContent.toLowerCase();
+      if (!q || keywords.includes(q) || text.includes(q)) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  };
+
+  window.copyCivicContact = function (text, btnElement) {
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => {
+      const originalText = btnElement.innerText;
+      btnElement.innerText = 'Copied!';
+      btnElement.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-300');
+      setTimeout(() => {
+        btnElement.innerText = originalText;
+        btnElement.classList.remove('bg-emerald-50', 'text-emerald-700', 'border-emerald-300');
+      }, 1800);
+    }).catch(err => {
+      console.warn('Clipboard copy error:', err);
+    });
   };
 
   // Initialize

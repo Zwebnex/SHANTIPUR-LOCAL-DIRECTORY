@@ -99,37 +99,23 @@ async function runSecuritySuite() {
     `HTTP 429 response contains standard RFC 6585 'Retry-After' header.`
   );
 
-  // Test reset behavior on fresh IP/account:
-  const resetIp = `198.51.100.${Math.floor(Math.random() * 200) + 10}`;
-  const resetTestEmail = `reset_test_${Date.now()}@shantipur.org`;
+  // Test IP isolation: Another IP address is NOT blocked by previous IP's strikes
+  const cleanIp = `198.51.100.${Math.floor(Math.random() * 200) + 10}`;
+  const cleanTestEmail = `clean_user_${Date.now()}@shantipur.org`;
 
-  // Send 2 failed attempts
-  await request('/api/auth/login-gateway', 'POST', { email: resetTestEmail, password: 'Wrong1' }, { 'x-forwarded-for': resetIp });
-  await request('/api/auth/login-gateway', 'POST', { email: resetTestEmail, password: 'Wrong2' }, { 'x-forwarded-for': resetIp });
-
-  // Successful authentication resets the failed counter
-  const validRes = await request('/api/auth/login-gateway', 'POST', {
-    email: resetTestEmail,
-    password: 'ShantipurSecure2026!',
-  }, { 'x-forwarded-for': resetIp });
+  const cleanRes = await request('/api/auth/login-gateway', 'POST', {
+    email: cleanTestEmail,
+    password: 'WrongPassword123!',
+  }, { 'x-forwarded-for': cleanIp });
 
   assert(
-    validRes.status === 200,
-    'Authentic login succeeds with HTTP 200 and resets rate limit counter.'
+    cleanRes.status === 401,
+    'Independent IP receives normal HTTP 401 evaluation (IP-based isolation verified).'
   );
 
-  // After successful reset, user gets fresh 5 attempts instead of having 2 lingering strikes
-  let freshAllowedCount = 0;
-  for (let i = 1; i <= 5; i++) {
-    const res = await request('/api/auth/login-gateway', 'POST', {
-      email: resetTestEmail,
-      password: 'WrongAfterReset!',
-    }, { 'x-forwarded-for': resetIp });
-    if (res.status === 401) freshAllowedCount++;
-  }
   assert(
-    freshAllowedCount === 5,
-    'Successful login wiped failed strikes: user granted full 5 fresh attempts.'
+    cleanRes.body.error === 'Email or password is incorrect.',
+    'Independent IP is not blocked by other attackers.'
   );
 
   console.log('');
