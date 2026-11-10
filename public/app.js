@@ -84,9 +84,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const getResolvedCover = (id, fallback) => {
       if (window.SANTIPUR_LISTING_IMAGE_REGISTRY && typeof window.SANTIPUR_LISTING_IMAGE_REGISTRY.getCover === 'function') {
         const cover = window.SANTIPUR_LISTING_IMAGE_REGISTRY.getCover(id);
-        if (cover) return cover;
+        if (cover && cover !== window.SANTIPUR_LISTING_IMAGE_REGISTRY.defaultPlaceholderPath) return cover;
       }
-      return fallback;
+      if (fallback && fallback !== '/images/santipur/om-placeholder.svg') return fallback;
+      if (window.SANTIPUR_LISTING_IMAGE_REGISTRY && typeof window.SANTIPUR_LISTING_IMAGE_REGISTRY.getCover === 'function') {
+        return window.SANTIPUR_LISTING_IMAGE_REGISTRY.getCover(id);
+      }
+      return fallback || '/images/santipur/om-placeholder.svg';
     };
 
     // Sacred Pujas
