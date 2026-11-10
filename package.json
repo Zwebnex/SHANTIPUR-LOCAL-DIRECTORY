@@ -4,8 +4,8 @@
   "private": true,
   "description": "Interactive web platform for Shantipur, Nadia, West Bengal (PIN 741404) featuring Antigravity Zero-G physics, authentic 500-year Kali Puja lore, and GI-tagged Tant handloom radar.",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
+    "start": "node scripts/server.js",
+    "dev": "node scripts/server.js",
     "seed": "node scripts/seed_db.js",
     "build": "echo Static build complete"
   },

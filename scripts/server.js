@@ -5,13 +5,14 @@ const path = require('path');
 const crypto = require('crypto');
 
 const PORT = 5173;
-const PUBLIC_DIR = path.join(__dirname, 'public');
+const ROOT_DIR = path.resolve(__dirname, '..');
+const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
 
 // 1. Safe Environment Loader (.env.local)
 function loadEnv() {
   const envFiles = ['.env.local', '.env'];
   for (const file of envFiles) {
-    const fullPath = path.join(__dirname, file);
+    const fullPath = path.join(ROOT_DIR, file);
     if (fs.existsSync(fullPath)) {
       const content = fs.readFileSync(fullPath, 'utf8');
       content.split('\n').forEach(line => {
