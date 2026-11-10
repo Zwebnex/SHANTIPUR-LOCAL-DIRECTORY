@@ -1,2 +1,2 @@
-# DocMitra
-A document processing tool
+# SHANTIPUR LOCAL DIRECTORY
+ALL ABOUT SHANTIPUR
