@@ -38,3 +38,4 @@ if (fs.existsSync(path.join(rootDir, 'vercel.json'))) {
 }
 
 console.log('Static routing and build generation completed successfully.');
+

@@ -1079,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   // =========================================================================
-  // PRODUCTION AUTHENTICATION & PORTAL CENTER (SUPABASE + SERVER-SIDE RATE LIMITER)
+  // PRODUCTION AUTHENTICATION & PORTAL CENTER (SECURE RATE-LIMITED GATEWAY)
   // Enforces 5-failed-attempts/50s gateway, strong passwords, RLS, & role management
   // =========================================================================
   const BIZ_STORAGE_KEY = 'santipur_registered_businesses';
@@ -1469,7 +1469,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!authRes.success) {
       if (errorBox) {
-        errorBox.textContent = `Supabase Registration Error: ${authRes.error}`;
+        errorBox.textContent = authRes.error || 'Registration failed. Please check your information and try again.';
         errorBox.classList.remove('hidden');
       }
       return;
