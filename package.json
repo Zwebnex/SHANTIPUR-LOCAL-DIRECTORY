@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "seed": "node seed_db.js",
-    "build": "node seed_db.js"
+    "seed": "node scripts/seed_db.js",
+    "build": "echo Static build complete"
   },
   "keywords": [
     "shantipur",

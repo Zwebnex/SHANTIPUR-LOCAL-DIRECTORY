@@ -137,3 +137,4 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 - **Founders:** Shankha Subhra Sadhukhan & Bipra Das
 - **Lead Developer & Designer:** Bipra Das
 - **Copyright:** © 2026 Santipur Local Directory Platform. All rights reserved.
+
