@@ -403,3 +403,4 @@ INSERT INTO public.stay_bookings (
     'full_paid'
 )
 ON CONFLICT (id) DO NOTHING;
+

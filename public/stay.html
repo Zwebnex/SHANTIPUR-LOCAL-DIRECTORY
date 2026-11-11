@@ -1084,6 +1084,64 @@
   </div>
 
   <!-- ======================================================================= -->
+  <!-- OWNER TARIFF VERIFICATION POLICY POP-UP MODAL -->
+  <!-- ======================================================================= -->
+  <div id="tariff-verification-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-gray-200 overflow-hidden my-auto p-6 sm:p-7 space-y-4 text-center">
+      
+      <!-- Icon & Status Tag -->
+      <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mx-auto text-2xl shadow-inner">
+        🔒
+      </div>
+
+      <div>
+        <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 uppercase tracking-wider" id="verify-modal-badge">
+          Owner Verification Policy
+        </span>
+        <h3 class="text-xl font-extrabold text-[#1A1D24] mt-1.5" id="verify-modal-prop-name">
+          Tariff Hidden: Verification Pending
+        </h3>
+        <p class="text-xs text-gray-500 mt-1" id="verify-modal-subtitle">
+          Santipur Heritage Hospitality Engine Quality & Transparency Protection
+        </p>
+      </div>
+
+      <!-- Explanatory Text Box -->
+      <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 text-left text-xs space-y-2.5 text-gray-700 leading-relaxed">
+        <div class="font-bold text-[#1A1D24] flex items-center gap-1.5" id="verify-modal-faq-heading">
+          <span>ℹ️</span> <span>Why is this property's price not displayed?</span>
+        </div>
+        <p id="verify-modal-faq-desc1">
+          To protect visitors and pilgrims from unauthorized seasonal tariff fluctuations and festive overcharging, room rates are kept <strong>private until officially verified by the property owner</strong>.
+        </p>
+        <p class="text-gray-500 text-[11px]" id="verify-modal-faq-desc2">
+          Once the property manager verifies their tariff schedule in the Owner Admin Portal, exact nightly prices become immediately visible. You may contact the manager directly for immediate rate confirmation.
+        </p>
+      </div>
+
+      <!-- Property Manager Direct Contact Card -->
+      <div class="bg-blue-50/70 rounded-2xl p-3.5 border border-blue-200/80 text-left flex items-center justify-between gap-3 text-xs">
+        <div>
+          <span class="text-[10px] font-bold uppercase text-blue-900 block" id="verify-modal-desk-label">Property Manager</span>
+          <span class="font-bold text-[#1A1D24]" id="verify-modal-owner-name">Manager Desk</span>
+          <div class="text-[11px] text-gray-500" id="verify-modal-landmark">Santipur (PIN: 741404)</div>
+        </div>
+        <a id="verify-modal-phone-btn" href="tel:+919832100000" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold flex items-center gap-1 shadow-sm transition-colors text-xs shrink-0">
+          <span>📞 Call Desk</span>
+        </a>
+      </div>
+
+      <!-- Close Action -->
+      <div class="pt-2">
+        <button onclick="window.closeTariffVerificationModal()" class="w-full py-2.5 bg-[#1A1D24] hover:bg-black text-white text-xs font-bold rounded-xl transition-colors">
+          Understood &amp; Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
   <!-- FOOTER -->
   <!-- ======================================================================= -->
   <footer class="bg-white border-t border-gray-200/80 py-8 text-xs text-gray-500">
@@ -1106,3 +1164,4 @@
   <script src="stayApp.js"></script>
 </body>
 </html>
+

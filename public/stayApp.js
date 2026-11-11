@@ -39,7 +39,17 @@
       freeWifi: 'Free Wi-Fi',
       attachedBath: 'Attached Bath',
       roomNo: 'Room No',
-      confirmBooking: 'Confirm & Generate Booking Pass'
+      confirmBooking: 'Confirm & Generate Booking Pass',
+      tariffOnRequest: 'Tariff on Request',
+      unverifiedByOwner: 'Pending owner verification',
+      whyHidden: 'Why hidden?',
+      nightlyTariff: 'Nightly Tariff',
+      verifyModalBadge: 'Owner Verification Policy',
+      verifyModalTitle: 'Tariff Hidden: Verification Pending',
+      verifyModalSubtitle: 'Santipur Heritage Hospitality Engine Quality & Transparency Protection',
+      verifyFaqTitle: 'Why is this property\'s price not displayed?',
+      verifyFaqDesc1: 'To protect visitors and pilgrims from unauthorized seasonal tariff fluctuations and festive overcharging, room rates are kept private until officially verified by the property owner.',
+      verifyFaqDesc2: 'Once the property manager verifies their tariff schedule in the Owner Admin Portal, exact nightly prices become immediately visible. You may contact the manager directly for immediate rate confirmation.'
     },
     bn: {
       browseTab: 'আবাসন খুঁজুন',
@@ -64,7 +74,17 @@
       freeWifi: 'ফ্রি ওয়াইফাই',
       attachedBath: 'সংযুক্ত শৌচাগার',
       roomNo: 'রুম নং',
-      confirmBooking: 'নিশ্চিত করুন ও পাস সংগ্রহ করুন'
+      confirmBooking: 'নিশ্চিত করুন ও পাস সংগ্রহ করুন',
+      tariffOnRequest: 'মূল্য অনুরোধ সাপেক্ষে',
+      unverifiedByOwner: 'মালিকের যাচাইকরণ মুলতুবি',
+      whyHidden: 'কেন লুকানো?',
+      nightlyTariff: 'প্রতি রাত্রির ভাড়া',
+      verifyModalBadge: 'মালিকের মূল্য যাচাইকরণ নীতি',
+      verifyModalTitle: 'মূল্য গোপন: যাচাইকরণ মুলতুবি',
+      verifyModalSubtitle: 'শান্তিপুর হেরিটেজ আতিথেয়তা ইঞ্জিনের মান ও স্বচ্ছতা সুরক্ষা',
+      verifyFaqTitle: 'কেন এই আবাসনের মূল্য সরাসরি প্রদর্শিত হচ্ছে না?',
+      verifyFaqDesc1: 'রাস উৎসব বা মেলা চলাকালীন তীর্থযাত্রী ও পর্যটকদের অননুমোদিত অতিরিক্ত ভাড়া বা বিভ্রান্তি থেকে রক্ষা করতে, সরাসরি মালিক দ্বারা অনুমোদিত না হওয়া পর্যন্ত নির্দিষ্ট কক্ষের ভাড়া গোপন রাখা হয়।',
+      verifyFaqDesc2: 'মালিক অ্যাডমিন পোর্টালে তাদের বর্তমান ভাড়া অনুমোদন করলেই সঠিক মূল্য সরাসরি বুকিংয়ের জন্য দৃশ্যমান হয়। তাৎক্ষণিক ভাড়ার তথ্যের জন্য সরাসরি ম্যানেজারের সাথে ফোনে যোগাযোগ করুন।'
     }
   };
 
@@ -188,7 +208,7 @@
   };
 
   /**
-   * Render Listings Grid
+   * Render Listings Grid (Strict Rule: Do not show prices if not verified by owners!)
    */
   function renderAccommodationsGrid(items) {
     const grid = document.getElementById('accommodations-grid');
@@ -212,11 +232,55 @@
     grid.innerHTML = items.map((acc) => {
       const thumb = acc.main_image_url || '/images/santipur/stays/santipur-stay-room-master.jpg';
       const amenities = acc.amenities || {};
+      const isVerified = acc.is_verified === true;
+
       const statusBadge = acc.status === 'sold_out' 
         ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-700 uppercase">Sold Out</span>'
         : acc.status === 'inactive'
         ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 text-gray-600 uppercase">Maintenance</span>'
         : '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase">Available</span>';
+
+      // Strict Condition: If NOT verified by owner, hide the price!
+      const priceOverlayHtml = isVerified
+        ? `
+          <div class="text-[10px] uppercase font-bold text-gray-200 tracking-wider">Starting Tariff</div>
+          <div class="text-xl font-extrabold tracking-tight">${formatINR(acc.price_per_night)} <span class="text-xs font-normal text-gray-200">${I18N[currentLang].pricePerNight}</span></div>
+        `
+        : `
+          <div class="text-[10px] uppercase font-bold text-amber-300 tracking-wider flex items-center gap-1">
+            <span>🔒</span> <span>${I18N[currentLang].tariffOnRequest}</span>
+          </div>
+          <div class="text-xs font-bold text-white tracking-tight flex items-center gap-1 mt-0.5">
+            <span>${I18N[currentLang].unverifiedByOwner}</span>
+          </div>
+        `;
+
+      const priceBodyHtml = isVerified
+        ? `
+          <div class="mt-3 flex items-center justify-between text-xs font-semibold text-gray-700 bg-gray-50/90 px-3 py-2 rounded-xl">
+            <span class="text-gray-500">${I18N[currentLang].nightlyTariff}:</span>
+            <span class="text-sm font-extrabold text-[#D94B42]">${formatINR(acc.price_per_night)} <span class="text-[10px] text-gray-500 font-normal">${I18N[currentLang].pricePerNight}</span></span>
+          </div>
+        `
+        : `
+          <div class="mt-3 p-2.5 rounded-xl bg-amber-50/90 border border-amber-200 flex items-center justify-between gap-2 text-xs">
+            <div>
+              <div class="font-extrabold text-amber-900 text-xs flex items-center gap-1">
+                <span>🔒</span> <span>${I18N[currentLang].tariffOnRequest}</span>
+              </div>
+              <div class="text-[10px] text-amber-700 font-medium">${I18N[currentLang].unverifiedByOwner}</div>
+            </div>
+            <button 
+              type="button" 
+              onclick="window.openTariffVerificationModal('${acc.id}', event)" 
+              class="px-2.5 py-1 bg-amber-200/90 hover:bg-amber-300 text-amber-950 font-bold text-[11px] rounded-lg transition-colors shadow-2xs flex items-center gap-1 cursor-pointer shrink-0"
+              title="Click to view why tariffs are hidden"
+            >
+              <span>${I18N[currentLang].whyHidden}</span>
+              <span>ⓘ</span>
+            </button>
+          </div>
+        `;
 
       return `
         <article class="bg-white rounded-2xl border border-gray-200/80 shadow-2xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col group">
@@ -230,7 +294,7 @@
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
               onerror="this.src='/images/santipur/stays/santipur-stay-room-master.jpg'"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30"></div>
             
             <!-- Type & Status Pill Badges -->
             <div class="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
@@ -242,17 +306,17 @@
               </span>
             </div>
 
-            <div class="absolute top-3 right-3">
+            <div class="absolute top-3 right-3 flex items-center gap-1.5">
+              ${isVerified ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-600 text-white shadow-xs">✓ Verified</span>' : ''}
               ${statusBadge}
             </div>
 
-            <!-- Price Overlay Badge -->
+            <!-- Price Overlay Badge (Conditioned on is_verified!) -->
             <div class="absolute bottom-3 left-3 text-white">
-              <div class="text-[10px] uppercase font-bold text-gray-200 tracking-wider">Starting Tariff</div>
-              <div class="text-xl font-extrabold tracking-tight">${formatINR(acc.price_per_night)} <span class="text-xs font-normal text-gray-200">${I18N[currentLang].pricePerNight}</span></div>
+              ${priceOverlayHtml}
             </div>
 
-            <div class="absolute bottom-3 right-3 text-white text-[11px] font-semibold bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-xs">
+            <div class="absolute bottom-3 right-3 text-white text-[11px] font-semibold bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-xs">
               ${acc.room_size_sqft || 350} sq.ft
             </div>
           </div>
@@ -287,6 +351,9 @@
                 </span>
               </div>
 
+              <!-- Price Box in Body -->
+              ${priceBodyHtml}
+
               <!-- Amenity Badges -->
               <div class="mt-3 flex items-center gap-2 flex-wrap text-[11px] text-gray-600 font-semibold">
                 ${amenities.ac ? '<span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700">✓ AC</span>' : ''}
@@ -300,16 +367,16 @@
             <div class="pt-3 border-t border-gray-100 grid grid-cols-2 gap-2">
               <button 
                 onclick="window.openStayDetailModal('${acc.id}')" 
-                class="py-2.5 px-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#1A1D24] text-xs font-bold transition-all text-center"
+                class="py-2.5 px-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#1A1D24] text-xs font-bold transition-all text-center cursor-pointer"
               >
                 ${I18N[currentLang].viewDetails}
               </button>
               <button 
                 onclick="window.openBookingDrawerForAcc('${acc.id}')" 
                 ${acc.status === 'sold_out' ? 'disabled' : ''}
-                class="py-2.5 px-3 rounded-xl ${acc.status === 'sold_out' ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D94B42] hover:bg-[#B53830] text-white shadow-xs hover:shadow-md'} text-xs font-bold transition-all text-center"
+                class="py-2.5 px-3 rounded-xl ${acc.status === 'sold_out' ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D94B42] hover:bg-[#B53830] text-white shadow-xs hover:shadow-md'} text-xs font-bold transition-all text-center cursor-pointer"
               >
-                ${acc.status === 'sold_out' ? 'Full' : I18N[currentLang].instantBook}
+                ${acc.status === 'sold_out' ? 'Full' : (isVerified ? I18N[currentLang].instantBook : 'Request Booking')}
               </button>
             </div>
           </div>
@@ -331,13 +398,13 @@
 
     if (!acc) return;
     currentAccommodation = acc;
+    const isVerified = acc.is_verified === true;
 
     // 1. Header Information
     const titleEl = document.getElementById('modal-prop-name');
     const roomNoEl = document.getElementById('modal-room-no');
     if (titleEl) titleEl.textContent = acc.property_name;
     if (roomNoEl) {
-      // Deterministic room number tag
       const roomNum = Math.abs(acc.id.split('-').reduce((acc, part) => acc + parseInt(part, 16) || 0, 0)) % 800 + 101;
       roomNoEl.textContent = `${I18N[currentLang].roomNo}: ${roomNum}`;
     }
@@ -368,12 +435,11 @@
     }
 
     if (thumbRow) {
-      // Display first 3 thumbnails inside bottom-left of photo
       thumbRow.innerHTML = gallery.slice(0, 3).map((imgUrl, idx) => `
         <button 
           type="button" 
           onclick="window.selectModalThumbnail('${imgUrl}', this)" 
-          class="thumb-btn w-14 h-11 sm:w-16 sm:h-12 rounded-xl overflow-hidden border-2 ${idx === 0 ? 'border-white scale-105' : 'border-white/60 opacity-80'} hover:opacity-100 transition-all shadow-md bg-black"
+          class="thumb-btn w-14 h-11 sm:w-16 sm:h-12 rounded-xl overflow-hidden border-2 ${idx === 0 ? 'border-white scale-105' : 'border-white/60 opacity-80'} hover:opacity-100 transition-all shadow-md bg-black cursor-pointer"
         >
           <img src="${imgUrl}" alt="Thumbnail ${idx + 1}" class="w-full h-full object-cover" />
         </button>
@@ -396,7 +462,34 @@
     if (bathEl) bathEl.textContent = specs.bathroom || '1 Attached Western Bath with Hot Water';
     if (accessEl) accessEl.textContent = specs.accessibility || `${acc.floor_level || '1st Floor'} / Wide Staircase`;
     if (kitchenEl) kitchenEl.textContent = specs.kitchen || 'Complimentary morning tea/coffee maker';
-    if (sidePriceEl) sidePriceEl.innerHTML = `${formatINR(acc.price_per_night)} <span class="text-xs text-gray-500 font-normal">${I18N[currentLang].pricePerNight}</span>`;
+
+    // Strict Rule: Do not show prices if not verified by owners!
+    if (sidePriceEl) {
+      if (isVerified) {
+        sidePriceEl.innerHTML = `
+          <span class="text-[10px] text-gray-400 uppercase font-bold block">Nightly Tariff</span>
+          <div class="text-xl font-extrabold text-[#D94B42]">
+            ${formatINR(acc.price_per_night)} <span class="text-xs text-gray-500 font-normal">${I18N[currentLang].pricePerNight}</span>
+          </div>
+        `;
+      } else {
+        sidePriceEl.innerHTML = `
+          <span class="text-[10px] text-amber-800 uppercase font-bold block flex items-center gap-1">
+            <span>🔒</span> <span>${I18N[currentLang].tariffOnRequest}</span>
+          </span>
+          <div class="text-xs font-bold text-gray-700 flex items-center gap-2 mt-0.5">
+            <span>${I18N[currentLang].unverifiedByOwner}</span>
+            <button 
+              type="button" 
+              onclick="window.openTariffVerificationModal('${acc.id}', event)" 
+              class="text-[10px] font-bold text-[#D94B42] hover:underline bg-red-50 border border-red-200 px-2 py-0.5 rounded-md cursor-pointer"
+            >
+              ${I18N[currentLang].whyHidden} ⓘ
+            </button>
+          </div>
+        `;
+      }
+    }
 
     // 5. Lower Overview Grid
     const ovName = document.getElementById('modal-overview-name');
@@ -455,33 +548,27 @@
   };
 
   /**
-   * Render Availability Calendar with Booked Dates Highlighted (Red circles matching mockup)
+   * Render Availability Calendar with Booked Dates Highlighted
    */
   function renderModalCalendar(acc) {
     const calGrid = document.getElementById('modal-calendar-grid');
     const monthLabel = document.getElementById('calendar-month-label');
     if (!calGrid) return;
 
-    // Build for current month or November 2026 (festival month)
-    const now = new Date();
     const year = 2026;
-    const month = 10; // November (0-indexed)
+    const month = 10; // November
     if (monthLabel) monthLabel.textContent = 'November 2026 (Raas Festival Season)';
 
-    // Days of week header
     const daysHeader = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     let html = daysHeader.map((d) => `<div class="font-bold text-gray-400 py-1">${d}</div>`).join('');
 
-    // First day of month and total days
     const firstDay = new Date(year, month, 1).getDay();
     const totalDays = new Date(year, month + 1, 0).getDate();
 
-    // Fill leading empty cells
     for (let i = 0; i < firstDay; i++) {
       html += `<div class="py-2 text-gray-300"></div>`;
     }
 
-    // Booked days sample from seed or bookings (e.g. 12, 13, 14, 15, 24, 25 for Raas Utsav)
     const bookedDays = [12, 13, 14, 15, 24, 25];
 
     for (let day = 1; day <= totalDays; day++) {
@@ -509,7 +596,7 @@
   }
 
   /**
-   * Render Advance Bookings (Matching right card on user reference image)
+   * Render Advance Bookings
    */
   async function renderModalAdvanceBookings(acc) {
     const listEl = document.getElementById('modal-recent-bookings-list');
@@ -517,7 +604,6 @@
 
     try {
       const bookings = await window.SantipurStayEngine.getBookings();
-      // Match current accommodation or top recent ones
       const relevant = bookings.filter((b) => b.accommodation_id === acc.id);
       const displayBookings = relevant.length > 0 ? relevant : bookings.slice(0, 3);
 
@@ -539,6 +625,62 @@
       console.warn('Advance bookings render error:', e);
     }
   }
+
+  // =========================================================================
+  // OWNER TARIFF VERIFICATION POLICY POP-UP MODAL (User Request)
+  // =========================================================================
+
+  /**
+   * Open Owner Tariff Verification Policy Pop-Up Modal
+   */
+  window.openTariffVerificationModal = async function (accId, event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    const acc = allAccommodations.find((a) => a.id === accId) || 
+      (await window.SantipurStayEngine.getAccommodations({ id: accId }))[0];
+
+    const modal = document.getElementById('tariff-verification-modal');
+    if (!modal) return;
+
+    const propNameEl = document.getElementById('verify-modal-prop-name');
+    const ownerNameEl = document.getElementById('verify-modal-owner-name');
+    const landmarkEl = document.getElementById('verify-modal-landmark');
+    const phoneBtn = document.getElementById('verify-modal-phone-btn');
+
+    if (acc) {
+      if (propNameEl) propNameEl.textContent = acc.property_name;
+      if (ownerNameEl) ownerNameEl.textContent = `${acc.owner_name || 'Property Manager'} (${acc.property_type})`;
+      if (landmarkEl) landmarkEl.textContent = `${acc.landmark_area}, Santipur (PIN: 741404)`;
+      if (phoneBtn) {
+        const cleanPhone = (acc.owner_phone || '+919434821905').replace(/[^0-9+]/g, '');
+        phoneBtn.href = `tel:${cleanPhone}`;
+        phoneBtn.innerHTML = `<span>📞 Call ${acc.owner_phone || 'Desk'}</span>`;
+      }
+    }
+
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  };
+
+  /**
+   * Close Owner Tariff Verification Policy Pop-Up Modal
+   */
+  window.closeTariffVerificationModal = function () {
+    const modal = document.getElementById('tariff-verification-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      if (
+        document.getElementById('stay-detail-modal')?.classList.contains('hidden') &&
+        document.getElementById('booking-drawer-modal')?.classList.contains('hidden') &&
+        document.getElementById('booking-success-modal')?.classList.contains('hidden')
+      ) {
+        document.body.style.overflow = '';
+      }
+    }
+  };
 
   // =========================================================================
   // INSTANT BOOKING DRAWER & CONFIRMATION
@@ -590,22 +732,21 @@
     const drawer = document.getElementById('booking-drawer-modal');
     if (drawer) {
       drawer.classList.add('hidden');
-      if (!document.getElementById('stay-detail-modal')?.classList.contains('hidden')) {
-        // Modal is still underneath
-      } else {
+      if (document.getElementById('stay-detail-modal')?.classList.contains('hidden')) {
         document.body.style.overflow = '';
       }
     }
   };
 
   /**
-   * Recalculate cost when rooms or dates change
+   * Recalculate cost when rooms or dates change (Hides numeric tariff if unverified!)
    */
   window.recalculateDrawerPricing = function () {
     if (!currentAccommodation) return;
     const cin = document.getElementById('filter-checkin')?.value || new Date().toISOString().split('T')[0];
     const cout = document.getElementById('filter-checkout')?.value || new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0];
     const rooms = parseInt(document.getElementById('book-rooms-count')?.value || '1', 10);
+    const isVerified = currentAccommodation.is_verified === true;
 
     const priceCalc = window.SantipurStayEngine.calculatePricing(
       currentAccommodation.price_per_night,
@@ -619,8 +760,14 @@
     const totalEl = document.getElementById('drawer-total-amount');
 
     if (nightsEl) nightsEl.textContent = `${priceCalc.nights} Night${priceCalc.nights > 1 ? 's' : ''}`;
-    if (rateEl) rateEl.textContent = formatINR(currentAccommodation.price_per_night);
-    if (totalEl) totalEl.textContent = formatINR(priceCalc.totalAmount);
+
+    if (isVerified) {
+      if (rateEl) rateEl.textContent = formatINR(currentAccommodation.price_per_night);
+      if (totalEl) totalEl.textContent = formatINR(priceCalc.totalAmount);
+    } else {
+      if (rateEl) rateEl.innerHTML = `<span class="text-amber-800 font-bold">${I18N[currentLang].tariffOnRequest}</span>`;
+      if (totalEl) totalEl.innerHTML = `<span class="text-amber-800 text-sm font-extrabold">Pay at Desk on Confirmation</span>`;
+    }
   };
 
   /**
@@ -676,7 +823,11 @@
       if (vRef) vRef.textContent = `STAY-741404-${newBooking.id.slice(0, 6).toUpperCase()}`;
       if (vGuest) vGuest.textContent = newBooking.guest_name;
       if (vDates) vDates.textContent = `${formatDate(newBooking.check_in)} - ${formatDate(newBooking.check_out)}`;
-      if (vTotal) vTotal.textContent = formatINR(newBooking.total_amount);
+      if (vTotal) {
+        vTotal.textContent = currentAccommodation.is_verified 
+          ? formatINR(newBooking.total_amount) 
+          : 'Tariff to be confirmed by Owner';
+      }
       if (vPay) vPay.textContent = paymentMode === 'advance_paid' ? 'Advance UPI Verified' : 'Pay at Hotel Desk';
 
       if (successModal) {
@@ -684,7 +835,6 @@
         document.body.style.overflow = 'hidden';
       }
 
-      // Reset form
       document.getElementById('instant-booking-form')?.reset();
     } catch (err) {
       alert('Failed to process booking: ' + err.message);
@@ -713,7 +863,6 @@
   // =========================================================================
 
   window.nextWizardStep = function (stepNum) {
-    // Basic validation before advancing
     if (stepNum === 2) {
       const name = document.getElementById('reg-owner-name')?.value.trim();
       const phone = document.getElementById('reg-owner-phone')?.value.trim();
@@ -743,7 +892,6 @@
       populateWizardSummary();
     }
 
-    // Toggle steps
     for (let i = 1; i <= 5; i++) {
       const stepDiv = document.getElementById(`wizard-step-${i}`);
       const indSpan = document.getElementById(`step-ind-${i}`);
@@ -783,10 +931,13 @@
         <div><span class="text-gray-500">Property:</span> <strong class="text-black">${propName}</strong></div>
         <div><span class="text-gray-500">Type:</span> <strong>${propType}</strong></div>
         <div><span class="text-gray-500">Landmark:</span> <strong>${landmark}</strong></div>
-        <div><span class="text-gray-500">Tariff:</span> <strong class="text-emerald-700">${formatINR(price)} / night</strong></div>
+        <div><span class="text-gray-500">Proposed Tariff:</span> <strong class="text-emerald-700">${formatINR(price)} / night</strong></div>
         <div class="col-span-2"><span class="text-gray-500">Santipur Address:</span> <strong>${address}</strong></div>
         <div><span class="text-gray-500">Manager:</span> <strong>${owner}</strong></div>
         <div><span class="text-gray-500">Phone:</span> <strong>${phone}</strong></div>
+      </div>
+      <div class="mt-2 pt-2 border-t border-gray-200 text-[11px] text-amber-800 bg-amber-50 p-2 rounded-lg">
+        🔒 Note: Once published, your listing will display with "Tariff on Request" until you verify and activate your pricing in the Owner Admin Portal.
       </div>
     `;
   }
@@ -830,16 +981,15 @@
           balcony: document.getElementById('reg-amenity-balcony')?.checked || false,
           breakfast: document.getElementById('reg-amenity-breakfast')?.checked || false
         },
-        description: document.getElementById('reg-description')?.value.trim()
+        description: document.getElementById('reg-description')?.value.trim(),
+        is_verified: false // Defaults to unverified until verified in Owner Portal!
       });
 
-      alert(`Congratulations! ${newAcc.property_name} has been successfully registered and published!`);
+      alert(`Congratulations! ${newAcc.property_name} has been successfully registered. You can verify your public tariff anytime in the Owner Admin Portal.`);
       
-      // Reset wizard
       document.getElementById('owner-registration-form')?.reset();
       window.nextWizardStep(1);
 
-      // Switch to browse tab and refresh listings
       window.switchPortalTab('browse');
       window.executeStaySearch();
     } catch (err) {
@@ -853,7 +1003,7 @@
   };
 
   // =========================================================================
-  // PILLAR 3: OWNER ADMIN DASHBOARD
+  // PILLAR 3: OWNER ADMIN DASHBOARD & VERIFICATION TOGGLE
   // =========================================================================
 
   window.refreshOwnerDashboard = async function () {
@@ -861,16 +1011,12 @@
       const data = await window.SantipurStayEngine.getOwnerDashboardData();
       cachedDashboardBookings = data.bookings;
 
-      // Stats
       document.getElementById('stat-revenue').textContent = formatINR(data.stats.totalRevenue);
       document.getElementById('stat-bookings').textContent = data.stats.totalBookings;
       document.getElementById('stat-rooms').textContent = data.stats.activeAccommodationsCount;
       document.getElementById('stat-occupancy').textContent = `${data.stats.occupancyRate}%`;
 
-      // Bookings table
       renderDashboardBookings(data.bookings);
-
-      // Inventory availability togglers
       renderDashboardAccommodations(data.accommodations);
     } catch (err) {
       console.error('Error loading dashboard data:', err);
@@ -950,29 +1096,50 @@
     }
   };
 
+  /**
+   * Render Room Inventory in Dashboard with Owner Tariff Verification Switch
+   */
   function renderDashboardAccommodations(accommodations) {
     const grid = document.getElementById('dashboard-accommodations-grid');
     if (!grid) return;
 
-    grid.innerHTML = accommodations.map((acc) => `
-      <div class="p-4 rounded-xl border border-gray-200 bg-gray-50 flex items-center justify-between gap-3">
-        <div>
-          <div class="font-bold text-xs text-[#1A1D24]">${acc.property_name}</div>
-          <div class="text-[11px] text-gray-500">${acc.property_type} • ${acc.landmark_area}</div>
-          <div class="text-xs font-bold text-[#D94B42] mt-0.5">${formatINR(acc.price_per_night)} / night</div>
+    grid.innerHTML = accommodations.map((acc) => {
+      const isVerified = acc.is_verified === true;
+      return `
+        <div class="p-4 rounded-xl border border-gray-200 bg-gray-50 flex flex-col justify-between gap-3 shadow-2xs">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <div class="font-bold text-xs text-[#1A1D24]">${acc.property_name}</div>
+              <div class="text-[11px] text-gray-500">${acc.property_type} • ${acc.landmark_area}</div>
+              <div class="text-xs font-bold text-[#D94B42] mt-0.5">${formatINR(acc.price_per_night)} / night</div>
+            </div>
+            <div>
+              <select 
+                onchange="window.updateAccommodationStatusFromDashboard('${acc.id}', this.value)" 
+                class="text-xs font-bold px-2 py-1 rounded-lg border outline-none ${acc.status === 'active' ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : acc.status === 'sold_out' ? 'bg-red-50 text-red-800 border-red-300' : 'bg-gray-100 text-gray-700 border-gray-300'}"
+              >
+                <option value="active" ${acc.status === 'active' ? 'selected' : ''}>Active (Open)</option>
+                <option value="sold_out" ${acc.status === 'sold_out' ? 'selected' : ''}>Sold Out (Festival)</option>
+                <option value="inactive" ${acc.status === 'inactive' ? 'selected' : ''}>Inactive (Maintenance)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Owner Tariff Verification Switch (Direct control to show / hide prices) -->
+          <div class="pt-2.5 border-t border-gray-200 flex items-center justify-between text-xs">
+            <span class="text-[11px] font-semibold text-gray-600">Tariff Verification:</span>
+            <button 
+              type="button" 
+              onclick="window.toggleOwnerVerificationFromDashboard('${acc.id}')" 
+              class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold flex items-center gap-1 transition-all cursor-pointer shadow-2xs ${isVerified ? 'bg-emerald-100 text-emerald-800 border border-emerald-300 hover:bg-emerald-200' : 'bg-amber-100 text-amber-900 border border-amber-300 hover:bg-amber-200'}"
+              title="${isVerified ? 'Tariff is verified and visible to public. Click to hide.' : 'Tariff is hidden from public. Click to verify and show.'}"
+            >
+              <span>${isVerified ? '✓ Verified (Prices Visible)' : '⏳ Unverified (Prices Hidden)'}</span>
+            </button>
+          </div>
         </div>
-        <div>
-          <select 
-            onchange="window.updateAccommodationStatusFromDashboard('${acc.id}', this.value)" 
-            class="text-xs font-bold px-2.5 py-1.5 rounded-lg border outline-none ${acc.status === 'active' ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : acc.status === 'sold_out' ? 'bg-red-50 text-red-800 border-red-300' : 'bg-gray-100 text-gray-700 border-gray-300'}"
-          >
-            <option value="active" ${acc.status === 'active' ? 'selected' : ''}>Active (Open)</option>
-            <option value="sold_out" ${acc.status === 'sold_out' ? 'selected' : ''}>Sold Out (Festival)</option>
-            <option value="inactive" ${acc.status === 'inactive' ? 'selected' : ''}>Inactive (Maintenance)</option>
-          </select>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   window.updateAccommodationStatusFromDashboard = async function (accId, newStatus) {
@@ -984,17 +1151,28 @@
     }
   };
 
+  /**
+   * Toggle Owner Verification from Admin Portal
+   */
+  window.toggleOwnerVerificationFromDashboard = async function (accId) {
+    try {
+      await window.SantipurStayEngine.toggleAccommodationVerification(accId);
+      await window.refreshOwnerDashboard();
+      window.executeStaySearch();
+    } catch (e) {
+      alert('Error updating verification status: ' + e.message);
+    }
+  };
+
   // =========================================================================
   // PILLAR NAVIGATION & TAB SWITCHING
   // =========================================================================
 
   window.switchPortalTab = function (tabName) {
-    // Hide all sections
     document.querySelectorAll('.portal-section').forEach((sec) => sec.classList.add('hidden'));
 
-    // Reset tab button states
     document.querySelectorAll('.nav-tab-btn').forEach((btn) => {
-      btn.className = 'nav-tab-btn px-3 py-2 rounded-lg text-gray-600 hover:text-black hover:bg-gray-100 transition-all';
+      btn.className = 'nav-tab-btn px-3 py-2 rounded-lg text-gray-600 hover:text-black hover:bg-gray-100 transition-all cursor-pointer';
     });
 
     if (tabName === 'browse') {
@@ -1034,7 +1212,19 @@
     if (navReg) navReg.textContent = t.listTab;
     if (navOwner) navOwner.textContent = t.ownerTab;
 
-    // Refresh listings with new language strings
+    // Update Verification Pop-up modal texts
+    const vBadge = document.getElementById('verify-modal-badge');
+    const vTitle = document.getElementById('verify-modal-subtitle');
+    const vFaqHead = document.querySelector('#verify-modal-faq-heading span:last-child');
+    const vFaqDesc1 = document.getElementById('verify-modal-faq-desc1');
+    const vFaqDesc2 = document.getElementById('verify-modal-faq-desc2');
+
+    if (vBadge) vBadge.textContent = t.verifyModalBadge;
+    if (vTitle) vTitle.textContent = t.verifyModalSubtitle;
+    if (vFaqHead) vFaqHead.textContent = t.verifyFaqTitle;
+    if (vFaqDesc1) vFaqDesc1.innerHTML = t.verifyFaqDesc1;
+    if (vFaqDesc2) vFaqDesc2.textContent = t.verifyFaqDesc2;
+
     renderAccommodationsGrid(allAccommodations);
   };
 
@@ -1046,7 +1236,6 @@
     setupDefaultDates();
     window.executeStaySearch();
 
-    // Check URL parameters for direct tab navigation e.g. /stay?tab=owner or /stay?tab=register
     const urlParams = new URLSearchParams(window.location.search);
     const tabParam = urlParams.get('tab');
     if (tabParam && ['browse', 'register', 'owner'].includes(tabParam)) {

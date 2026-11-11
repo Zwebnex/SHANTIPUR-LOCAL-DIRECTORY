@@ -7,7 +7,7 @@
 (function (window) {
   'use strict';
 
-  const STORAGE_KEY_ACCOMMODATIONS = 'santipur_stay_accommodations_v2';
+  const STORAGE_KEY_ACCOMMODATIONS = 'santipur_stay_accommodations_v3';
   const STORAGE_KEY_BOOKINGS = 'santipur_stay_bookings_v2';
 
   // 100% Curated, Verified Santipur Town (PIN 741404) Seed Accommodations
@@ -263,7 +263,7 @@
         accessibility: 'Level Ground Floor Entry'
       },
       description: 'Affordable and peaceful spiritual retreat run under ashram guidance for visiting Vaishnava devotees, pilgrims, and heritage scholars. Includes peaceful morning kirtan, clean filtered drinking water, and temple mahaprasadam.',
-      is_verified: true,
+      is_verified: false,
       status: 'active'
     },
     {
@@ -305,7 +305,7 @@
         accessibility: 'Ground and 1st Floor Rooms'
       },
       description: 'Comfortable neighborhood lodge offering cost-effective family rooms and group tour bookings. Located near Bhutir Math ground with quiet surroundings and rapid transit to NH-34 and central Santipur.',
-      is_verified: true,
+      is_verified: false,
       status: 'active'
     },
     {
@@ -715,7 +715,7 @@
           accessibility: 'Ground Floor / Elevator Access'
         },
         description: propertyData.description || 'Verified Santipur property offering hospitable stay for pilgrims, tourists, and textile shoppers.',
-        is_verified: true,
+        is_verified: propertyData.is_verified === true ? true : false,
         status: 'active'
       };
 
@@ -819,6 +819,27 @@
         if (sb) {
           try {
             await sb.from('stay_accommodations').update({ status: newStatus }).eq('id', accId);
+          } catch (e) {}
+        }
+        return item;
+      }
+      throw new Error('Accommodation not found');
+    },
+
+    /**
+     * Toggle owner tariff verification status (protects tourists from unverified rates)
+     */
+    async toggleAccommodationVerification(accId, isVerified) {
+      const list = getLocalAccommodations();
+      const item = list.find(a => a.id === accId);
+      if (item) {
+        item.is_verified = typeof isVerified === 'boolean' ? isVerified : !item.is_verified;
+        setLocalAccommodations(list);
+
+        const sb = getSupabase();
+        if (sb) {
+          try {
+            await sb.from('stay_accommodations').update({ is_verified: item.is_verified }).eq('id', accId);
           } catch (e) {}
         }
         return item;
