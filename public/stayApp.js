@@ -44,6 +44,7 @@
       unverifiedByOwner: 'Pending owner verification',
       whyHidden: 'Why hidden?',
       nightlyTariff: 'Nightly Tariff',
+      onboardingCount: 'Santipur property onboarding in progress • Register your stay',
       verifyModalBadge: 'Owner Verification Policy',
       verifyModalTitle: 'Tariff Hidden: Verification Pending',
       verifyModalSubtitle: 'Santipur Heritage Hospitality Engine Quality & Transparency Protection',
@@ -79,6 +80,7 @@
       unverifiedByOwner: 'মালিকের যাচাইকরণ মুলতুবি',
       whyHidden: 'কেন লুকানো?',
       nightlyTariff: 'প্রতি রাত্রির ভাড়া',
+      onboardingCount: 'শান্তিপুরের আবাসন নথিভুক্তকরণ চলছে • আপনার হোটেল/লজ যুক্ত করুন',
       verifyModalBadge: 'মালিকের মূল্য যাচাইকরণ নীতি',
       verifyModalTitle: 'মূল্য গোপন: যাচাইকরণ মুলতুবি',
       verifyModalSubtitle: 'শান্তিপুর হেরিটেজ আতিথেয়তা ইঞ্জিনের মান ও স্বচ্ছতা সুরক্ষা',
@@ -220,7 +222,7 @@
     if (!items || items.length === 0) {
       grid.innerHTML = '';
       if (emptyState) emptyState.classList.remove('hidden');
-      if (countLabel) countLabel.textContent = 'No matching properties found';
+      if (countLabel) countLabel.textContent = I18N[currentLang]?.onboardingCount || 'Santipur property onboarding in progress • Register your stay';
       return;
     }
 

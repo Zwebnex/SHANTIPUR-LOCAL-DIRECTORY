@@ -1840,11 +1840,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   };
 
+  // =========================================================================
+  // STAY & HOSPITALITY PORTAL ANNOUNCEMENT POPUP
+  // =========================================================================
+  window.showStayAnnouncementModal = function () {
+    const modal = document.getElementById('stay-portal-announce-modal');
+    if (!modal) return;
+    try {
+      if (sessionStorage.getItem('santipur_stay_announcement_seen') === 'true') {
+        return;
+      }
+    } catch (e) {}
+
+    // Display smoothly after initial page load
+    setTimeout(() => {
+      modal.classList.remove('hidden');
+    }, 1200);
+  };
+
+  window.dismissStayAnnouncementModal = function (fromUser = false) {
+    const modal = document.getElementById('stay-portal-announce-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+    const dontShow = document.getElementById('stay-modal-dont-show');
+    const shouldRemember = (dontShow && dontShow.checked) || fromUser;
+    if (shouldRemember) {
+      try {
+        sessionStorage.setItem('santipur_stay_announcement_seen', 'true');
+      } catch (e) {}
+    }
+  };
+
   // Initialize
   renderListings();
   renderHeritageGallery();
   updateParikramaEstimates();
   updateNavAuthState();
+  window.showStayAnnouncementModal();
 
   // Restore preferred language
   try {

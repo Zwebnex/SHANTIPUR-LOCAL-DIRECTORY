@@ -2745,6 +2745,120 @@
     </div>
   </div>
 
+  <!-- ========================================================================= -->
+  <!-- SANTIPUR HERITAGE STAY & HOSPITALITY PORTAL ANNOUNCEMENT POPUP MODAL -->
+  <!-- ========================================================================= -->
+  <div id="stay-portal-announce-modal" onclick="if(event.target === this) window.dismissStayAnnouncementModal(true)" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 hidden overflow-y-auto">
+    <div class="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden my-auto transform transition-all animate-fadeIn">
+      <!-- Top banner image / header -->
+      <div class="relative h-44 sm:h-52 bg-[#1A1D24] overflow-hidden">
+        <img 
+          src="/images/santipur/stays/santipur-stay-room-master.jpg" 
+          alt="Santipur Heritage Stays" 
+          class="w-full h-full object-cover opacity-60"
+          onerror="this.src='/images/santipur/city/santipur-city-001.jpg'"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#1A1D24] via-[#1A1D24]/40 to-transparent"></div>
+        
+        <!-- Close Button -->
+        <button 
+          onclick="window.dismissStayAnnouncementModal(true)" 
+          aria-label="Close Announcement"
+          class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center transition-all z-10"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+
+        <!-- Header Content Overlay -->
+        <div class="absolute bottom-4 left-6 right-6">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D94B42] text-white text-[10px] font-black uppercase tracking-wider shadow-sm mb-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+            <span data-i18n="stayModalBadge">New Portal Launched • PIN: 741404</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug" data-i18n="stayModalTitle">
+            Santipur Heritage Stay &amp; Hospitality Portal
+          </h2>
+          <p class="text-xs text-amber-200/90 font-medium mt-0.5" data-i18n="stayModalSubtitle">
+            Direct accommodations registry for pilgrims, tourists, and textile buyers
+          </p>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 sm:p-7 space-y-5">
+        <!-- Dual Audience Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <!-- Property Owners Card -->
+          <div class="p-4 rounded-2xl bg-gradient-to-br from-amber-50/70 to-orange-50/50 border border-amber-200/60 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-7 h-7 rounded-lg bg-amber-600 text-white flex items-center justify-center text-sm font-bold shadow-xs">🏨</span>
+                <h3 class="text-xs font-black uppercase tracking-wide text-amber-900" data-i18n="stayModalOwnerHead">Property Owners</h3>
+              </div>
+              <p class="text-xs text-gray-700 leading-relaxed" data-i18n="stayModalOwnerText">
+                Own a Hotel, Lodge, Homestay, Guest House, or Math Dharamshala in Santipur? Register your property now for <strong>100% free direct bookings</strong> with 0% commission.
+              </p>
+            </div>
+            <a 
+              href="/stay?tab=register" 
+              onclick="window.dismissStayAnnouncementModal(true)"
+              class="mt-3 inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-bold text-xs transition-colors shadow-sm"
+              data-i18n="stayModalOwnerBtn"
+            >
+              <span>+ Register Your Stay</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          </div>
+
+          <!-- Visitors / Pilgrims Card -->
+          <div class="p-4 rounded-2xl bg-[#FAFAF8] border border-[#EAEAEA] flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-7 h-7 rounded-lg bg-[#1A1D24] text-white flex items-center justify-center text-sm font-bold shadow-xs">🧭</span>
+                <h3 class="text-xs font-black uppercase tracking-wide text-[#202020]" data-i18n="stayModalVisitorHead">Pilgrims &amp; Visitors</h3>
+              </div>
+              <p class="text-xs text-[#555555] leading-relaxed" data-i18n="stayModalVisitorText">
+                Visiting Santipur for Rash Utsav, Kali Puja parikrama, or handloom shopping? Explore verified rooms, check amenities, and reserve with zero middleman markups.
+              </p>
+            </div>
+            <a 
+              href="/stay" 
+              onclick="window.dismissStayAnnouncementModal(true)"
+              class="mt-3 inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-xl bg-[#202020] hover:bg-black text-white font-bold text-xs transition-colors shadow-sm"
+              data-i18n="stayModalVisitorBtn"
+            >
+              <span>Explore Stay Portal</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Municipal & Civic Protection Notice -->
+        <div class="flex items-start gap-2.5 p-3 rounded-xl bg-gray-50 border border-gray-200/80 text-[11px] text-gray-600">
+          <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          <span data-i18n="stayModalDisclaimer">
+            <strong>Santipur Heritage Transparency:</strong> All listings require authentic Santipur address verification (PIN 741404). Tariffs are verified directly by property managers to prevent seasonal overcharging.
+          </span>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3.5 bg-[#FAFAF8] border-t border-[#EAEAEA] flex items-center justify-between text-xs text-[#777777]">
+        <label class="inline-flex items-center gap-1.5 cursor-pointer text-xs text-gray-500 hover:text-gray-700">
+          <input type="checkbox" id="stay-modal-dont-show" class="rounded text-[#D94B42] focus:ring-[#D94B42]" checked />
+          <span data-i18n="stayModalDontShow">Don't show this again in this session</span>
+        </label>
+        <button 
+          onclick="window.dismissStayAnnouncementModal(true)" 
+          class="text-xs font-semibold text-gray-600 hover:text-[#D94B42] transition-colors"
+          data-i18n="stayModalClose"
+        >
+          Dismiss
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
