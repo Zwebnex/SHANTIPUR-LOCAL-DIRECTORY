@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PRIMARY SEO METADATA -->
+  <title>Santipur Heritage Stay & Hospitality Engine | Hotels, Lodges & Homestays (741404)</title>
+  <meta name="description" content="Book authentic hotels, heritage homestays, guest houses, and pilgrim dharamshalas in Santipur, Nadia (PIN: 741404). Real-time availability, luxury room views, and instant booking.">
+  <meta name="keywords" content="Santipur hotels, Santipur lodges, Santipur homestays, Santipur guest house, Dharamshala Santipur, Raas Utsav hotels Nadia">
+  <link rel="canonical" href="https://santipurlocaldirectory.com/stay">
+  <meta name="robots" content="index, follow">
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="/images/santipur/city-photography/santipur-local-directory-emblem-01.png">
+
+  <!-- HIGH-PERFORMANCE RESOURCE HINTS & PRECONNECTS -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+
+  <!-- TYPOGRAPHY: Inter & Tiro Bangla Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'stay-bg': '#F1F3F6',
+            'stay-card': '#FFFFFF',
+            'stay-dark': '#1A1D24',
+            'stay-muted': '#64748B',
+            'stay-accent': '#D94B42',
+            'stay-gold': '#B79550',
+            'stay-green': '#10B981',
+            'stay-blue': '#2563EB'
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            bangla: ['Tiro Bangla', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #F1F3F6;
+      color: #1A1D24;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .hero-stay-bg {
+      background: linear-gradient(rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.90)), url('/images/santipur/temples/santipur-shyamchand-temple-atchala-01.jpg') center/cover no-repeat;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    .calendar-booked {
+      background-color: #EF4444;
+      color: #FFFFFF;
+      border-radius: 9999px;
+      font-weight: 700;
+    }
+    .calendar-available {
+      background-color: #F8FAFC;
+      color: #334155;
+      border-radius: 8px;
+    }
+    .calendar-available:hover {
+      background-color: #E2E8F0;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- ======================================================================= -->
+  <!-- TOP NAVIGATION HEADER -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-2xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="/stay" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-[#D94B42] to-[#B79550] shadow-sm flex items-center justify-center">
+          <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Crest" class="w-full h-full object-cover rounded-full bg-white" />
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-base sm:text-lg font-extrabold text-[#1A1D24] tracking-tight group-hover:text-[#D94B42] transition-colors">Santipur Stay Engine</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 uppercase tracking-wider">PIN 741404</span>
+          </div>
+          <p class="text-[11px] text-gray-500 font-medium">Hotels • Lodges • Heritage Homestays • Dharamshalas</p>
+        </div>
+      </a>
+
+      <!-- Navigation Pillars -->
+      <nav class="hidden md:flex items-center gap-1.5 lg:gap-3 text-xs font-semibold">
+        <button onclick="window.switchPortalTab('browse')" id="nav-tab-browse" class="nav-tab-btn px-3 py-2 rounded-lg bg-gray-100 text-[#1A1D24] transition-all">
+          Browse Stays
+        </button>
+        <button onclick="window.switchPortalTab('register')" id="nav-tab-register" class="nav-tab-btn px-3 py-2 rounded-lg text-gray-600 hover:text-black hover:bg-gray-100 transition-all">
+          + List Property
+        </button>
+        <button onclick="window.switchPortalTab('owner')" id="nav-tab-owner" class="nav-tab-btn px-3 py-2 rounded-lg text-gray-600 hover:text-black hover:bg-gray-100 transition-all flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <span>Owner Admin Portal</span>
+        </button>
+      </nav>
+
+      <!-- Right CTAs -->
+      <div class="flex items-center gap-3">
+        <!-- Language Switcher -->
+        <button onclick="window.toggleStayLanguage()" id="stay-lang-btn" class="text-xs font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 px-2.5 py-1.5 rounded-lg border border-gray-200 transition-colors">
+          EN / বাংলা
+        </button>
+        
+        <!-- Back to Heritage Home -->
+        <a href="/" class="text-xs font-semibold text-gray-600 hover:text-[#D94B42] flex items-center gap-1 transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          <span class="hidden sm:inline">Main Directory</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================= -->
+  <!-- MAIN CONTENT CONTAINER -->
+  <!-- ======================================================================= -->
+  <main class="flex-1 pb-16">
+
+    <!-- ===================================================================== -->
+    <!-- PILLAR 1: CUSTOMER SEARCH, LISTINGS & LUXURY DETAIL (DEFAULT TAB) -->
+    <!-- ===================================================================== -->
+    <div id="section-browse" class="portal-section">
+      
+      <!-- HERO & ADVANCED DYNAMIC SEARCH ENGINE -->
+      <section class="hero-stay-bg text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative shadow-inner">
+        <div class="max-w-6xl mx-auto text-center mb-8">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#D94B42] text-white uppercase tracking-wider mb-3 shadow-sm">
+            Santipur Heritage Hospitality Engine
+          </span>
+          <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+            Discover & Reserve Stays Across Historic Santipur
+          </h1>
+          <p class="mt-2 text-sm sm:text-base text-gray-200 max-w-2xl mx-auto">
+            Experience 500 years of Vaishnava devotion, sacred Kali shrines, and authentic handloom haats with verified local accommodations in PIN 741404.
+          </p>
+        </div>
+
+        <!-- DYNAMIC SEARCH CARD -->
+        <div class="max-w-5xl mx-auto bg-white text-[#1A1D24] rounded-2xl p-4 sm:p-6 shadow-2xl border border-gray-200">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Landmark / Destination -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-[#D94B42]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>Landmark in Santipur</span>
+              </label>
+              <select id="filter-landmark" onchange="window.executeStaySearch()" class="w-full text-xs font-medium bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 outline-none focus:border-[#D94B42] focus:bg-white transition-all">
+                <option value="all">All Santipur Locations (741404)</option>
+                <option value="Near Shyamchand Mandir">Near Shyamchand Mandir</option>
+                <option value="Station Road">Station Road / Railway Junction</option>
+                <option value="Near Agameswari Mandir">Near Agameswari Mandir</option>
+                <option value="Near Sutragarh Haat">Near Sutragarh Haat & Weavers Quarter</option>
+                <option value="Near Public Library Ground">Near Public Library Ground</option>
+                <option value="Bhutir Math">Bhutir Math Ground</option>
+                <option value="Advaita Pat Babla">Advaita Pat Babla</option>
+                <option value="Ganga Ghat Riverside">Ganga Ghat Riverside</option>
+              </select>
+            </div>
+
+            <!-- Check-In Date -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-[#D94B42]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>Check-In</span>
+              </label>
+              <input type="date" id="filter-checkin" onchange="window.handleDatesChanged()" class="w-full text-xs font-medium bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 outline-none focus:border-[#D94B42] focus:bg-white transition-all" />
+            </div>
+
+            <!-- Check-Out Date -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-[#D94B42]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>Check-Out</span>
+              </label>
+              <input type="date" id="filter-checkout" onchange="window.handleDatesChanged()" class="w-full text-xs font-medium bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 outline-none focus:border-[#D94B42] focus:bg-white transition-all" />
+            </div>
+
+            <!-- Guests & Rooms -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-[#D94B42]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <span>Guests & Rooms</span>
+              </label>
+              <select id="filter-guests" onchange="window.executeStaySearch()" class="w-full text-xs font-medium bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 outline-none focus:border-[#D94B42] focus:bg-white transition-all">
+                <option value="1">1 Adult (1 Room)</option>
+                <option value="2" selected>2 Adults (1 Room)</option>
+                <option value="3">3 Adults (Family)</option>
+                <option value="4">4+ Adults (Group)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Bottom Filter Bar (Property Type, Max Price, Search CTA) -->
+          <div class="mt-4 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3">
+            <!-- Property Types -->
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 text-xs custom-scrollbar">
+              <span class="text-gray-500 font-semibold mr-1">Type:</span>
+              <button onclick="window.setFilterPropertyType('all')" data-type="all" class="type-pill-btn px-2.5 py-1 rounded-lg font-semibold bg-[#1A1D24] text-white">All</button>
+              <button onclick="window.setFilterPropertyType('Hotel')" data-type="Hotel" class="type-pill-btn px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Hotels</button>
+              <button onclick="window.setFilterPropertyType('Lodge')" data-type="Lodge" class="type-pill-btn px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Lodges</button>
+              <button onclick="window.setFilterPropertyType('Homestay')" data-type="Homestay" class="type-pill-btn px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Homestays</button>
+              <button onclick="window.setFilterPropertyType('Guest House')" data-type="Guest House" class="type-pill-btn px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Guest Houses</button>
+              <button onclick="window.setFilterPropertyType('Heritage Haveli')" data-type="Heritage Haveli" class="type-pill-btn px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Heritage Haveli</button>
+              <button onclick="window.setFilterPropertyType('Dharamshala')" data-type="Dharamshala" class="type-pill-btn px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-700 hover:bg-gray-200">Dharamshalas</button>
+            </div>
+
+            <!-- Search Action CTA -->
+            <div class="flex items-center gap-2">
+              <button onclick="window.executeStaySearch()" class="bg-[#D94B42] hover:bg-[#B53830] text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-md transition-all flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <span>Search Available Stays</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULTS & LISTINGS GRID -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <!-- Results Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-200">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-[#1A1D24] tracking-tight">Verified Stays & Guest Houses in Santipur</h2>
+            <p class="text-xs text-gray-500 mt-0.5" id="results-count-label">Showing all verified properties with direct booking support</p>
+          </div>
+
+          <!-- Sort Selector -->
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-gray-500">Sort by:</span>
+            <select id="filter-sort" onchange="window.executeStaySearch()" class="text-xs font-medium bg-white border border-gray-200 rounded-lg px-3 py-1.5 outline-none focus:border-[#D94B42]">
+              <option value="recommended">Recommended & Verified</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="size_desc">Spacious Room Size</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- LISTINGS GRID (DYNAMIC CONTAINER) -->
+        <div id="accommodations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <!-- Rendered via JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="accommodations-empty" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200 p-8">
+          <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          <h3 class="text-base font-bold text-gray-800">No properties match your filter criteria</h3>
+          <p class="text-xs text-gray-500 mt-1 max-w-sm mx-auto">Try selecting "All Santipur Locations" or resetting the property type filter.</p>
+          <button onclick="window.resetStayFilters()" class="mt-4 px-4 py-2 bg-[#1A1D24] text-white text-xs font-bold rounded-lg hover:bg-black transition-colors">
+            Reset Filters
+          </button>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- PILLAR 2: OWNER REGISTRATION PIPELINE (MULTI-STEP WIZARD) -->
+    <!-- ===================================================================== -->
+    <div id="section-register" class="portal-section hidden max-w-4xl mx-auto px-4 sm:px-6 py-10">
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-[#1A1D24] to-[#2B3240] text-white p-6 sm:p-8">
+          <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#D94B42] text-white uppercase tracking-wider">Property Partner Onboarding</span>
+          <h2 class="text-2xl font-extrabold tracking-tight mt-2">Register Your Santipur Hotel, Lodge or Homestay</h2>
+          <p class="text-xs text-gray-300 mt-1">Directly connect with thousands of pilgrims, weavers, and tourists visiting Santipur (PIN: 741404).</p>
+          
+          <!-- Wizard Progress Bar -->
+          <div class="mt-6 flex items-center justify-between text-xs font-semibold text-gray-300">
+            <span id="step-ind-1" class="text-white font-bold border-b-2 border-[#D94B42] pb-1">1. Owner Contact</span>
+            <span id="step-ind-2" class="pb-1">2. Property Identity</span>
+            <span id="step-ind-3" class="pb-1">3. Specs & Pricing</span>
+            <span id="step-ind-4" class="pb-1">4. Amenities & Photos</span>
+            <span id="step-ind-5" class="pb-1">5. Confirm</span>
+          </div>
+        </div>
+
+        <!-- Wizard Forms -->
+        <form id="owner-registration-form" onsubmit="window.handleOwnerRegistrationSubmit(event)" class="p-6 sm:p-8 space-y-6">
+          
+          <!-- Step 1: Owner Information -->
+          <div id="wizard-step-1" class="wizard-step space-y-4">
+            <h3 class="text-base font-bold text-gray-800 pb-2 border-b border-gray-100">Step 1: Property Manager / Owner Information</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Owner / Manager Full Name *</label>
+                <input type="text" id="reg-owner-name" required placeholder="e.g., Dipankar Modak" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Primary Contact Phone * (10-Digit Mobile)</label>
+                <input type="tel" id="reg-owner-phone" required placeholder="+91 94348 21905" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-gray-700 mb-1">Official Email Address (Optional for confirmations)</label>
+                <input type="email" id="reg-owner-email" placeholder="manager@santipurstay.com" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white" />
+              </div>
+            </div>
+            <div class="flex justify-end pt-4">
+              <button type="button" onclick="window.nextWizardStep(2)" class="px-6 py-2.5 bg-[#D94B42] text-white text-xs font-bold rounded-xl hover:bg-[#B53830] transition-colors">
+                Continue to Property Details →
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Property Identity & Location -->
+          <div id="wizard-step-2" class="wizard-step hidden space-y-4">
+            <h3 class="text-base font-bold text-gray-800 pb-2 border-b border-gray-100">Step 2: Property Identity & Location in Santipur</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Property Name *</label>
+                <input type="text" id="reg-property-name" required placeholder="e.g., Godhuli Heritage Lodge" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Property Type *</label>
+                <select id="reg-property-type" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white">
+                  <option value="Hotel">Hotel</option>
+                  <option value="Lodge" selected>Lodge</option>
+                  <option value="Guest House">Guest House</option>
+                  <option value="Homestay">Homestay</option>
+                  <option value="Heritage Haveli">Heritage Haveli</option>
+                  <option value="Dharamshala">Dharamshala / Ashram</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Category / Tier</label>
+                <select id="reg-property-category" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white">
+                  <option value="Deluxe" selected>Deluxe Room</option>
+                  <option value="Heritage Suite">Heritage Suite</option>
+                  <option value="Standard">Standard</option>
+                  <option value="Budget">Budget / Pilgrim</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Landmark Area in Santipur *</label>
+                <select id="reg-property-landmark" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white">
+                  <option value="Near Shyamchand Mandir">Near Shyamchand Mandir</option>
+                  <option value="Station Road">Station Road / Railway Junction</option>
+                  <option value="Near Agameswari Mandir">Near Agameswari Mandir</option>
+                  <option value="Near Sutragarh Haat">Near Sutragarh Haat & Weavers Quarter</option>
+                  <option value="Near Public Library Ground">Near Public Library Ground</option>
+                  <option value="Bhutir Math">Bhutir Math Ground</option>
+                  <option value="Advaita Pat Babla">Advaita Pat Babla</option>
+                  <option value="Ganga Ghat Riverside">Ganga Ghat Riverside</option>
+                </select>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-gray-700 mb-1">Full Postal Address (Strictly Santipur Town, PIN 741404) *</label>
+                <input type="text" id="reg-property-address" required placeholder="Street name, Ward number, Santipur, Nadia, West Bengal - 741404" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white" />
+              </div>
+            </div>
+            <div class="flex justify-between pt-4">
+              <button type="button" onclick="window.nextWizardStep(1)" class="px-5 py-2.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-xl hover:bg-gray-200">
+                ← Back
+              </button>
+              <button type="button" onclick="window.nextWizardStep(3)" class="px-6 py-2.5 bg-[#D94B42] text-white text-xs font-bold rounded-xl hover:bg-[#B53830]">
+                Continue to Specs & Pricing →
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Room Specs & Pricing -->
+          <div id="wizard-step-3" class="wizard-step hidden space-y-4">
+            <h3 class="text-base font-bold text-gray-800 pb-2 border-b border-gray-100">Step 3: Room Specifications & Nightly Tariff</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Price per Night (₹ INR) *</label>
+                <input type="number" id="reg-price" required min="300" max="25000" placeholder="1850" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white font-bold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Room Size (Sq. Ft)</label>
+                <input type="number" id="reg-size" min="150" max="1500" placeholder="380" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Floor Level</label>
+                <select id="reg-floor" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white">
+                  <option value="Ground Floor">Ground Floor</option>
+                  <option value="1st Floor" selected>1st Floor</option>
+                  <option value="2nd Floor">2nd Floor</option>
+                  <option value="3rd Floor">3rd Floor</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Bed Configuration</label>
+                <input type="text" id="reg-bed" placeholder="Double Bed / King Bed" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Adult Capacity</label>
+                <input type="number" id="reg-adults" min="1" max="10" value="2" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Children Capacity</label>
+                <input type="number" id="reg-children" min="0" max="5" value="1" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white" />
+              </div>
+            </div>
+            <div class="flex justify-between pt-4">
+              <button type="button" onclick="window.nextWizardStep(2)" class="px-5 py-2.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-xl hover:bg-gray-200">
+                ← Back
+              </button>
+              <button type="button" onclick="window.nextWizardStep(4)" class="px-6 py-2.5 bg-[#D94B42] text-white text-xs font-bold rounded-xl hover:bg-[#B53830]">
+                Continue to Amenities & Visuals →
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Amenities & Photos -->
+          <div id="wizard-step-4" class="wizard-step hidden space-y-4">
+            <h3 class="text-base font-bold text-gray-800 pb-2 border-b border-gray-100">Step 4: Amenities & Visual Photography</h3>
+            
+            <!-- Amenities Checklist -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-2">Available Room Amenities</label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-gray-50 cursor-pointer">
+                  <input type="checkbox" id="reg-amenity-ac" checked class="w-4 h-4 text-[#D94B42] rounded" />
+                  <span class="font-semibold">Air Conditioning (AC)</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-gray-50 cursor-pointer">
+                  <input type="checkbox" id="reg-amenity-wifi" checked class="w-4 h-4 text-[#D94B42] rounded" />
+                  <span class="font-semibold">High-Speed Wi-Fi</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-gray-50 cursor-pointer">
+                  <input type="checkbox" id="reg-amenity-bath" checked class="w-4 h-4 text-[#D94B42] rounded" />
+                  <span class="font-semibold">Attached Western Bath</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-gray-50 cursor-pointer">
+                  <input type="checkbox" id="reg-amenity-tv" checked class="w-4 h-4 text-[#D94B42] rounded" />
+                  <span class="font-semibold">Smart TV</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-gray-50 cursor-pointer">
+                  <input type="checkbox" id="reg-amenity-balcony" class="w-4 h-4 text-[#D94B42] rounded" />
+                  <span class="font-semibold">Private Balcony</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-gray-50 cursor-pointer">
+                  <input type="checkbox" id="reg-amenity-breakfast" checked class="w-4 h-4 text-[#D94B42] rounded" />
+                  <span class="font-semibold">Complimentary Breakfast</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">Property & Room Description *</label>
+              <textarea id="reg-description" rows="3" required placeholder="Describe room highlights, proximity to temples or handloom haats, parking facilities..." class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white"></textarea>
+            </div>
+
+            <!-- Visual Image Selector -->
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">Main Cover Photo</label>
+              <select id="reg-image-selector" class="w-full text-xs p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42]">
+                <option value="/images/santipur/stays/santipur-stay-room-master.jpg">Deluxe Master Bedroom with King Bed</option>
+                <option value="/images/santipur/stays/santipur-stay-room-living.jpg">Cozy Heritage Room & Seating</option>
+                <option value="/images/santipur/temples/santipur-shyamchand-temple-atchala-01.jpg">Shyamchand Temple View Heritage Suite</option>
+                <option value="/images/santipur/handloom/santipur-tant-weaving-workshop-01.jpg">Sutragarh Handloom Quarter Homestay View</option>
+                <option value="/images/santipur/temples/santipur-jaleswar-shiva-temple-01.jpg">Riverside Ghat Historic Retreat</option>
+              </select>
+            </div>
+
+            <div class="flex justify-between pt-4">
+              <button type="button" onclick="window.nextWizardStep(3)" class="px-5 py-2.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-xl hover:bg-gray-200">
+                ← Back
+              </button>
+              <button type="button" onclick="window.nextWizardStep(5)" class="px-6 py-2.5 bg-[#D94B42] text-white text-xs font-bold rounded-xl hover:bg-[#B53830]">
+                Review & Finalize →
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 5: Review & Submit -->
+          <div id="wizard-step-5" class="wizard-step hidden space-y-4">
+            <h3 class="text-base font-bold text-gray-800 pb-2 border-b border-gray-100">Step 5: Review Listing Details & Publish</h3>
+            
+            <div id="reg-summary-card" class="bg-gray-50 rounded-xl p-4 border border-gray-200 text-xs space-y-2">
+              <!-- Filled via JavaScript -->
+            </div>
+
+            <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-800 font-medium">
+              ✓ Upon submission, your listing will be published directly into the Santipur Heritage Hospitality Directory and Supabase database.
+            </div>
+
+            <div class="flex justify-between pt-4">
+              <button type="button" onclick="window.nextWizardStep(4)" class="px-5 py-2.5 bg-gray-100 text-gray-700 text-xs font-bold rounded-xl hover:bg-gray-200">
+                ← Back
+              </button>
+              <button type="submit" id="btn-submit-registration" class="px-8 py-3 bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-extrabold rounded-xl shadow-md transition-all">
+                Publish Property to Portal
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- PILLAR 3: OWNER ADMIN DASHBOARD -->
+    <!-- ===================================================================== -->
+    <div id="section-owner" class="portal-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      
+      <!-- Dashboard Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-200">
+        <div>
+          <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">Hospitality Command Center</span>
+          <h2 class="text-2xl font-extrabold text-[#1A1D24] tracking-tight mt-1">Property Manager & Booking Dashboard</h2>
+          <p class="text-xs text-gray-500">Track incoming guest bookings, update room availability status, and monitor revenue.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.switchPortalTab('register')" class="bg-[#1A1D24] hover:bg-black text-white text-xs font-bold px-4 py-2 rounded-xl transition-colors">
+            + Add New Room
+          </button>
+          <button onclick="window.refreshOwnerDashboard()" class="bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs font-bold px-3 py-2 rounded-xl transition-colors flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span>Refresh</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- METRICS OVERVIEW CARDS -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Total Revenue -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-2xs">
+          <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Total Revenue</div>
+          <div class="text-2xl font-extrabold text-emerald-600 mt-1" id="stat-revenue">₹29,400</div>
+          <div class="text-[10px] text-gray-400 mt-0.5">Calculated from confirmed stays</div>
+        </div>
+
+        <!-- Total Bookings -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-2xs">
+          <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Reservations</div>
+          <div class="text-2xl font-extrabold text-[#1A1D24] mt-1" id="stat-bookings">4</div>
+          <div class="text-[10px] text-gray-400 mt-0.5">Active guest bookings</div>
+        </div>
+
+        <!-- Active Rooms -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-2xs">
+          <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Active Rooms</div>
+          <div class="text-2xl font-extrabold text-[#D94B42] mt-1" id="stat-rooms">8</div>
+          <div class="text-[10px] text-gray-400 mt-0.5">Available across Santipur</div>
+        </div>
+
+        <!-- Occupancy Rate -->
+        <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-2xs">
+          <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Est. Occupancy</div>
+          <div class="text-2xl font-extrabold text-blue-600 mt-1" id="stat-occupancy">78%</div>
+          <div class="text-[10px] text-gray-400 mt-0.5">Peak festival booking demand</div>
+        </div>
+      </div>
+
+      <!-- RESERVATIONS MANAGEMENT TABLE -->
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-2xs overflow-hidden">
+        <div class="p-5 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-base font-bold text-[#1A1D24]">Incoming Guest Bookings & Vouchers</h3>
+            <p class="text-xs text-gray-500">Manage real-time guest reservations, confirmation status, and payment logs.</p>
+          </div>
+          <!-- Status Filter -->
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-gray-500">Filter:</span>
+            <select id="dashboard-booking-filter" onchange="window.filterDashboardBookings(this.value)" class="text-xs font-medium bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 outline-none">
+              <option value="all">All Bookings</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="pending">Pending Review</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-gray-50/80 border-b border-gray-200 text-gray-500 uppercase font-bold text-[10px] tracking-wider">
+                <th class="p-3.5">Guest & Contact</th>
+                <th class="p-3.5">Property / Room</th>
+                <th class="p-3.5">Dates & Nights</th>
+                <th class="p-3.5">Total (₹)</th>
+                <th class="p-3.5">Payment</th>
+                <th class="p-3.5">Status</th>
+                <th class="p-3.5 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-bookings-tbody" class="divide-y divide-gray-100">
+              <!-- Rendered via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ROOM INVENTORY & AVAILABILITY STATUS TOGGLER -->
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-2xs p-5">
+        <div class="mb-4">
+          <h3 class="text-base font-bold text-[#1A1D24]">Room Availability & Peak Status Manager</h3>
+          <p class="text-xs text-gray-500">Toggle rooms between Active (Open for Booking), Inactive (Maintenance), and Sold Out (Festival Full).</p>
+        </div>
+
+        <div id="dashboard-accommodations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Rendered via JavaScript -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ======================================================================= -->
+  <!-- EXPANSIVE LUXURY ROOM DETAIL MODAL (MATCHING REFERENCE ATTACHMENT) -->
+  <!-- ======================================================================= -->
+  <div id="stay-detail-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+    <div class="bg-[#F8FAFC] w-full max-w-6xl rounded-3xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col my-auto max-h-[92vh]">
+      
+      <!-- MODAL TOP BAR (Room View & Details + Room No + Chips) -->
+      <div class="bg-white px-5 sm:px-8 py-4 border-b border-gray-200 flex items-center justify-between gap-4 shrink-0">
+        <div>
+          <button onclick="window.closeStayDetailModal()" class="text-xs font-bold text-gray-500 hover:text-black flex items-center gap-1 mb-1 transition-colors">
+            ← Back to Listings
+          </button>
+          <div class="flex items-center gap-3 flex-wrap">
+            <h2 class="text-lg sm:text-2xl font-extrabold text-[#1A1D24] tracking-tight" id="modal-prop-name">
+              Room View & Details
+            </h2>
+            <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-mono" id="modal-room-no">
+              Room No: 244
+            </span>
+          </div>
+        </div>
+
+        <!-- Specification Feature Chips -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200" id="modal-chip-size">
+            <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+            <span id="modal-chip-size-val">400 sq. ft</span>
+          </span>
+          <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200" id="modal-chip-bed">
+            <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span id="modal-chip-bed-val">Double bed</span>
+          </span>
+          <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200" id="modal-chip-floor">
+            <span id="modal-chip-floor-val">3rd Floor</span>
+          </span>
+          <button onclick="window.closeStayDetailModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors ml-2">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- MODAL SCROLLABLE BODY -->
+      <div class="overflow-y-auto p-5 sm:p-8 space-y-8 custom-scrollbar">
+
+        <!-- UPPER HALF: LARGE PHOTO SHOWCASE + RIGHT SPECS CARD -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- Left: Primary Room Showcase with Interactive Thumbnails -->
+          <div class="lg:col-span-8 space-y-3">
+            <div class="relative h-72 sm:h-96 rounded-2xl overflow-hidden shadow-sm border border-gray-200 bg-gray-100">
+              <img id="modal-master-img" src="/images/santipur/stays/santipur-stay-room-master.jpg" alt="Master Room Showcase" class="w-full h-full object-cover transition-all duration-300" />
+              
+              <!-- Floating Specification Tags inside Photo -->
+              <div class="absolute top-4 right-4 flex items-center gap-2">
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/90 backdrop-blur-md text-[#1A1D24] shadow-sm">
+                  Verified Santipur Stay
+                </span>
+              </div>
+
+              <!-- 3 Interactive Thumbnail Cards (Bottom-Left) -->
+              <div class="absolute bottom-4 left-4 flex items-center gap-2.5 z-10" id="modal-thumbnail-row">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: "Rooms" Specification Panel (Matching Reference UI) -->
+          <div class="lg:col-span-4 bg-white rounded-2xl p-5 border border-gray-200 shadow-2xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                <h3 class="text-sm font-extrabold text-[#1A1D24] tracking-tight">Room Specifications</h3>
+                <span class="text-xs text-gray-400 cursor-pointer" title="Room inventory and equipment specifications">ⓘ</span>
+              </div>
+
+              <!-- Specification Rows -->
+              <div class="mt-4 space-y-3.5 text-xs">
+                
+                <!-- Bed Room -->
+                <div class="flex items-start justify-between gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center shrink-0">
+                      🛏️
+                    </div>
+                    <div>
+                      <div class="font-bold text-[#1A1D24]">Bed Room</div>
+                      <div class="text-[11px] text-gray-500" id="spec-bedroom">1 bed room & meeting room</div>
+                    </div>
+                  </div>
+                  <span class="text-gray-400">›</span>
+                </div>
+
+                <!-- Bed Type & Others -->
+                <div class="flex items-start justify-between gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center shrink-0">
+                      🛋️
+                    </div>
+                    <div>
+                      <div class="font-bold text-[#1A1D24]">Bed Type & Others</div>
+                      <div class="text-[11px] text-gray-500" id="spec-bedtype">Double bed, sofa, table & more</div>
+                    </div>
+                  </div>
+                  <span class="text-gray-400">›</span>
+                </div>
+
+                <!-- Technology -->
+                <div class="flex items-start justify-between gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center shrink-0">
+                      📺
+                    </div>
+                    <div>
+                      <div class="font-bold text-[#1A1D24]">Technology</div>
+                      <div class="text-[11px] text-gray-500" id="spec-tech">TV, Fridge, AC, Geyser, Wi-Fi</div>
+                    </div>
+                  </div>
+                  <span class="text-gray-400">›</span>
+                </div>
+
+                <!-- Bathroom -->
+                <div class="flex items-start justify-between gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center shrink-0">
+                      🚿
+                    </div>
+                    <div>
+                      <div class="font-bold text-[#1A1D24]">Bathroom</div>
+                      <div class="text-[11px] text-gray-500" id="spec-bath">1 attached Western Bathroom</div>
+                    </div>
+                  </div>
+                  <span class="text-gray-400">›</span>
+                </div>
+
+                <!-- Accessibility -->
+                <div class="flex items-start justify-between gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center shrink-0">
+                      🚪
+                    </div>
+                    <div>
+                      <div class="font-bold text-[#1A1D24]">Accessibility</div>
+                      <div class="text-[11px] text-gray-500" id="spec-access">Balcony, Elevator / Ground Floor</div>
+                    </div>
+                  </div>
+                  <span class="text-gray-400">›</span>
+                </div>
+
+                <!-- Kitchen -->
+                <div class="flex items-start justify-between gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center shrink-0">
+                      ☕
+                    </div>
+                    <div>
+                      <div class="font-bold text-[#1A1D24]">Kitchen / Dining</div>
+                      <div class="text-[11px] text-gray-500" id="spec-kitchen">Complimentary tea/coffee maker</div>
+                    </div>
+                  </div>
+                  <span class="text-gray-400">›</span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Price and Instant Book trigger -->
+            <div class="pt-4 mt-4 border-t border-gray-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-gray-400 uppercase font-bold">Nightly Tariff</span>
+                <div class="text-xl font-extrabold text-[#D94B42]" id="modal-side-price">₹1,850 <span class="text-xs text-gray-500 font-normal">/ night</span></div>
+              </div>
+              <button onclick="window.triggerBookingDrawer()" class="px-5 py-2.5 bg-[#1A1D24] hover:bg-black text-white text-xs font-bold rounded-xl shadow-sm transition-colors">
+                Reserve Room
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOWER HALF: DETAILS & CALENDAR + BREAKFAST PROMO + ADVANCE BOOKINGS -->
+        <div>
+          <h3 class="text-base font-extrabold text-[#1A1D24] mb-4">Details, Descriptions & Others</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            
+            <!-- Left Card: Room Overview & Availability Calendar -->
+            <div class="md:col-span-6 bg-white rounded-2xl p-5 border border-gray-200 shadow-2xs space-y-5">
+              
+              <!-- Overview Grid -->
+              <div class="grid grid-cols-2 gap-4 pb-4 border-b border-gray-100 text-xs">
+                <div>
+                  <span class="text-gray-400 block font-medium">Room Name:</span>
+                  <span class="font-bold text-[#1A1D24]" id="modal-overview-name">Deluxe King Room</span>
+                </div>
+                <div>
+                  <span class="text-gray-400 block font-medium">Type:</span>
+                  <span class="font-bold text-[#1A1D24]" id="modal-overview-type">Executive Suite</span>
+                </div>
+                <div>
+                  <span class="text-gray-400 block font-medium">Capacity:</span>
+                  <span class="font-bold text-[#1A1D24]" id="modal-overview-cap">2 Adults, 1 Child</span>
+                </div>
+                <div>
+                  <span class="text-gray-400 block font-medium">Size:</span>
+                  <span class="font-bold text-[#1A1D24]" id="modal-overview-size">400 sq. ft</span>
+                </div>
+              </div>
+
+              <!-- Interactive Calendar -->
+              <div>
+                <div class="flex items-center justify-between mb-3 text-xs font-bold text-[#1A1D24]">
+                  <span>Availability Calendar</span>
+                  <div class="flex items-center gap-1.5 text-xs text-gray-500">
+                    <span id="calendar-month-label">November 2026</span>
+                  </div>
+                </div>
+
+                <!-- Calendar Days Grid -->
+                <div class="grid grid-cols-7 gap-1.5 text-center text-[11px] font-medium" id="modal-calendar-grid">
+                  <!-- Rendered dynamically with red circle on booked dates! -->
+                </div>
+
+                <div class="mt-3 flex items-center justify-between text-[10px] text-gray-500 pt-2 border-t border-gray-100">
+                  <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Available for Instant Booking</span>
+                  <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Booked / Occupied</span>
+                </div>
+              </div>
+
+              <!-- Description Paragraph -->
+              <div class="pt-2">
+                <span class="text-xs font-bold text-gray-700 block mb-1">Descriptions & Other</span>
+                <p class="text-xs text-gray-600 leading-relaxed" id="modal-full-desc">
+                  Unwind in our spacious Deluxe King Room, featuring a comfortable king-size bed with premium Shantipuri cotton linens, cozy seating area, and traditional decor that blends heritage warmth with modern amenities.
+                </p>
+              </div>
+
+            </div>
+
+            <!-- Center Card: Complimentary Breakfast Banner -->
+            <div class="md:col-span-3 bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-2xs flex flex-col justify-between">
+              <div class="h-44 overflow-hidden bg-gray-100">
+                <img src="/images/santipur/stays/santipur-stay-breakfast-tray.jpg" alt="Breakfast Tray" class="w-full h-full object-cover" />
+              </div>
+              <div class="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                    Daily Hospitality
+                  </span>
+                  <h4 class="text-sm font-bold text-[#1A1D24] mt-2">
+                    We provide you Complimentary Breakfast with this room.
+                  </h4>
+                  <p class="text-xs text-gray-500 mt-1">
+                    Authentic hot Shantipuri breakfast featuring luchi, alur dom, and traditional sweets.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-gray-100 text-[11px] text-gray-400 font-medium">
+                  Service Hours: 7:30 AM - 10:30 AM
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Card: Advance Booking & Instant Reservation CTA -->
+            <div class="md:col-span-3 bg-white rounded-2xl p-5 border border-gray-200 shadow-2xs flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                  <h4 class="text-sm font-extrabold text-[#1A1D24]">Advance Bookings</h4>
+                  <span class="text-xs text-gray-400 cursor-pointer" title="Recent confirmed guest reservations">?</span>
+                </div>
+
+                <!-- Recent Bookings List -->
+                <div class="mt-4 space-y-3" id="modal-recent-bookings-list">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+
+              <!-- Action Button -->
+              <div class="pt-4 mt-4 border-t border-gray-100">
+                <button onclick="window.triggerBookingDrawer()" class="w-full py-3 bg-[#1A1D24] hover:bg-black text-white text-xs font-bold rounded-xl shadow-md transition-colors flex items-center justify-center gap-1.5">
+                  <span>Reserve This Room</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- INSTANT BOOKING REQUEST DRAWER / MODAL -->
+  <!-- ======================================================================= -->
+  <div id="booking-drawer-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-gray-200 overflow-hidden my-auto animate-fade-in">
+      
+      <!-- Drawer Header -->
+      <div class="bg-[#1A1D24] text-white p-5 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#D94B42] text-white uppercase tracking-wider">Instant Reservation</span>
+          <h3 class="text-lg font-bold tracking-tight mt-1" id="drawer-property-name">Reserve Your Stay</h3>
+        </div>
+        <button onclick="window.closeBookingDrawer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors">
+          ✕
+        </button>
+      </div>
+
+      <!-- Drawer Form -->
+      <form id="instant-booking-form" onsubmit="window.handleExecuteBooking(event)" class="p-6 space-y-5">
+        
+        <!-- Stay Dates & Cost Summary Card -->
+        <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 space-y-3">
+          <div class="flex items-center justify-between text-xs">
+            <div>
+              <span class="text-gray-400 block font-medium">Check-In:</span>
+              <span class="font-bold text-[#1A1D24]" id="drawer-summary-checkin">--</span>
+            </div>
+            <div class="text-right">
+              <span class="text-gray-400 block font-medium">Check-Out:</span>
+              <span class="font-bold text-[#1A1D24]" id="drawer-summary-checkout">--</span>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-gray-200 flex items-center justify-between text-xs">
+            <div>
+              <span class="font-bold text-gray-700" id="drawer-nights-count">1 Night</span> × <span id="drawer-nightly-rate">₹1,850</span>
+              <div class="text-[10px] text-gray-400">Includes 5% municipal tourism levy</div>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-gray-500 font-medium block">Total Payable</span>
+              <span class="text-lg font-extrabold text-[#D94B42]" id="drawer-total-amount">₹1,943</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guest Inputs -->
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">Primary Guest Full Name *</label>
+            <input type="text" id="book-guest-name" required placeholder="e.g., Dipon Nath" class="w-full p-2.5 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white font-medium" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-gray-700 mb-1">Mobile Phone * (10 Digits)</label>
+              <input type="tel" id="book-guest-phone" required placeholder="+91 98321 00000" class="w-full p-2.5 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white font-medium" />
+            </div>
+            <div>
+              <label class="block font-bold text-gray-700 mb-1">Email Address (Optional)</label>
+              <input type="email" id="book-guest-email" placeholder="guest@gmail.com" class="w-full p-2.5 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42] focus:bg-white font-medium" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-gray-700 mb-1">Guests Count</label>
+              <select id="book-guests-count" class="w-full p-2.5 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42]">
+                <option value="1">1 Person</option>
+                <option value="2" selected>2 Persons</option>
+                <option value="3">3 Persons</option>
+                <option value="4">4 Persons</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-gray-700 mb-1">Rooms Count</label>
+              <select id="book-rooms-count" onchange="window.recalculateDrawerPricing()" class="w-full p-2.5 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42]">
+                <option value="1" selected>1 Room</option>
+                <option value="2">2 Rooms</option>
+                <option value="3">3 Rooms</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">Special Requests / Notes</label>
+            <input type="text" id="book-special-notes" placeholder="e.g. Late arrival 9 PM, quiet ground-floor room, extra blanket" class="w-full p-2.5 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#D94B42]" />
+          </div>
+
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">Payment Method</label>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="flex items-center gap-2 p-2 rounded-xl border border-gray-200 bg-gray-50 cursor-pointer">
+                <input type="radio" name="payment_method" value="pay_at_desk" checked class="text-[#D94B42]" />
+                <span class="font-bold">Pay at Hotel Desk</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-xl border border-gray-200 bg-gray-50 cursor-pointer">
+                <input type="radio" name="payment_method" value="advance_paid" class="text-[#D94B42]" />
+                <span class="font-bold">Advance UPI / Online</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3">
+          <button type="submit" id="btn-confirm-booking" class="w-full py-3 bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+            <span>Confirm & Generate Booking Pass</span>
+            <span>✓</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- BOOKING CONFIRMATION CELEBRATION VOUCHER MODAL -->
+  <!-- ======================================================================= -->
+  <div id="booking-success-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-gray-200 overflow-hidden my-auto text-center p-6 space-y-4">
+      <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-2xl">
+        ✓
+      </div>
+      <div>
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 uppercase">Reservation Confirmed</span>
+        <h3 class="text-xl font-extrabold text-[#1A1D24] mt-1">Booking Pass Generated!</h3>
+        <p class="text-xs text-gray-500 mt-1">Your reservation has been recorded in the Santipur Heritage Hospitality Engine & Supabase database.</p>
+      </div>
+
+      <!-- Voucher Card Details -->
+      <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 text-left text-xs space-y-2 font-mono">
+        <div class="flex justify-between">
+          <span class="text-gray-500">Booking ID:</span>
+          <span class="font-bold text-[#D94B42]" id="voucher-ref">STAY-741404-001</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Guest Name:</span>
+          <span class="font-bold text-black" id="voucher-guest">Dipon Nath</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Stay Dates:</span>
+          <span class="font-bold text-black" id="voucher-dates">Nov 12 - Nov 15</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Total Payable:</span>
+          <span class="font-bold text-emerald-700" id="voucher-total">₹5,550</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Payment Mode:</span>
+          <span class="font-bold text-black" id="voucher-payment">Pay at Hotel Desk</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-2 pt-2">
+        <button onclick="window.printBookingPass()" class="flex-1 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold rounded-xl transition-colors">
+          Print / Save Pass
+        </button>
+        <button onclick="window.closeSuccessModal()" class="flex-1 py-2.5 bg-[#1A1D24] hover:bg-black text-white text-xs font-bold rounded-xl transition-colors">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- FOOTER -->
+  <!-- ======================================================================= -->
+  <footer class="bg-white border-t border-gray-200/80 py-8 text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <img src="/images/santipur/city-photography/santipur-local-directory-emblem-01.png" alt="Santipur Crest" class="w-6 h-6 rounded-full" />
+        <span class="font-bold text-[#1A1D24]">Santipur Local Directory & Heritage Hospitality Engine</span>
+        <span>(PIN: 741404)</span>
+      </div>
+      <div>
+        <span>Hotels • Lodges • Weavers Homestays • Gaudiya Math Dharamshalas</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="stayEngine.js"></script>
+  <script src="stayApp.js"></script>
+</body>
+</html>

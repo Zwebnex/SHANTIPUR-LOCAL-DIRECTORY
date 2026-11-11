@@ -3,6 +3,10 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/stay", "destination": "/stay/index.html" },
+    { "source": "/stay/:slug*", "destination": "/stay/index.html" },
+    { "source": "/hotels", "destination": "/stay/index.html" },
+    { "source": "/hotels/:slug*", "destination": "/stay/index.html" },
     { "source": "/routes", "destination": "/index.html" },
     { "source": "/routes/:slug*", "destination": "/index.html" },
     { "source": "/login", "destination": "/index.html" },

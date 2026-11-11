@@ -28,7 +28,21 @@ if (fs.existsSync(path.join(publicDir, 'raas-utsav.html'))) {
   console.log('✓ Created public/raas-utsav/index.html');
 }
 
-// 3. Sync vercel.json to public/vercel.json
+// 3. Ensure stay/index.html, stay.html, and hotels/index.html
+const stayIndexPath = path.join(publicDir, 'stay', 'index.html');
+if (fs.existsSync(stayIndexPath)) {
+  fs.copyFileSync(stayIndexPath, path.join(publicDir, 'stay.html'));
+  
+  const hotelsDir = path.join(publicDir, 'hotels');
+  if (!fs.existsSync(hotelsDir)) {
+    fs.mkdirSync(hotelsDir, { recursive: true });
+  }
+  fs.copyFileSync(stayIndexPath, path.join(hotelsDir, 'index.html'));
+  fs.copyFileSync(stayIndexPath, path.join(publicDir, 'hotels.html'));
+  console.log('✓ Created public/stay.html, public/hotels/index.html, and public/hotels.html');
+}
+
+// 4. Sync vercel.json to public/vercel.json
 if (fs.existsSync(path.join(rootDir, 'vercel.json'))) {
   fs.copyFileSync(
     path.join(rootDir, 'vercel.json'),
