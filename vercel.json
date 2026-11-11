@@ -3,6 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/api/config", "destination": "/api/config.json" },
     { "source": "/stay", "destination": "/stay/index.html" },
     { "source": "/stay/:slug*", "destination": "/stay/index.html" },
     { "source": "/hotels", "destination": "/stay/index.html" },
@@ -15,6 +16,18 @@
     { "source": "/reset-password", "destination": "/index.html" }
   ],
   "headers": [
+    {
+      "source": "/(stayEngine|stayApp|supabaseClient)\\.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    },
     {
       "source": "/images/(.*)",
       "headers": [

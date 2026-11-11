@@ -7,12 +7,29 @@
 (function (window) {
   'use strict';
 
-  const STORAGE_KEY_ACCOMMODATIONS = 'santipur_stay_accommodations_v5';
-  const STORAGE_KEY_BOOKINGS = 'santipur_stay_bookings_v5';
+  const STORAGE_KEY_ACCOMMODATIONS = 'santipur_stay_accommodations_v6';
+  const STORAGE_KEY_BOOKINGS = 'santipur_stay_bookings_v6';
 
-  // Initially empty: Owners register their properties first!
+  // Strict: Purge all legacy storage keys so no pre-populated/mock listings ever leak into view
+  ['santipur_stay_accommodations', 'santipur_stay_accommodations_v1', 'santipur_stay_accommodations_v2', 'santipur_stay_accommodations_v3', 'santipur_stay_accommodations_v4', 'santipur_stay_accommodations_v5'].forEach(function (k) {
+    try { localStorage.removeItem(k); } catch (e) {}
+  });
+
+  // Initially empty: Real owners register their properties first!
   const SEED_ACCOMMODATIONS = [];
   const SEED_BOOKINGS = [];
+
+  // Helper: Reliable UUID Generator for PostgreSQL UUID Columns
+  function generateUUID() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
 
   // Internal Local Store Accessors
   function getLocalAccommodations() {
@@ -51,13 +68,30 @@
     } catch (e) {}
   }
 
-  // Get active Supabase client instance if connected
+  // Live Supabase Client: Explicitly bound to Project bnlhqkcyqymsvtqblwkv
+  const SUPABASE_PROJECT_URL = 'https://bnlhqkcyqymsvtqblwkv.supabase.co';
+  const SUPABASE_PUBLIC_KEY = 'sb_publishable_gRldZFx01gJWHI0JKjbaNQ_9G6OgFdp';
+
+  let _sbClient = null;
   function getSupabase() {
-    if (window.supabasePortal && window.supabasePortal.client && window.supabasePortal.isLive()) {
-      return window.supabasePortal.client;
+    if (_sbClient) return _sbClient;
+    if (window.staySupabaseClient) {
+      _sbClient = window.staySupabaseClient;
+      return _sbClient;
     }
-    if (window.supabase && typeof window.supabase.from === 'function') {
-      return window.supabase;
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
+      try {
+        _sbClient = window.supabase.createClient(SUPABASE_PROJECT_URL, SUPABASE_PUBLIC_KEY, {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true
+          }
+        });
+        window.staySupabaseClient = _sbClient;
+        return _sbClient;
+      } catch (e) {
+        console.warn('Supabase initialization notice:', e);
+      }
     }
     return null;
   }
@@ -95,9 +129,11 @@
           }
 
           const { data, error } = await query;
-          if (!error && Array.isArray(data) && data.length > 0) {
+          if (!error && Array.isArray(data)) {
+            // When Supabase table is empty, data is [] (No mock fallback!)
             list = data;
           } else {
+            // If table does not exist or network fail, use empty local store
             list = getLocalAccommodations();
           }
         } catch (e) {
@@ -108,7 +144,7 @@
       }
 
       // Filter locally for active status and search query
-      list = list.filter(item => item.status === 'active');
+      list = (list || []).filter(item => item && item.status === 'active');
 
       if (filters.property_type && filters.property_type !== 'all') {
         list = list.filter(item => item.property_type.toLowerCase() === filters.property_type.toLowerCase());
@@ -214,7 +250,7 @@
       }
 
       const newBooking = {
-        id: 'b-' + Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 6),
+        id: generateUUID(),
         created_at: new Date().toISOString(),
         accommodation_id: bookingData.accommodation_id,
         guest_name: bookingData.guest_name.trim(),
@@ -261,7 +297,7 @@
       }
 
       const newAcc = {
-        id: 'acc-' + Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 6),
+        id: generateUUID(),
         created_at: new Date().toISOString(),
         owner_name: propertyData.owner_name.trim(),
         owner_phone: propertyData.owner_phone.trim(),
@@ -309,7 +345,12 @@
       const sb = getSupabase();
       if (sb) {
         try {
-          await sb.from('stay_accommodations').insert([newAcc]);
+          const { data, error } = await sb.from('stay_accommodations').insert([newAcc]).select();
+          if (!error && Array.isArray(data) && data[0]) {
+            console.log('Successfully saved to Supabase stay_accommodations:', data[0].id);
+          } else if (error) {
+            console.warn('Supabase accommodation insert notice:', error.message);
+          }
         } catch (e) {
           console.warn('Supabase accommodation write failover:', e);
         }
@@ -331,8 +372,28 @@
      * Fetch management dashboard metrics, reservations, and room statuses
      */
     async getOwnerDashboardData() {
-      const accommodations = getLocalAccommodations();
-      const bookings = getLocalBookings();
+      let accommodations = getLocalAccommodations();
+      let bookings = getLocalBookings();
+
+      const sb = getSupabase();
+      if (sb) {
+        try {
+          const [accRes, bookRes] = await Promise.all([
+            sb.from('stay_accommodations').select('*'),
+            sb.from('stay_bookings').select('*')
+          ]);
+          if (!accRes.error && Array.isArray(accRes.data)) {
+            accommodations = accRes.data;
+            setLocalAccommodations(accommodations);
+          }
+          if (!bookRes.error && Array.isArray(bookRes.data)) {
+            bookings = bookRes.data;
+            setLocalBookings(bookings);
+          }
+        } catch (e) {
+          console.warn('Supabase dashboard fetch failover:', e);
+        }
+      }
 
       const totalRevenue = bookings
         .filter(b => b.booking_status !== 'cancelled')

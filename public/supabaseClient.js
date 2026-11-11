@@ -7,8 +7,8 @@
 
   let supabaseClient = null;
   let clientConfig = {
-    supabaseUrl: '',
-    supabaseAnonKey: '',
+    supabaseUrl: 'https://bnlhqkcyqymsvtqblwkv.supabase.co',
+    supabaseAnonKey: 'sb_publishable_gRldZFx01gJWHI0JKjbaNQ_9G6OgFdp',
     rateLimitWindowSeconds: 50,
     maxAllowedFailedAttempts: 5,
   };
