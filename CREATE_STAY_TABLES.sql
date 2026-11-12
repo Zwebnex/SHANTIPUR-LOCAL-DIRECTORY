@@ -96,3 +96,4 @@ FOR INSERT WITH CHECK (true);
 
 CREATE POLICY "Public Update Bookings" ON public.stay_bookings 
 FOR UPDATE USING (true);
+

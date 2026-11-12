@@ -249,8 +249,9 @@
           <div class="text-xl font-extrabold tracking-tight">${formatINR(acc.price_per_night)} <span class="text-xs font-normal text-gray-200">${I18N[currentLang].pricePerNight}</span></div>
         `
         : `
-          <div class="text-[10px] uppercase font-bold text-amber-300 tracking-wider flex items-center gap-1">
-            <span>🔒</span> <span>${I18N[currentLang].tariffOnRequest}</span>
+          <div class="text-[10px] uppercase font-bold text-amber-300 tracking-wider flex items-center gap-1.5">
+            <svg class="w-3 h-3 text-amber-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <span>${I18N[currentLang].tariffOnRequest}</span>
           </div>
           <div class="text-xs font-bold text-white tracking-tight flex items-center gap-1 mt-0.5">
             <span>${I18N[currentLang].unverifiedByOwner}</span>
@@ -267,8 +268,9 @@
         : `
           <div class="mt-3 p-2.5 rounded-xl bg-amber-50/90 border border-amber-200 flex items-center justify-between gap-2 text-xs">
             <div>
-              <div class="font-extrabold text-amber-900 text-xs flex items-center gap-1">
-                <span>🔒</span> <span>${I18N[currentLang].tariffOnRequest}</span>
+              <div class="font-extrabold text-amber-900 text-xs flex items-center gap-1.5">
+                <svg class="w-3 h-3 text-amber-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <span>${I18N[currentLang].tariffOnRequest}</span>
               </div>
               <div class="text-[10px] text-amber-700 font-medium">${I18N[currentLang].unverifiedByOwner}</div>
             </div>
@@ -279,7 +281,7 @@
               title="Click to view why tariffs are hidden"
             >
               <span>${I18N[currentLang].whyHidden}</span>
-              <span>ⓘ</span>
+              <svg class="w-3 h-3 text-amber-900" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
             </button>
           </div>
         `;
@@ -309,7 +311,7 @@
             </div>
 
             <div class="absolute top-3 right-3 flex items-center gap-1.5">
-              ${isVerified ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-600 text-white shadow-xs">✓ Verified</span>' : ''}
+              ${isVerified ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-600 text-white shadow-xs"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Verified</span>' : ''}
               ${statusBadge}
             </div>
 
@@ -346,10 +348,12 @@
               <!-- Capacity & Beds -->
               <div class="mt-3 py-2 px-3 bg-gray-50 rounded-xl flex items-center justify-between text-xs text-gray-600 font-medium">
                 <span class="flex items-center gap-1">
-                  <span>👥</span> ${acc.capacity_adults || 2} Adults, ${acc.capacity_children || 1} Child
+                  <svg class="w-3.5 h-3.5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                  <span>${acc.capacity_adults || 2} Adults, ${acc.capacity_children || 1} Child</span>
                 </span>
                 <span class="flex items-center gap-1">
-                  <span>🛏️</span> ${acc.bed_type || 'Double Bed'}
+                  <svg class="w-3.5 h-3.5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12v7m0-7a2 2 0 012-2h14a2 2 0 012 2v7m-18 0h18M3 19h18M7 8a2 2 0 11-4 0 2 2 0 014 0zm10 0a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                  <span>${acc.bed_type || 'Double Bed'}</span>
                 </span>
               </div>
 
@@ -358,10 +362,10 @@
 
               <!-- Amenity Badges -->
               <div class="mt-3 flex items-center gap-2 flex-wrap text-[11px] text-gray-600 font-semibold">
-                ${amenities.ac ? '<span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700">✓ AC</span>' : ''}
-                ${amenities.wifi ? '<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700">✓ High Wi-Fi</span>' : ''}
-                ${amenities.breakfast ? '<span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800">✓ Breakfast</span>' : ''}
-                ${amenities.attached_bath ? '<span class="px-2 py-0.5 rounded-md bg-gray-100 text-gray-700">✓ Attached Bath</span>' : ''}
+                ${amenities.ac ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-700"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> AC</span>' : ''}
+                ${amenities.wifi ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> High Wi-Fi</span>' : ''}
+                ${amenities.breakfast ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-800"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Breakfast</span>' : ''}
+                ${amenities.attached_bath ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-gray-100 text-gray-700"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Attached Bath</span>' : ''}
               </div>
             </div>
 
@@ -476,17 +480,19 @@
         `;
       } else {
         sidePriceEl.innerHTML = `
-          <span class="text-[10px] text-amber-800 uppercase font-bold block flex items-center gap-1">
-            <span>🔒</span> <span>${I18N[currentLang].tariffOnRequest}</span>
+          <span class="text-[10px] text-amber-800 uppercase font-bold block flex items-center gap-1.5">
+            <svg class="w-3 h-3 text-amber-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <span>${I18N[currentLang].tariffOnRequest}</span>
           </span>
           <div class="text-xs font-bold text-gray-700 flex items-center gap-2 mt-0.5">
             <span>${I18N[currentLang].unverifiedByOwner}</span>
             <button 
               type="button" 
               onclick="window.openTariffVerificationModal('${acc.id}', event)" 
-              class="text-[10px] font-bold text-[#D94B42] hover:underline bg-red-50 border border-red-200 px-2 py-0.5 rounded-md cursor-pointer"
+              class="text-[10px] font-bold text-[#D94B42] hover:underline bg-red-50 border border-red-200 px-2 py-0.5 rounded-md cursor-pointer flex items-center gap-1"
             >
-              ${I18N[currentLang].whyHidden} ⓘ
+              <span>${I18N[currentLang].whyHidden}</span>
+              <svg class="w-2.5 h-2.5 text-[#D94B42]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
             </button>
           </div>
         `;
@@ -613,7 +619,7 @@
         <div class="flex items-center justify-between p-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-100">
           <div class="flex items-center gap-2.5">
             <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">
-              👤
+              <svg class="w-3.5 h-3.5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
             </div>
             <div>
               <div class="text-xs font-bold text-[#1A1D24]">${b.guest_name}</div>
@@ -659,7 +665,7 @@
       if (phoneBtn) {
         const cleanPhone = (acc.owner_phone || '+919434821905').replace(/[^0-9+]/g, '');
         phoneBtn.href = `tel:${cleanPhone}`;
-        phoneBtn.innerHTML = `<span>📞 Call ${acc.owner_phone || 'Desk'}</span>`;
+        phoneBtn.innerHTML = `<svg class="w-3.5 h-3.5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><span>Call ${acc.owner_phone || 'Desk'}</span>`;
       }
     }
 
@@ -843,7 +849,7 @@
     } finally {
       if (btnSubmit) {
         btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<span>${I18N[currentLang].confirmBooking}</span> <span>✓</span>`;
+        btnSubmit.innerHTML = `<span>${I18N[currentLang].confirmBooking}</span> <svg class="w-3.5 h-3.5 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`;
       }
     }
   };
@@ -938,8 +944,9 @@
         <div><span class="text-gray-500">Manager:</span> <strong>${owner}</strong></div>
         <div><span class="text-gray-500">Phone:</span> <strong>${phone}</strong></div>
       </div>
-      <div class="mt-2 pt-2 border-t border-gray-200 text-[11px] text-amber-800 bg-amber-50 p-2 rounded-lg">
-        🔒 Note: Once published, your listing will display with "Tariff on Request" until you verify and activate your pricing in the Owner Admin Portal.
+      <div class="mt-2 pt-2 border-t border-gray-200 text-[11px] text-amber-800 bg-amber-50 p-2 rounded-lg flex items-start gap-1.5">
+        <svg class="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        <span><strong>Note:</strong> Once published, your listing will display with "Tariff on Request" until you verify and activate your pricing in the Owner Admin Portal.</span>
       </div>
     `;
   }
@@ -1136,7 +1143,9 @@
               class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold flex items-center gap-1 transition-all cursor-pointer shadow-2xs ${isVerified ? 'bg-emerald-100 text-emerald-800 border border-emerald-300 hover:bg-emerald-200' : 'bg-amber-100 text-amber-900 border border-amber-300 hover:bg-amber-200'}"
               title="${isVerified ? 'Tariff is verified and visible to public. Click to hide.' : 'Tariff is hidden from public. Click to verify and show.'}"
             >
-              <span>${isVerified ? '✓ Verified (Prices Visible)' : '⏳ Unverified (Prices Hidden)'}</span>
+              <span class="inline-flex items-center gap-1">${isVerified 
+                ? '<svg class="w-3 h-3 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Verified (Prices Visible)</span>' 
+                : '<svg class="w-3 h-3 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>Unverified (Prices Hidden)</span>'}</span>
             </button>
           </div>
         </div>
