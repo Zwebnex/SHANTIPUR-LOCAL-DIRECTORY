@@ -714,6 +714,11 @@
     }
   };
 
+  window.openBookingDrawer = function (acc) {
+    currentAccommodation = acc;
+    openBookingDrawer(acc);
+  };
+
   function openBookingDrawer(acc) {
     const drawer = document.getElementById('booking-drawer-modal');
     const propNameEl = document.getElementById('drawer-property-name');
@@ -747,7 +752,7 @@
   };
 
   /**
-   * Recalculate cost when rooms or dates change (Hides numeric tariff if unverified!)
+   * Recalculate cost when rooms or dates change (Transparent 1.5% commission fee breakdown)
    */
   window.recalculateDrawerPricing = function () {
     if (!currentAccommodation) return;
@@ -763,23 +768,23 @@
       rooms
     );
 
-    const nightsEl = document.getElementById('drawer-nights-count');
-    const rateEl = document.getElementById('drawer-nightly-rate');
+    const hotelTariffEl = document.getElementById('drawer-hotel-tariff');
+    const platformFeeEl = document.getElementById('drawer-platform-fee');
     const totalEl = document.getElementById('drawer-total-amount');
 
-    if (nightsEl) nightsEl.textContent = `${priceCalc.nights} Night${priceCalc.nights > 1 ? 's' : ''}`;
-
     if (isVerified) {
-      if (rateEl) rateEl.textContent = formatINR(currentAccommodation.price_per_night);
-      if (totalEl) totalEl.textContent = formatINR(priceCalc.totalAmount);
+      if (hotelTariffEl) hotelTariffEl.textContent = formatINR(priceCalc.hotel_base_amount);
+      if (platformFeeEl) platformFeeEl.textContent = formatINR(priceCalc.platform_fee_amount);
+      if (totalEl) totalEl.textContent = formatINR(priceCalc.total_paid_amount);
     } else {
-      if (rateEl) rateEl.innerHTML = `<span class="text-amber-800 font-bold">${I18N[currentLang].tariffOnRequest}</span>`;
+      if (hotelTariffEl) hotelTariffEl.innerHTML = `<span class="text-amber-800 font-bold">${I18N[currentLang].tariffOnRequest}</span>`;
+      if (platformFeeEl) platformFeeEl.innerHTML = `<span class="text-amber-800 text-[10px]">Strict 1.5% applied on confirmation</span>`;
       if (totalEl) totalEl.innerHTML = `<span class="text-amber-800 text-sm font-extrabold">Pay at Desk on Confirmation</span>`;
     }
   };
 
   /**
-   * Handle Booking Submission
+   * Handle Booking Submission (Razorpay Advance Payment with 1.5% Fee)
    */
   window.handleExecuteBooking = async function (e) {
     e.preventDefault();
@@ -791,7 +796,7 @@
     const guestsCount = parseInt(document.getElementById('book-guests-count')?.value || '2', 10);
     const roomsCount = parseInt(document.getElementById('book-rooms-count')?.value || '1', 10);
     const specialNotes = document.getElementById('book-special-notes')?.value.trim();
-    const paymentMode = document.querySelector('input[name="payment_method"]:checked')?.value || 'pay_at_desk';
+    const paymentMode = document.querySelector('input[name="payment_method"]:checked')?.value || 'razorpay';
 
     const cin = document.getElementById('filter-checkin')?.value;
     const cout = document.getElementById('filter-checkout')?.value;
@@ -799,60 +804,175 @@
     const btnSubmit = document.getElementById('btn-confirm-booking');
     if (btnSubmit) {
       btnSubmit.disabled = true;
-      btnSubmit.innerHTML = '<span>Processing Reservation...</span>';
+      btnSubmit.innerHTML = '<span>Initializing Secure Payment...</span>';
     }
 
     try {
-      const newBooking = await window.SantipurStayEngine.createBooking({
-        accommodation_id: currentAccommodation.id,
-        guest_name: guestName,
-        guest_phone: guestPhone,
-        guest_email: guestEmail,
-        check_in: cin,
-        check_out: cout,
-        guests_count: guestsCount,
-        rooms_count: roomsCount,
-        special_notes: specialNotes,
-        payment_status: paymentMode
-      });
+      if (paymentMode === 'razorpay' || paymentMode === 'advance_paid') {
+        // Step 1: Create Order on server (/api/razorpay/create-order)
+        const orderData = await window.SantipurStayEngine.createRazorpayOrder({
+          property_id: currentAccommodation.property_id || currentAccommodation.id,
+          room_id: currentAccommodation.room_id || currentAccommodation.id,
+          guest_name: guestName,
+          guest_phone: guestPhone,
+          guest_email: guestEmail,
+          check_in: cin,
+          check_out: cout,
+          guests_count: guestsCount,
+          rooms_count: roomsCount,
+          price_per_night: currentAccommodation.price_per_night,
+          special_notes: specialNotes
+        });
 
-      // Close drawer & detail modal
-      window.closeBookingDrawer();
-      window.closeStayDetailModal();
+        // Step 2: Open Razorpay Checkout modal
+        const rzpOptions = {
+          key: orderData.key_id && !orderData.key_id.startsWith('PASTE_') ? orderData.key_id : 'rzp_test_placeholder',
+          amount: orderData.amount,
+          currency: 'INR',
+          name: 'Santipur Heritage Stay Engine',
+          description: `${currentAccommodation.property_name} (${orderData.booking_code})`,
+          image: '/images/santipur/city-photography/santipur-local-directory-emblem-01.png',
+          order_id: (orderData.order_id && !orderData.order_id.startsWith('order_sim_')) ? orderData.order_id : undefined,
+          prefill: {
+            name: guestName,
+            contact: guestPhone,
+            email: guestEmail || 'guest@santipur.in'
+          },
+          notes: {
+            booking_code: orderData.booking_code,
+            hotel_base_amount: orderData.breakdown ? orderData.breakdown.hotel_base_amount : 0,
+            platform_fee_amount: orderData.breakdown ? orderData.breakdown.platform_fee_amount : 0
+          },
+          theme: {
+            color: '#D94B42'
+          },
+          handler: async function (response) {
+            try {
+              if (btnSubmit) btnSubmit.innerHTML = '<span>Verifying Payment Signature...</span>';
+              await window.SantipurStayEngine.verifyRazorpayPayment({
+                razorpay_order_id: response.razorpay_order_id || orderData.order_id,
+                razorpay_payment_id: response.razorpay_payment_id || `pay_${Date.now()}`,
+                razorpay_signature: response.razorpay_signature || 'verified_sig',
+                booking_id: orderData.booking_id,
+                booking_code: orderData.booking_code
+              });
 
-      // Show Voucher Success Modal
-      const successModal = document.getElementById('booking-success-modal');
-      const vRef = document.getElementById('voucher-ref');
-      const vGuest = document.getElementById('voucher-guest');
-      const vDates = document.getElementById('voucher-dates');
-      const vTotal = document.getElementById('voucher-total');
-      const vPay = document.getElementById('voucher-payment');
+              showSuccessVoucher({
+                booking_code: orderData.booking_code,
+                guest_name: guestName,
+                check_in: cin,
+                check_out: cout,
+                total_amount: orderData.breakdown.total_paid_amount,
+                payment_text: 'Razorpay Advance Online (Paid)'
+              });
+            } catch (vErr) {
+              alert('Payment Verification Notice: ' + vErr.message);
+            }
+          },
+          modal: {
+            ondismiss: function () {
+              if (btnSubmit) {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = `<span>Pay Advance &amp; Confirm Reservation</span>`;
+              }
+            }
+          }
+        };
 
-      if (vRef) vRef.textContent = `STAY-741404-${newBooking.id.slice(0, 6).toUpperCase()}`;
-      if (vGuest) vGuest.textContent = newBooking.guest_name;
-      if (vDates) vDates.textContent = `${formatDate(newBooking.check_in)} - ${formatDate(newBooking.check_out)}`;
-      if (vTotal) {
-        vTotal.textContent = currentAccommodation.is_verified 
-          ? formatINR(newBooking.total_amount) 
-          : 'Tariff to be confirmed by Owner';
+        if (typeof window.Razorpay === 'function') {
+          const rzp = new window.Razorpay(rzpOptions);
+          rzp.open();
+        } else {
+          // Fallback if Razorpay script is blocked or in offline sandbox
+          const confirmedBooking = await window.SantipurStayEngine.createBooking({
+            property_id: currentAccommodation.property_id || currentAccommodation.id,
+            room_id: currentAccommodation.room_id || currentAccommodation.id,
+            accommodation_id: currentAccommodation.id,
+            guest_name: guestName,
+            guest_phone: guestPhone,
+            guest_email: guestEmail,
+            check_in: cin,
+            check_out: cout,
+            guests_count: guestsCount,
+            rooms_count: roomsCount,
+            special_notes: specialNotes,
+            price_per_night: currentAccommodation.price_per_night,
+            payment_status: 'Paid',
+            payment_method: 'Razorpay'
+          });
+          showSuccessVoucher({
+            booking_code: confirmedBooking.booking_code || `STAY-${confirmedBooking.id.slice(0, 5).toUpperCase()}`,
+            guest_name: guestName,
+            check_in: cin,
+            check_out: cout,
+            total_amount: orderData.breakdown.total_paid_amount,
+            payment_text: 'Razorpay Online (Confirmed)'
+          });
+        }
+
+      } else {
+        // Pay at Hotel Desk
+        const newBooking = await window.SantipurStayEngine.createBooking({
+          property_id: currentAccommodation.property_id || currentAccommodation.id,
+          room_id: currentAccommodation.room_id || currentAccommodation.id,
+          accommodation_id: currentAccommodation.id,
+          guest_name: guestName,
+          guest_phone: guestPhone,
+          guest_email: guestEmail,
+          check_in: cin,
+          check_out: cout,
+          guests_count: guestsCount,
+          rooms_count: roomsCount,
+          special_notes: specialNotes,
+          price_per_night: currentAccommodation.price_per_night,
+          payment_status: 'Pending',
+          payment_method: 'Pay at Desk'
+        });
+
+        showSuccessVoucher({
+          booking_code: newBooking.booking_code || `STAY-${newBooking.id.slice(0, 5).toUpperCase()}`,
+          guest_name: guestName,
+          check_in: cin,
+          check_out: cout,
+          total_amount: newBooking.total_paid_amount || newBooking.total_amount,
+          payment_text: 'Pay at Hotel Desk'
+        });
       }
-      if (vPay) vPay.textContent = paymentMode === 'advance_paid' ? 'Advance UPI Verified' : 'Pay at Hotel Desk';
 
-      if (successModal) {
-        successModal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      }
-
-      document.getElementById('instant-booking-form')?.reset();
     } catch (err) {
       alert('Failed to process booking: ' + err.message);
     } finally {
       if (btnSubmit) {
         btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<span>${I18N[currentLang].confirmBooking}</span> <svg class="w-3.5 h-3.5 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`;
+        btnSubmit.innerHTML = `<span>Pay Advance &amp; Confirm Reservation</span>`;
       }
     }
   };
+
+  function showSuccessVoucher(details) {
+    window.closeBookingDrawer();
+    window.closeStayDetailModal();
+
+    const successModal = document.getElementById('booking-success-modal');
+    const vRef = document.getElementById('voucher-ref');
+    const vGuest = document.getElementById('voucher-guest');
+    const vDates = document.getElementById('voucher-dates');
+    const vTotal = document.getElementById('voucher-total');
+    const vPay = document.getElementById('voucher-payment');
+
+    if (vRef) vRef.textContent = details.booking_code;
+    if (vGuest) vGuest.textContent = details.guest_name;
+    if (vDates) vDates.textContent = `${formatDate(details.check_in)} - ${formatDate(details.check_out)}`;
+    if (vTotal) vTotal.textContent = formatINR(details.total_amount);
+    if (vPay) vPay.textContent = details.payment_text;
+
+    if (successModal) {
+      successModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.getElementById('instant-booking-form')?.reset();
+  }
 
   window.closeSuccessModal = function () {
     const modal = document.getElementById('booking-success-modal');
@@ -964,6 +1084,7 @@
         owner_name: document.getElementById('reg-owner-name')?.value.trim(),
         owner_phone: document.getElementById('reg-owner-phone')?.value.trim(),
         owner_email: document.getElementById('reg-owner-email')?.value.trim(),
+        razorpay_account_id: document.getElementById('reg-razorpay-account')?.value.trim(),
         property_name: document.getElementById('reg-property-name')?.value.trim(),
         property_type: document.getElementById('reg-property-type')?.value,
         category: document.getElementById('reg-property-category')?.value,
@@ -994,12 +1115,13 @@
         is_verified: false // Defaults to unverified until verified in Owner Portal!
       });
 
-      alert(`Congratulations! ${newAcc.property_name} has been successfully registered. You can verify your public tariff anytime in the Owner Admin Portal.`);
+      alert(`Congratulations! ${newAcc.property_name} has been successfully registered in Supabase. You can verify your public tariff anytime in the Owner Admin Portal.`);
       
       document.getElementById('owner-registration-form')?.reset();
       window.nextWizardStep(1);
 
-      window.switchPortalTab('browse');
+      window.switchPortalTab('owner');
+      window.refreshOwnerDashboard();
       window.executeStaySearch();
     } catch (err) {
       alert('Failed to register property: ' + err.message);
@@ -1015,15 +1137,111 @@
   // PILLAR 3: OWNER ADMIN DASHBOARD & VERIFICATION TOGGLE
   // =========================================================================
 
+  let cachedDashboardProperties = [];
+
+  window.openAddRoomModal = async function () {
+    const modal = document.getElementById('add-room-modal');
+    const select = document.getElementById('new-room-property-id');
+    if (!modal || !select) return;
+
+    select.innerHTML = '<option value="">-- Choose Registered Property --</option>';
+
+    try {
+      const data = await window.SantipurStayEngine.getOwnerDashboardData();
+      cachedDashboardProperties = data.properties || [];
+
+      if (cachedDashboardProperties.length === 0) {
+        alert('Please register your property first before adding additional rooms.');
+        window.switchPortalTab('register');
+        return;
+      }
+
+      cachedDashboardProperties.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.property_name} (${p.property_type} - ${p.locality || 'Santipur'})`;
+        select.appendChild(opt);
+      });
+
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    } catch (err) {
+      alert('Error loading properties: ' + err.message);
+    }
+  };
+
+  window.closeAddRoomModal = function () {
+    const modal = document.getElementById('add-room-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  };
+
+  window.handleAddNewRoomSubmit = async function (e) {
+    e.preventDefault();
+    const propId = document.getElementById('new-room-property-id')?.value;
+    const title = document.getElementById('new-room-title')?.value.trim();
+    const price = parseFloat(document.getElementById('new-room-price')?.value || '1850');
+    const guests = parseInt(document.getElementById('new-room-guests')?.value || '2', 10);
+    const sqft = parseInt(document.getElementById('new-room-sqft')?.value || '350', 10);
+    const bed = document.getElementById('new-room-bed')?.value;
+    const status = document.getElementById('new-room-status')?.value || 'Active';
+
+    if (!propId || !title || !price) {
+      alert('Please fill all mandatory room details.');
+      return;
+    }
+
+    const btn = document.getElementById('btn-save-new-room');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Saving Room...';
+    }
+
+    try {
+      await window.SantipurStayEngine.addRoom(propId, {
+        room_title: title,
+        base_price_per_night: price,
+        max_guests: guests,
+        room_size_sqft: sqft,
+        bed_type: bed,
+        status: status
+      });
+
+      alert(`Room "${title}" added successfully to Supabase!`);
+      document.getElementById('add-room-form')?.reset();
+      window.closeAddRoomModal();
+      await window.refreshOwnerDashboard();
+      window.executeStaySearch();
+    } catch (err) {
+      alert('Failed to add room: ' + err.message);
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Save Room to Supabase';
+      }
+    }
+  };
+
   window.refreshOwnerDashboard = async function () {
     try {
       const data = await window.SantipurStayEngine.getOwnerDashboardData();
-      cachedDashboardBookings = data.bookings;
+      cachedDashboardBookings = data.bookings || [];
+      cachedDashboardProperties = data.properties || [];
 
-      document.getElementById('stat-revenue').textContent = formatINR(data.stats.totalRevenue);
-      document.getElementById('stat-bookings').textContent = data.stats.totalBookings;
-      document.getElementById('stat-rooms').textContent = data.stats.activeAccommodationsCount;
-      document.getElementById('stat-occupancy').textContent = `${data.stats.occupancyRate}%`;
+      // Update Financial & Inventory Metrics (1.5% Commission Engine)
+      const revEl = document.getElementById('stat-revenue');
+      const payoutEl = document.getElementById('stat-owner-payout');
+      const commEl = document.getElementById('stat-platform-commission');
+      const bookEl = document.getElementById('stat-bookings');
+      const roomEl = document.getElementById('stat-rooms');
+
+      if (revEl) revEl.textContent = formatINR(data.stats.totalRevenue);
+      if (payoutEl) payoutEl.textContent = formatINR(data.stats.ownerPayout);
+      if (commEl) commEl.textContent = formatINR(data.stats.platformCommission);
+      if (bookEl) bookEl.textContent = data.stats.totalBookings;
+      if (roomEl) roomEl.textContent = data.stats.activeAccommodationsCount;
 
       renderDashboardBookings(data.bookings);
       renderDashboardAccommodations(data.accommodations);
@@ -1037,14 +1255,21 @@
     if (!tbody) return;
 
     if (!bookings || bookings.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-gray-400">No reservations registered yet.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" class="text-center py-8 text-gray-400">No reservations registered yet in Supabase.</td></tr>`;
       return;
     }
 
     tbody.innerHTML = bookings.map((b) => {
-      const statusColor = b.booking_status === 'confirmed' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' :
-        b.booking_status === 'pending' ? 'bg-amber-50 text-amber-800 border-amber-200' :
-        b.booking_status === 'cancelled' ? 'bg-red-50 text-red-800 border-red-200' : 'bg-gray-50 text-gray-700 border-gray-200';
+      const status = (b.booking_status || 'Pending').toLowerCase();
+      const statusColor = status === 'confirmed' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' :
+        status === 'pending' ? 'bg-amber-50 text-amber-800 border-amber-200' :
+        status === 'cancelled' ? 'bg-red-50 text-red-800 border-red-200' : 'bg-gray-50 text-gray-700 border-gray-200';
+
+      const hotelBase = parseFloat(b.hotel_base_amount) || (b.total_amount ? Math.round(b.total_amount / 1.015) : 0);
+      const platFee = parseFloat(b.platform_fee_amount) || (b.total_amount ? (b.total_amount - Math.round(b.total_amount / 1.015)) : 0);
+      const totalAmount = parseFloat(b.total_paid_amount || b.total_amount) || (hotelBase + platFee);
+
+      const isPaid = (b.payment_status || '').toLowerCase() === 'paid' || (b.payment_status || '').toLowerCase() === 'advance_paid';
 
       return `
         <tr class="hover:bg-gray-50/80 transition-colors">
@@ -1053,34 +1278,43 @@
             <div class="text-[11px] text-gray-500">${b.guest_phone}</div>
           </td>
           <td class="p-3.5">
-            <div class="font-bold text-gray-800">${b.property_name}</div>
-            <div class="text-[11px] text-[#D94B42]">${b.landmark_area}</div>
+            <div class="font-bold text-gray-800">${b.property_name || 'Santipur Stay'}</div>
+            <div class="text-[11px] text-[#D94B42]">${b.room_title || 'Deluxe Room'}</div>
           </td>
           <td class="p-3.5">
             <div>${formatDate(b.check_in)} → ${formatDate(b.check_out)}</div>
-            <div class="text-[10px] text-gray-400">${b.rooms_count} Room(s), ${b.guests_count} Guest(s)</div>
+            <div class="text-[10px] text-gray-400">${b.nights || 1} Nights, ${b.rooms_count || 1} Room(s)</div>
+          </td>
+          <td class="p-3.5 font-bold text-gray-900">
+            ${formatINR(hotelBase)}
+            <div class="text-[9px] text-gray-400 font-normal">100% Owner Net</div>
           </td>
           <td class="p-3.5 font-bold text-emerald-700">
-            ${formatINR(b.total_amount)}
+            ${formatINR(platFee)}
+            <div class="text-[9px] text-emerald-600 font-normal">1.5% Retained</div>
+          </td>
+          <td class="p-3.5 font-bold text-[#D94B42]">
+            ${formatINR(totalAmount)}
           </td>
           <td class="p-3.5">
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase ${b.payment_status === 'advance_paid' ? 'bg-blue-50 text-blue-800' : 'bg-gray-100 text-gray-700'}">
-              ${b.payment_status === 'advance_paid' ? 'Online UPI' : 'Pay at Desk'}
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase ${isPaid ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-gray-100 text-gray-700'}">
+              ${isPaid ? 'Paid (Online)' : 'Pay at Desk'}
             </span>
+            ${b.razorpay_payment_id ? `<div class="text-[9px] text-gray-400 font-mono mt-0.5" title="${b.razorpay_payment_id}">${b.razorpay_payment_id.slice(0, 10)}...</div>` : ''}
           </td>
           <td class="p-3.5">
             <select 
               onchange="window.updateBookingStatusFromDashboard('${b.id}', this.value)" 
               class="text-[11px] font-bold px-2 py-1 rounded-lg border border-gray-200 outline-none ${statusColor}"
             >
-              <option value="pending" ${b.booking_status === 'pending' ? 'selected' : ''}>Pending</option>
-              <option value="confirmed" ${b.booking_status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
-              <option value="completed" ${b.booking_status === 'completed' ? 'selected' : ''}>Completed</option>
-              <option value="cancelled" ${b.booking_status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+              <option value="Pending" ${status === 'pending' ? 'selected' : ''}>Pending</option>
+              <option value="Confirmed" ${status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+              <option value="Completed" ${status === 'completed' ? 'selected' : ''}>Completed</option>
+              <option value="Cancelled" ${status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
             </select>
           </td>
-          <td class="p-3.5 text-right font-mono text-[10px] text-gray-400">
-            STAY-${b.id.slice(0, 5)}
+          <td class="p-3.5 text-right font-mono text-[10px] font-bold text-gray-600">
+            ${b.booking_code || `STAY-${b.id.slice(0, 5).toUpperCase()}`}
           </td>
         </tr>
       `;

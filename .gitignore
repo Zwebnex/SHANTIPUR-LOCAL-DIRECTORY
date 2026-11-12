@@ -17,6 +17,7 @@ node_modules/
 .system_generated/
 .agents/
 .antigravity-plugin/
+scratch/
 
 # Temporary Previews
 *.png.tmp
@@ -27,6 +28,3 @@ routes_verification_preview.png
 verification_preview.png
 
 .vercel
-
-.vercel
-.env*
