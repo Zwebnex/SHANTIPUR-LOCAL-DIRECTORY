@@ -262,9 +262,10 @@
 
     filtered.forEach((lodge) => {
       const isBn = currentLang === 'bn';
-      const name = isBn ? lodge.nameBn || lodge.name : lodge.name;
-      const area = isBn ? lodge.areaTagBn || lodge.areaTag : lodge.areaTag;
-      const primaryPhone = lodge.phones && lodge.phones[0] ? lodge.phones[0] : '';
+      const name = isBn ? (lodge.nameBengali || lodge.nameBn || lodge.name) : (lodge.nameEnglish || lodge.name);
+      const area = isBn ? (lodge.areaTagBn || lodge.areaTag) : lodge.areaTag;
+      const primaryPhone = (lodge.phones && lodge.phones[0]) || (lodge.contacts && lodge.contacts[0] && lodge.contacts[0].phone) || '';
+      const addressText = isBn ? (lodge.verifiedAddressBn || lodge.address || lodge.verifiedAddress) : (lodge.address || lodge.verifiedAddress);
       const navUrl = getGoogleMapsNavigationUrl(lodge.lat, lodge.lng);
       const imgPath = `/assets/images/lodges/${lodge.imageKey}`;
 
@@ -282,18 +283,18 @@
           <div class="p-3">
             <div class="font-extrabold text-xs text-[#1A1D24] leading-tight">${name}</div>
             <div class="text-[11px] text-[#D94B42] font-semibold mt-0.5">${area}</div>
-            <div class="text-[10px] text-gray-500 mt-1 line-clamp-2">${lodge.verifiedAddress}</div>
+            <div class="text-[10px] text-gray-500 mt-1 line-clamp-2">${addressText}</div>
             
             <div class="mt-3 flex items-center gap-2">
               ${primaryPhone ? `
                 <a href="tel:${primaryPhone.replace(/[^0-9+]/g, '')}" class="flex-1 py-1.5 px-2 bg-gray-100 hover:bg-gray-200 text-[#1A1D24] rounded-lg text-center text-[11px] font-bold transition-colors flex items-center justify-center gap-1">
                   <svg class="w-3 h-3 text-[#1A1D24]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                  <span>Call</span>
+                  <span>${isBn ? 'কল' : 'Call'}</span>
                 </a>
               ` : ''}
-              <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="flex-1 py-1.5 px-2 bg-[#D94B42] hover:bg-[#B53830] text-white rounded-lg text-center text-[11px] font-bold shadow-xs transition-colors flex items-center justify-center gap-1">
-                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                <span>Navigate</span>
+              <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="nav-btn flex-1 py-1.5 px-2 bg-[#D94B42] hover:bg-[#B53830] text-white rounded-lg text-center text-[11px] font-bold shadow-xs transition-colors flex items-center justify-center gap-1">
+                <span>🧭</span>
+                <span>${isBn ? 'দিকনির্দেশ পান' : 'Start Navigation'}</span>
               </a>
             </div>
           </div>
@@ -356,16 +357,23 @@
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       list = list.filter((l) => {
+        const nameEn = (l.nameEnglish || l.name || '').toLowerCase();
+        const nameBn = (l.nameBengali || l.nameBn || '');
+        const areaEn = (l.areaTag || '').toLowerCase();
+        const areaBn = (l.areaTagBn || '');
+        const addrEn = (l.address || l.verifiedAddress || '').toLowerCase();
+        const addrBn = (l.verifiedAddressBn || '');
+        const phones = (l.phones || (l.contacts ? l.contacts.map((c) => c.phone) : []));
+        const contacts = (l.contacts ? l.contacts.map((c) => c.name) : (l.contactPersons || []));
         return (
-          (l.name && l.name.toLowerCase().includes(q)) ||
-          (l.nameBn && l.nameBn.includes(q)) ||
-          (l.areaTag && l.areaTag.toLowerCase().includes(q)) ||
-          (l.areaTagBn && l.areaTagBn.includes(q)) ||
-          (l.verifiedAddress && l.verifiedAddress.toLowerCase().includes(q)) ||
-          (l.verifiedAddressBn && l.verifiedAddressBn.includes(q)) ||
-          (l.phones && l.phones.some((p) => p.includes(q))) ||
-          (l.contactPersons && l.contactPersons.some((cp) => cp.toLowerCase().includes(q))) ||
-          (l.contactPersonsBn && l.contactPersonsBn.some((cp) => cp.includes(q)))
+          nameEn.includes(q) ||
+          nameBn.includes(q) ||
+          areaEn.includes(q) ||
+          areaBn.includes(q) ||
+          addrEn.includes(q) ||
+          addrBn.includes(q) ||
+          phones.some((p) => p && p.includes(q)) ||
+          contacts.some((c) => c && c.toLowerCase().includes(q))
         );
       });
     }
@@ -415,17 +423,23 @@
     }
 
     grid.innerHTML = filtered.map((lodge) => {
-      const name = isBn ? (lodge.nameBn || lodge.name) : lodge.name;
-      const subName = isBn ? lodge.name : (lodge.nameBn || '');
+      const name = isBn ? (lodge.nameBengali || lodge.nameBn || lodge.name) : (lodge.nameEnglish || lodge.name);
+      const subName = isBn ? (lodge.nameEnglish || lodge.name) : (lodge.nameBengali || lodge.nameBn || '');
       const area = isBn ? (lodge.areaTagBn || lodge.areaTag) : lodge.areaTag;
-      const address = isBn ? (lodge.verifiedAddressBn || lodge.verifiedAddress) : lodge.verifiedAddress;
+      const address = isBn ? (lodge.verifiedAddressBn || lodge.address || lodge.verifiedAddress) : (lodge.address || lodge.verifiedAddress);
       const category = isBn ? (lodge.categoryBn || lodge.category || 'লজ') : (lodge.category || 'Lodge');
       const navUrl = getGoogleMapsNavigationUrl(lodge.lat, lodge.lng);
       const imgPath = `/assets/images/lodges/${lodge.imageKey}`;
 
       // Contacts & Phones
-      const phones = lodge.phones || [];
-      const contactPersons = isBn ? (lodge.contactPersonsBn || lodge.contactPersons || []) : (lodge.contactPersons || []);
+      let phones = lodge.phones || [];
+      if (phones.length === 0 && lodge.contacts && Array.isArray(lodge.contacts)) {
+        phones = lodge.contacts.map((c) => c.phone).filter(Boolean);
+      }
+      let contactPersons = isBn ? (lodge.contactPersonsBn || lodge.contactPersons || []) : (lodge.contactPersons || []);
+      if (contactPersons.length === 0 && lodge.contacts && Array.isArray(lodge.contacts)) {
+        contactPersons = lodge.contacts.map((c) => c.name).filter(Boolean);
+      }
       const primaryContact = contactPersons.length > 0 ? contactPersons.join(', ') : (isBn ? 'রিসেপশন' : 'Reception');
 
       // Distance
@@ -560,10 +574,10 @@
                 href="${navUrl}" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                class="py-2.5 px-3 rounded-xl bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer group/btn"
+                class="nav-btn py-2.5 px-3 rounded-xl bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer group/btn"
                 title="Launch turn-by-turn driving directions in Google Maps"
               >
-                <svg class="w-3.5 h-3.5 text-white transform group-hover/btn:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                <span>🧭</span>
                 <span>${t.navigateNow}</span>
               </a>
 
