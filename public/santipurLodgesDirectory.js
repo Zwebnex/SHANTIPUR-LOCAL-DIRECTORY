@@ -276,8 +276,9 @@
             <div class="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-[#1A1D24]/85 backdrop-blur-xs text-[10px] font-bold text-white">
               ${lodge.category || 'Lodge'}
             </div>
-            <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-emerald-600 text-[10px] font-bold text-white shadow-xs">
-              ✓ Verified
+            <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-emerald-700 text-[10px] font-bold text-white shadow-xs flex items-center gap-1">
+              <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              <span>${isBn ? 'যাচাইকৃত' : 'Verified'}</span>
             </div>
           </div>
           <div class="p-3">
@@ -293,7 +294,7 @@
                 </a>
               ` : ''}
               <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="nav-btn flex-1 py-1.5 px-2 bg-[#D94B42] hover:bg-[#B53830] text-white rounded-lg text-center text-[11px] font-bold shadow-xs transition-colors flex items-center justify-center gap-1">
-                <span>🧭</span>
+                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                 <span>${isBn ? 'দিকনির্দেশ পান' : 'Start Navigation'}</span>
               </a>
             </div>
@@ -577,7 +578,7 @@
                 class="nav-btn py-2.5 px-3 rounded-xl bg-[#D94B42] hover:bg-[#B53830] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer group/btn"
                 title="Launch turn-by-turn driving directions in Google Maps"
               >
-                <span>🧭</span>
+                <svg class="w-3.5 h-3.5 text-white transform group-hover/btn:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                 <span>${t.navigateNow}</span>
               </a>
 
@@ -607,7 +608,7 @@
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
         const origHtml = btnEl.innerHTML;
-        btnEl.innerHTML = `<span class="text-emerald-600 font-extrabold">✓ ${t.copied}</span>`;
+        btnEl.innerHTML = `<span class="text-emerald-600 font-extrabold flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> ${t.copied}</span>`;
         btnEl.classList.add('border-emerald-500');
         setTimeout(() => {
           btnEl.innerHTML = origHtml;

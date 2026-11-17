@@ -1438,7 +1438,7 @@
     if (badge) {
       if (isAuthed) {
         badge.className = 'text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300';
-        badge.innerHTML = '✓ Bipra Das';
+        badge.innerHTML = '<span class="inline-flex items-center gap-1"><svg class="w-2.5 h-2.5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Bipra Das</span>';
       } else {
         badge.className = 'text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300';
         badge.innerHTML = 'Admin Only';
@@ -1556,7 +1556,7 @@
       sessionStorage.setItem('santipur_stay_admin_auth', JSON.stringify(authSession));
 
       if (submitBtn) {
-        submitBtn.innerHTML = `<span>✓ Verified! Entering...</span>`;
+        submitBtn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Verified! Entering...</span>`;
       }
 
       window.closeAdminAuthModal();
