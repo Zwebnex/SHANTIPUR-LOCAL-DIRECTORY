@@ -1470,6 +1470,11 @@
     if (vFaqDesc1) vFaqDesc1.innerHTML = t.verifyFaqDesc1;
     if (vFaqDesc2) vFaqDesc2.textContent = t.verifyFaqDesc2;
 
+    // Synchronize Lodges Directory Language
+    if (window.setDirectoryLanguage) {
+      window.setDirectoryLanguage(currentLang);
+    }
+
     renderAccommodationsGrid(allAccommodations);
   };
 
