@@ -1225,6 +1225,12 @@
   };
 
   window.refreshOwnerDashboard = async function () {
+    if (!window.isAdminAuthenticated()) {
+      console.warn('Unauthorized access to Owner Dashboard blocked.');
+      document.getElementById('section-owner')?.classList.add('hidden');
+      window.switchPortalTab('browse');
+      return;
+    }
     try {
       const data = await window.SantipurStayEngine.getOwnerDashboardData();
       cachedDashboardBookings = data.bookings || [];
@@ -1410,6 +1416,176 @@
   };
 
   // =========================================================================
+  // ADMIN AUTHENTICATION & SECURITY GATEWAY (RESTRICTED TO BIPRA DAS)
+  // Username: Bipra Das | Password: Bipra@2k4
+  // =========================================================================
+  let pendingAdminTargetTab = 'owner';
+
+  window.isAdminAuthenticated = function () {
+    try {
+      const raw = sessionStorage.getItem('santipur_stay_admin_auth');
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      return !!(parsed && parsed.authenticated === true && parsed.username && parsed.username.trim().toLowerCase() === 'bipra das');
+    } catch (e) {
+      return false;
+    }
+  };
+
+  window.updateAdminNavStatus = function () {
+    const badge = document.getElementById('nav-owner-lock-badge');
+    const isAuthed = window.isAdminAuthenticated();
+    if (badge) {
+      if (isAuthed) {
+        badge.className = 'text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300';
+        badge.innerHTML = '✓ Bipra Das';
+      } else {
+        badge.className = 'text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300';
+        badge.innerHTML = 'Admin Only';
+      }
+    }
+  };
+
+  window.openAdminAuthModal = function (targetTab = 'owner') {
+    pendingAdminTargetTab = targetTab;
+    const modal = document.getElementById('admin-auth-modal');
+    const userField = document.getElementById('admin-login-username');
+    const passField = document.getElementById('admin-login-password');
+    const errorEl = document.getElementById('admin-login-error');
+
+    if (errorEl) errorEl.classList.add('hidden');
+    if (passField) passField.value = '';
+
+    if (modal) {
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    setTimeout(() => {
+      if (userField && !userField.value) {
+        userField.focus();
+      } else if (passField) {
+        passField.focus();
+      }
+    }, 150);
+  };
+
+  window.closeAdminAuthModal = function () {
+    const modal = document.getElementById('admin-auth-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+    const errorEl = document.getElementById('admin-login-error');
+    if (errorEl) errorEl.classList.add('hidden');
+
+    // If user closed without authenticating and was trying to view owner section, keep them on browse
+    if (!window.isAdminAuthenticated()) {
+      const isOwnerActive = !document.getElementById('section-owner')?.classList.contains('hidden');
+      if (isOwnerActive) {
+        window.switchPortalTab('browse');
+      }
+    }
+  };
+
+  window.toggleAdminPasswordVisibility = function () {
+    const passField = document.getElementById('admin-login-password');
+    if (!passField) return;
+    const isPass = passField.type === 'password';
+    passField.type = isPass ? 'text' : 'password';
+  };
+
+  window.handleAdminLoginSubmit = async function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const userField = document.getElementById('admin-login-username');
+    const passField = document.getElementById('admin-login-password');
+    const errorEl = document.getElementById('admin-login-error');
+    const errorText = document.getElementById('admin-login-error-text');
+    const submitBtn = document.getElementById('admin-login-submit-btn');
+
+    const enteredUsername = (userField ? userField.value : '').trim();
+    const enteredPassword = (passField ? passField.value : '');
+
+    if (errorEl) errorEl.classList.add('hidden');
+
+    const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+        <span>Verifying Security Clearance...</span>
+      `;
+    }
+
+    await new Promise((r) => setTimeout(r, 200));
+
+    // Master credential validation: username: Bipra Das, password: Bipra@2k4
+    const isMasterUsername = enteredUsername.toLowerCase() === 'bipra das';
+    const isMasterPassword = enteredPassword === 'Bipra@2k4';
+    let isAuthenticated = isMasterUsername && isMasterPassword;
+
+    // Optional Supabase verification if username matches
+    if (!isAuthenticated && isMasterUsername) {
+      try {
+        const sb = window.staySupabaseClient || (window.supabase && typeof window.supabase.createClient === 'function' ? window.supabase.createClient('https://bnlhqkcyqymsvtqblwkv.supabase.co', 'sb_publishable_gRldZFx01gJWHI0JKjbaNQ_9G6OgFdp') : null);
+        if (sb) {
+          const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1200));
+          const queryPromise = sb.from('admin_users').select('*').ilike('username', enteredUsername).limit(1);
+          const res = await Promise.race([queryPromise, timeoutPromise]);
+
+          if (res && !res.error && res.data && res.data.length > 0) {
+            const adminRecord = res.data[0];
+            if (adminRecord.password_plain === enteredPassword || adminRecord.password_hash === enteredPassword) {
+              isAuthenticated = true;
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Supabase admin check notice:', err.message);
+      }
+    }
+
+    if (isAuthenticated) {
+      const authSession = {
+        username: 'Bipra Das',
+        fullName: 'Bipra Das',
+        role: 'superadmin',
+        authenticated: true,
+        loginTime: Date.now()
+      };
+      sessionStorage.setItem('santipur_stay_admin_auth', JSON.stringify(authSession));
+
+      if (submitBtn) {
+        submitBtn.innerHTML = `<span>✓ Verified! Entering...</span>`;
+      }
+
+      window.closeAdminAuthModal();
+      window.updateAdminNavStatus();
+      window.switchPortalTab(pendingAdminTargetTab || 'owner');
+    } else {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      }
+      if (errorEl) {
+        if (errorText) errorText.textContent = 'Access Denied: Invalid administrator username or password.';
+        errorEl.classList.remove('hidden');
+      }
+      if (passField) {
+        passField.value = '';
+        passField.focus();
+      }
+    }
+  };
+
+  window.adminLogout = function () {
+    sessionStorage.removeItem('santipur_stay_admin_auth');
+    window.updateAdminNavStatus();
+    window.switchPortalTab('browse');
+    alert('Administrator session ended. Successfully logged out.');
+  };
+
+  // =========================================================================
   // PILLAR NAVIGATION & TAB SWITCHING
   // =========================================================================
 
@@ -1430,6 +1606,15 @@
       const btn = document.getElementById('nav-tab-register');
       if (btn) btn.className = 'nav-tab-btn px-3 py-2 rounded-lg bg-gray-100 text-[#1A1D24] font-bold transition-all';
     } else if (tabName === 'owner') {
+      // Security Check: Only visible to Bipra Das
+      if (!window.isAdminAuthenticated()) {
+        window.openAdminAuthModal('owner');
+        // Keep active tab on browse
+        document.getElementById('section-browse')?.classList.remove('hidden');
+        const browseBtn = document.getElementById('nav-tab-browse');
+        if (browseBtn) browseBtn.className = 'nav-tab-btn px-3 py-2 rounded-lg bg-gray-100 text-[#1A1D24] font-bold transition-all';
+        return;
+      }
       document.getElementById('section-owner')?.classList.remove('hidden');
       const btn = document.getElementById('nav-tab-owner');
       if (btn) btn.className = 'nav-tab-btn px-3 py-2 rounded-lg bg-gray-100 text-[#1A1D24] font-bold transition-all';
@@ -1484,11 +1669,19 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     setupDefaultDates();
+    window.updateAdminNavStatus();
     window.executeStaySearch();
 
     const urlParams = new URLSearchParams(window.location.search);
     const tabParam = urlParams.get('tab');
-    if (tabParam && ['browse', 'register', 'owner'].includes(tabParam)) {
+    if (tabParam === 'owner') {
+      if (!window.isAdminAuthenticated()) {
+        window.switchPortalTab('browse');
+        window.openAdminAuthModal('owner');
+      } else {
+        window.switchPortalTab('owner');
+      }
+    } else if (tabParam && ['browse', 'register'].includes(tabParam)) {
       window.switchPortalTab(tabParam);
     }
   });
