@@ -43,3 +43,4 @@ ON CONFLICT (username) DO UPDATE SET
     password_hash = crypt('Bipra@2k4', gen_salt('bf')),
     password_plain = EXCLUDED.password_plain,
     is_active = true;
+

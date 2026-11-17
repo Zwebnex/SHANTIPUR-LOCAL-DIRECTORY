@@ -4,6 +4,9 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/api/config", "destination": "/api/config.json" },
+    { "source": "/festival", "destination": "/festival/index.html" },
+    { "source": "/festival/:slug*", "destination": "/festival/index.html" },
+    { "source": "/parikrama", "destination": "/festival/index.html" },
     { "source": "/stay", "destination": "/stay/index.html" },
     { "source": "/stay/:slug*", "destination": "/stay/index.html" },
     { "source": "/hotels", "destination": "/stay/index.html" },

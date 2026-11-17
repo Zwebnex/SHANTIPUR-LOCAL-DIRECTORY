@@ -42,6 +42,19 @@ if (fs.existsSync(stayIndexPath)) {
   console.log('✓ Created public/stay.html, public/hotels/index.html, and public/hotels.html');
 }
 
+// 4. Ensure festival/index.html, festival.html, and parikrama/index.html
+const festivalIndexPath = path.join(publicDir, 'festival', 'index.html');
+if (fs.existsSync(festivalIndexPath)) {
+  fs.copyFileSync(festivalIndexPath, path.join(publicDir, 'festival.html'));
+  
+  const parikramaDir = path.join(publicDir, 'parikrama');
+  if (!fs.existsSync(parikramaDir)) {
+    fs.mkdirSync(parikramaDir, { recursive: true });
+  }
+  fs.copyFileSync(festivalIndexPath, path.join(parikramaDir, 'index.html'));
+  console.log('✓ Created public/festival.html and public/parikrama/index.html');
+}
+
 // 4. Sync vercel.json to public/vercel.json
 if (fs.existsSync(path.join(rootDir, 'vercel.json'))) {
   fs.copyFileSync(

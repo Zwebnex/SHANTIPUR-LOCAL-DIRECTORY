@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Santipur 2026 Festival Master Guide & 1-Click GPS Navigator | শান্তিপুর রাস পরিক্রমা</title>
+  <meta name="description" content="Official 4-Zone Parikrama Route, 19 Premier Rash Utsav Pandals, Live GPS Distance Radar, and 1-Click Google Maps Walking Navigation in Santipur, Nadia.">
+  <meta name="keywords" content="Santipur Rash Yatra 2026, Santipur Festival Guide, Santipur Pandal Route, 1-Click GPS Santipur, Nadia Rash Utsav, শান্তিপুর রাস উৎসব ২০২৬">
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            heritage: {
+              gold: '#D97706',
+              amber: '#F59E0B',
+              navy: '#0B1120',
+              crimson: '#E11D48',
+              emerald: '#10B981',
+              blue: '#3B82F6'
+            }
+          },
+          fontFamily: {
+            bengali: ['"Noto Sans Bengali"', '"Anek Bangla"', 'Hind Siliguri', 'sans-serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Inter & Noto Sans Bengali -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Canvas Confetti for Completion Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+      background-color: #070B14;
+      color: #E2E8F0;
+    }
+    .font-bn {
+      font-family: 'Noto Sans Bengali', sans-serif;
+    }
+    
+    /* Custom Leaflet Map styling */
+    .leaflet-popup-content-wrapper {
+      background: #0F172A;
+      color: #F8FAFC;
+      border: 1px solid #334155;
+      border-radius: 1rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      padding: 0;
+      overflow: hidden;
+    }
+    .leaflet-popup-content {
+      margin: 0 !important;
+      line-height: 1.4;
+    }
+    .leaflet-popup-tip {
+      background: #0F172A;
+    }
+    .leaflet-container {
+      font-family: inherit;
+    }
+    
+    /* Numbered Pandal Marker Pin */
+    .pandal-map-pin {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 9999px;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+      border: 2.5px solid #ffffff;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .pandal-map-pin:hover {
+      transform: scale(1.22);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+      z-index: 999 !important;
+    }
+
+    /* User GPS Location Pulse Pin */
+    .user-gps-pulse-pin {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      background: #3B82F6;
+      border: 3px solid #FFFFFF;
+      border-radius: 9999px;
+      box-shadow: 0 0 15px #3B82F6;
+    }
+    .user-gps-pulse-pin::after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      border-radius: 9999px;
+      border: 2px solid #60A5FA;
+      animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+
+    /* Radar scan effect */
+    @keyframes radar-sweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .radar-sweep {
+      animation: radar-sweep 2s linear infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#070B14] text-slate-100 antialiased selection:bg-amber-500 selection:text-black">
+
+  <!-- ================= TOP UTILITY / NAVIGATION BAR ================= -->
+  <header class="sticky top-0 z-40 bg-[#0B1120]/90 backdrop-blur-md border-b border-slate-800/80 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo & Brand -->
+      <a href="/" class="flex items-center space-x-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-indigo-600 flex items-center justify-center p-0.5 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-[#0B1120] rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <span class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-1.5">
+            SANTIPUR <span class="text-amber-400 font-extrabold">2026</span>
+          </span>
+          <p class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+            <span data-i18n="tagline">Festival Master Guide</span>
+          </p>
+        </div>
+      </a>
+
+      <!-- Quick Nav Links & Language Switcher -->
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <!-- Link to Stays / Hotels -->
+        <a href="/stay" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition">
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <span data-i18n="nav_stay">Stays & Lodges</span>
+        </a>
+
+        <!-- Link to Raas Lore -->
+        <a href="/raas-utsav" class="hidden md:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 transition">
+          <svg class="w-3.5 h-3.5 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+          <span data-i18n="nav_lore">Festival Lore</span>
+        </a>
+
+        <!-- Bilingual Toggle (EN / বাংলা) -->
+        <button id="langToggleBtn" onclick="toggleLanguage()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition shadow-sm" aria-label="Toggle language">
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+          </svg>
+          <span id="langLabel">বাংলা</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= HERO & LIVE GPS RADAR SECTION ================= -->
+  <section class="relative overflow-hidden pt-8 pb-10 border-b border-slate-800 bg-gradient-to-b from-[#0F172A] via-[#0A0F1D] to-[#070B14]">
+    <!-- Ambient decorative glows -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Hero Header -->
+      <div class="text-center max-w-3xl mx-auto mb-8">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-amber-500/10 via-rose-500/10 to-indigo-500/10 border border-amber-500/25 text-amber-300 text-xs font-bold tracking-wide mb-4">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span data-i18n="badge_hero">SHANTIPUR RASH YATRA 2026 • 19 PREMIER PANDALS</span>
+        </div>
+
+        <h1 id="heroTitle" class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4 leading-tight">
+          Santipur 2026 Festival Master Guide &amp; 1-Click GPS Navigator
+        </h1>
+        <p id="heroSubtitle" class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+          Experience the divine Rash Yatra through the curated 4-Zone Parikrama Route. Discover grand artistic pandal themes, view authentic posters, and launch turn-by-turn walking GPS directions to every pandal in one tap.
+        </p>
+      </div>
+
+      <!-- Action Buttons Row: Near Me GPS & Full Parikrama Launch -->
+      <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8">
+        
+        <!-- Find Nearest Pandal Button (Haversine GPS Radar) -->
+        <button id="nearMeBtn" onclick="startNearMeRadar()" class="group relative inline-flex items-center space-x-2 px-5 py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:scale-[1.02] active:scale-[0.98] transition">
+          <div id="radarIcon" class="w-5 h-5 flex items-center justify-center">
+            <svg class="w-5 h-5 text-blue-200 group-hover:animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <span id="nearMeText" data-i18n="btn_near_me">📍 Find Nearest Pandal to Me</span>
+        </button>
+
+        <!-- View Route Order Reset Button (Hidden until sorted by distance) -->
+        <button id="resetOrderBtn" onclick="resetToRouteOrder()" class="hidden inline-flex items-center space-x-2 px-4 py-3 rounded-xl font-semibold text-sm bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 transition">
+          <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          <span data-i18n="btn_reset_order">Reset to Route Order (1–19)</span>
+        </button>
+
+        <!-- Launch Complete 19-Pandal Parikrama in Google Maps -->
+        <a id="fullParikramaLink" href="https://www.google.com/maps/dir/?api=1&origin=23.2597,88.4342&destination=23.2385,88.4413&waypoints=23.2580,88.4365|23.2569,88.4385|23.2562,88.4338|23.2549,88.4362|23.2530,88.4384|23.2498,88.4389|23.2498,88.4415|23.2494,88.4437&travelmode=walking" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 px-4 py-3 rounded-xl font-semibold text-sm bg-slate-800/80 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700/80 transition">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+          </svg>
+          <span data-i18n="btn_full_parikrama">🗺️ Complete Walking Parikrama Route</span>
+        </a>
+
+      </div>
+
+      <!-- Live GPS Status Alert Banner (Shown during/after Geolocation) -->
+      <div id="gpsStatusBanner" class="hidden max-w-xl mx-auto mb-6 p-3 rounded-xl text-xs font-semibold flex items-center justify-between border"></div>
+
+      <!-- ================= CHECKLIST PROGRESS TRACKER ================= -->
+      <div class="max-w-3xl mx-auto bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center space-x-2">
+            <span class="text-sm font-bold text-white flex items-center gap-1.5">
+              <span class="text-amber-400">✓</span>
+              <span data-i18n="tracker_title">Parikrama Checklist Tracker</span>
+            </span>
+          </div>
+          <span id="trackerCountText" class="text-xs font-extrabold text-amber-400 font-mono">
+            0 / 19 (0%)
+          </span>
+        </div>
+        
+        <!-- Progress Bar Track -->
+        <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
+          <div id="trackerProgressBar" class="h-full bg-gradient-to-r from-amber-500 via-rose-500 to-emerald-500 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+        </div>
+
+        <!-- Completion Congratulations Banner -->
+        <div id="completionBanner" class="hidden mt-3 p-3 bg-emerald-500/15 border border-emerald-500/30 rounded-xl text-center">
+          <p class="text-xs sm:text-sm font-bold text-emerald-300" data-i18n="congrats_msg">
+            🎉 Congratulations! You have completed the Santipur 2026 Parikrama!
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= LEAFLET MAP MODULE ================= -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-2xl">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+            </svg>
+            <span data-i18n="map_heading">Interactive 4-Zone Route Map</span>
+          </h2>
+          <p class="text-xs text-slate-400" data-i18n="map_subheading">
+            Dashed indigo line shows the recommended walking parikrama sequence (1 to 19). Click any numbered pin to preview and navigate.
+          </p>
+        </div>
+
+        <!-- Map Zone Legend Pills -->
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] font-bold">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/40">
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span> North (1–6)
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span> East (7–10)
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Central (11–14)
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40">
+            <span class="w-2 h-2 rounded-full bg-rose-500"></span> South (15–19)
+          </span>
+        </div>
+      </div>
+
+      <!-- Leaflet Map Canvas Container -->
+      <div id="pandalMap" class="w-full h-[360px] sm:h-[440px] md:h-[500px] rounded-xl overflow-hidden border border-slate-700/60 shadow-inner z-10"></div>
+    </div>
+  </section>
+
+  <!-- ================= SEARCH & ZONE FILTER CONTROLS ================= -->
+  <section class="sticky top-16 z-30 bg-[#070B14]/95 backdrop-blur-md py-4 border-y border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
+      
+      <!-- Search Input -->
+      <div class="relative max-w-2xl mx-auto">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <input 
+          type="text" 
+          id="pandalSearchInput" 
+          oninput="handleSearch(this.value)"
+          placeholder="Search by club name, theme, or locality (e.g. রামের মন্দির, Ramkrishna, Motiganj)..." 
+          class="w-full pl-11 pr-10 py-3 rounded-xl bg-slate-900 border border-slate-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-sm text-white placeholder-slate-400 transition"
+        />
+        <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Zone Filter Pills -->
+      <div class="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs font-bold">
+        <button onclick="setZoneFilter('all')" id="filter-all" class="zone-filter-btn px-3.5 py-1.5 rounded-lg whitespace-nowrap bg-amber-500 text-black border border-amber-400 transition">
+          <span data-i18n="filter_all">All 19</span> (19)
+        </button>
+        <button onclick="setZoneFilter('North')" id="filter-North" class="zone-filter-btn px-3.5 py-1.5 rounded-lg whitespace-nowrap bg-slate-800 hover:bg-slate-700 text-blue-400 border border-slate-700 transition">
+          <span data-i18n="filter_north">North</span> (6)
+        </button>
+        <button onclick="setZoneFilter('East Heritage')" id="filter-East-Heritage" class="zone-filter-btn px-3.5 py-1.5 rounded-lg whitespace-nowrap bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition">
+          <span data-i18n="filter_east">East Heritage</span> (4)
+        </button>
+        <button onclick="setZoneFilter('Central')" id="filter-Central" class="zone-filter-btn px-3.5 py-1.5 rounded-lg whitespace-nowrap bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 transition">
+          <span data-i18n="filter_central">Central</span> (4)
+        </button>
+        <button onclick="setZoneFilter('South')" id="filter-South" class="zone-filter-btn px-3.5 py-1.5 rounded-lg whitespace-nowrap bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 transition">
+          <span data-i18n="filter_south">South</span> (5)
+        </button>
+        <button onclick="setZoneFilter('visited')" id="filter-visited" class="zone-filter-btn px-3.5 py-1.5 rounded-lg whitespace-nowrap bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+          <span data-i18n="filter_visited">Visited ✓</span> (<span id="filterVisitedCount">0</span>)
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 19 PANDALS DIRECTORY GRID ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Results Header / Filter Info -->
+    <div class="flex items-center justify-between mb-6 pb-2 border-b border-slate-800/80">
+      <div class="flex items-center space-x-2">
+        <h2 id="sectionTitle" class="text-base sm:text-lg font-extrabold text-white">
+          All 19 Pandals (Route Order)
+        </h2>
+        <span id="pandalCountBadge" class="px-2 py-0.5 rounded-md text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
+          19
+        </span>
+      </div>
+      
+      <!-- Sort state indicator -->
+      <div id="sortStateIndicator" class="text-xs text-slate-400 flex items-center gap-1 font-mono">
+        <span data-i18n="sorted_by">Sorted by:</span>
+        <span id="sortStateLabel" class="text-slate-200 font-semibold">Route Order (1–19)</span>
+      </div>
+    </div>
+
+    <!-- Active Zone Multi-Stop Route Banner (Dynamic) -->
+    <div id="zoneMultiStopBanner" class="hidden mb-6 p-4 rounded-xl bg-gradient-to-r border shadow-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"></div>
+
+    <!-- Cards Grid Container -->
+    <div id="pandalsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Injected dynamically by JavaScript -->
+    </div>
+
+    <!-- Empty Results State -->
+    <div id="noResultsState" class="hidden py-16 text-center">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center text-slate-500">
+        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <h3 class="text-lg font-bold text-white mb-1" data-i18n="no_results_title">No matching pandals found</h3>
+      <p class="text-sm text-slate-400 mb-4" data-i18n="no_results_desc">Try clearing your search term or selecting "All 19".</p>
+      <button onclick="clearSearch(); setZoneFilter('all')" class="px-4 py-2 rounded-lg text-xs font-bold bg-amber-500 text-black hover:bg-amber-400 transition" data-i18n="btn_clear_filters">
+        Clear Filters
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ================= LIGHTBOX / FULL-SCREEN POSTER MODAL ================= -->
+  <div id="posterModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 transition-opacity duration-300" onclick="closePosterModal(event)">
+    <div class="relative max-w-4xl w-full bg-[#0B1120] border border-slate-700 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]" onclick="event.stopPropagation()">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900/60">
+        <div class="flex items-center space-x-2">
+          <span id="modalRouteBadge" class="px-2.5 py-0.5 rounded-full text-xs font-extrabold text-white">#1</span>
+          <span id="modalZoneBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold">North</span>
+          <h3 id="modalTitle" class="text-sm sm:text-base font-bold text-white truncate max-w-xs sm:max-w-md"></h3>
+        </div>
+        <button onclick="closePosterModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition" aria-label="Close modal">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Image Body (Scrollable if necessary) -->
+      <div class="relative flex-1 bg-black flex items-center justify-center overflow-auto p-2">
+        <img id="modalImg" src="" alt="Festival Poster" class="max-h-[65vh] w-auto object-contain rounded-lg shadow-lg">
+      </div>
+
+      <!-- Modal Footer Details & Actions -->
+      <div class="p-4 bg-slate-900/90 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <p id="modalTheme" class="text-sm font-semibold text-amber-400"></p>
+          <p id="modalArea" class="text-xs text-slate-400"></p>
+        </div>
+        
+        <div class="flex items-center space-x-2">
+          <button id="modalVisitedBtn" onclick="toggleModalVisited()" class="px-3.5 py-2 rounded-xl text-xs font-bold border transition flex items-center gap-1.5">
+            <span id="modalVisitedCheck">✓</span>
+            <span id="modalVisitedLabel">Mark as Visited</span>
+          </button>
+          
+          <a id="modalNavBtn" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl text-xs font-extrabold text-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow-md shadow-amber-500/20 transition flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            </svg>
+            <span data-i18n="btn_navigate">1-Click Navigate</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-slate-800 bg-[#040810] py-10 text-slate-500 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+      <div class="flex items-center justify-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+        <span class="text-slate-300 font-bold tracking-wider uppercase">Santipur 2026 Festival Master Guide</span>
+      </div>
+      <p class="max-w-xl mx-auto leading-relaxed text-slate-400">
+        A cultural preservation and smart navigation initiative powered by Shantipur Local Directory &amp; Zwebnex. Dedicated to the thousands of pilgrims visiting Sri Radha-Krishna Raas Leela &amp; Maa Bama Kali Visarjan.
+      </p>
+      <div class="flex items-center justify-center gap-4 pt-2">
+        <a href="/" class="hover:text-amber-400 transition" data-i18n="footer_home">Main Portal</a>
+        <span>•</span>
+        <a href="/stay" class="hover:text-amber-400 transition" data-i18n="footer_stay">Book Lodges &amp; Stays</a>
+        <span>•</span>
+        <a href="/raas-utsav" class="hover:text-amber-400 transition" data-i18n="footer_lore">Festival History</a>
+      </div>
+      <p class="text-[10px] text-slate-600 pt-4">
+        &copy; 2026 Shantipur Local Directory. All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ================= MASTER JAVASCRIPT APPLICATION LOGIC ================= -->
+  <script>
+    /* ==========================================================
+       1. MASTER PANDALS ARRAY (Strictly 19 Clubs Ordered by Route)
+       ========================================================== */
+    const PANDALS = [
+      { routeOrder: 1, id: 6, zone: "North", name_bn: "শান্তিপুর নবমিলন সংঘ", name_en: "Santipur Nabamilan Sangha", theme_bn: "রামের মন্দির", theme_en: "Ram Mandir", area: "Nabamilan Sangha Ground, Near Rail Station", plus_code: "7C5M+VMF", lat: 23.2597, lng: 88.4342, img: "./assets/images/123816.jpg" },
+      { routeOrder: 2, id: 2, zone: "North", name_bn: "শান্তিপুর ভদ্রাকালী তলা", name_en: "Santipur Bhadrakali Tala", theme_bn: "আলোক দিশায় দশভুজা", theme_en: "Alok Dishay Dashabhuja", area: "Krishnagar Rd, Bhadrakali Tala", plus_code: "7C5P+6J3", lat: 23.2580, lng: 88.4365, img: "./assets/images/123810.jpg" },
+      { routeOrder: 3, id: 4, zone: "North", name_bn: "শান্তিপুর রামকৃষ্ণ সংঘ", name_en: "Santipur Ramkrishna Sangha", theme_bn: "নেপাল প্রলয়ের প্রতিচ্ছবি", theme_en: "Reflection of Nepal Catastrophe", area: "Ramkrishna Colony, Santipur", plus_code: "7C4Q+Q95", lat: 23.2569, lng: 88.4385, img: "./assets/images/123812.jpg" },
+      { routeOrder: 4, id: 17, zone: "North", name_bn: "শান্তিপুর গোডাউন মাঠ", name_en: "Santipur Godown Math", theme_bn: "গুজরাটের স্বর্ণ শিখর মন্দির", theme_en: "Golden Peak Temple of Gujarat", area: "R.N. Tagore Rd / Station Rd", plus_code: "7C4M+FG", lat: 23.2562, lng: 88.4338, img: "./assets/images/123822.jpg" },
+      { routeOrder: 5, id: 8, zone: "North", name_bn: "শান্তিপুর বাইগাছি মোড়", name_en: "Santipur Baigachi More", theme_bn: "শ্রী শ্রী রাধা কৃষ্ণের আগমন", theme_en: "Arrival of Sri Sri Radha Krishna", area: "Netaji Subhas Rd, Baigachi More", plus_code: "7C3P+XFJ", lat: 23.2549, lng: 88.4362, img: "./assets/images/123814.jpg" },
+      { routeOrder: 6, id: 11, zone: "North", name_bn: "শান্তিপুর হসপিটাল কোয়াটার", name_en: "Santipur Hospital Quarter", theme_bn: "বুদ্ধ মন্দির", theme_en: "Buddha Mandir", area: "State General Hospital Campus", plus_code: "7C3Q+38M", lat: 23.2530, lng: 88.4384, img: "./assets/images/123828.jpg" },
+      { routeOrder: 7, id: 16, zone: "East Heritage", name_bn: "শান্তিপুর খাঁ পাড়া", name_en: "Santipur Kha Para", theme_bn: "বিধ্বংসী নেপাল", theme_en: "Devastating Nepal", area: "Kha Para Durga Mandir, Santipur", plus_code: "6CXQ+WH7", lat: 23.2498, lng: 88.4389, img: "./assets/images/123823.jpg" },
+      { routeOrder: 8, id: 3, zone: "East Heritage", name_bn: "শান্তিপুর বড় গোস্বামী পাড়া বারোয়ারী", name_en: "Santipur Boro Goswami Para Barowari", theme_bn: "বন্দে ভারত - এক টুকরো কাশ্মীর ভ্রমণ", theme_en: "Vande Bharat - A Slice of Kashmir", area: "Sitanath Goswami Ln, Boro Goswami Para", plus_code: "6CXR+WH9", lat: 23.2498, lng: 88.4415, img: "./assets/images/123813.jpg" },
+      { routeOrder: 9, id: 7, zone: "East Heritage", name_bn: "শান্তিপুর আগমেশ্বরী তলা", name_en: "Santipur Agameswari Tala", theme_bn: "থাইল্যান্ডের বুদ্ধ মন্দির", theme_en: "Buddha Temple of Thailand", area: "Agameswari Tala, Santipur", plus_code: "6CXV+QFC", lat: 23.2494, lng: 88.4437, img: "./assets/images/123815.jpg" },
+      { routeOrder: 10, id: 18, zone: "East Heritage", name_bn: "শান্তিপুর লক্ষীতলা পাড়া মাঠ", name_en: "Santipur Lakshmitola Para Math", theme_bn: "মুখোশের আড়ালে", theme_en: "Mukhosher Arale (Behind the Mask)", area: "Laxmitala Para, Adwaita Sarak", plus_code: "6CVV+WGJ", lat: 23.2448, lng: 88.4438, img: "./assets/images/123821.jpg" },
+      { routeOrder: 11, id: 5, zone: "Central", name_bn: "শান্তিপুর শ্যামবাজার রাসকমিটি", name_en: "Santipur Shyambazar Rash Committee", theme_bn: "মনিলক্ষ্মী জৈন তীর্থ টেম্পল (মন্দির)", theme_en: "Manilakshmi Jain Tirtha Temple", area: "Netaji Subhas Rd, Shyambazar", plus_code: "7C2P+C5C", lat: 23.2511, lng: 88.4354, img: "./assets/images/123811.jpg" },
+      { routeOrder: 12, id: 12, zone: "Central", name_bn: "শান্তিপুর এ্যামেচার ক্লাব", name_en: "Santipur Amateur Club", theme_bn: "ইন্দোনেশিয়া সারনাথ টেম্পেল", theme_en: "Indonesia Sarnath Temple", area: "Mahabharat Poddar Ln, Madangopal Para", plus_code: "6CWP+H8R", lat: 23.2464, lng: 88.4358, img: "./assets/images/123827.jpg" },
+      { routeOrder: 13, id: 1, zone: "Central", name_bn: "শান্তিপুর লিডার্স ক্লাব", name_en: "Santipur Leaders Club", theme_bn: "অনুভূতি", theme_en: "Anubhuti (Feelings)", area: "Lenin Sarani, Tarafdar Para", plus_code: "6CVM+RRX", lat: 23.2446, lng: 88.4346, img: "./assets/images/123809.jpg" },
+      { routeOrder: 14, id: 13, zone: "Central", name_bn: "শান্তিপুর বৌ বাজার রাস কমিটি", name_en: "Santipur Bou Bazar Rash Committee", theme_bn: "চক্রাবৃত্ত", theme_en: "Chakrabritta", area: "Boubazar, K.C. Das Rd, Sutragarh", plus_code: "6CVJ+MP", lat: 23.2442, lng: 88.4318, img: "./assets/images/123826.jpg" },
+      { routeOrder: 15, id: 15, zone: "South", name_bn: "শান্তিপুর চৌগাছাপাড়া", name_en: "Santipur Chougachapara", theme_bn: "প্যারিসের মন্দির", theme_en: "Temple of Paris", area: "Chowgacha Para Main Rd, Santipur", plus_code: "6CRP+R77", lat: 23.2425, lng: 88.4363, img: "./assets/images/123824.jpg" },
+      { routeOrder: 16, id: 14, zone: "South", name_bn: "শান্তিপুর চৌগাছাপাড়া তারামা মাঠ", name_en: "Santipur Chougachapara Tarama Math", theme_bn: "ফেলে আসা শৈশব", theme_en: "Fele Asa Shaishab (Lost Childhood)", area: "72/1 Burashib Tala Ln, Chowgacha Para", plus_code: "6CRP+R77", lat: 23.2421, lng: 88.4357, img: "./assets/images/123825.jpg" },
+      { routeOrder: 17, id: 19, zone: "South", name_bn: "শান্তিপুর আমরা সবাই তামাচিকা পাড়া", name_en: "Santipur Amra Sabai Tamachika Para", theme_bn: "নকশি কাঁথা", theme_en: "Nakshi Kantha", area: "Puran Parishad Ln, Near Dakghor More", plus_code: "6CRM+7CG", lat: 23.2407, lng: 88.4336, img: "./assets/images/123820.jpg" },
+      { routeOrder: 18, id: 9, zone: "South", name_bn: "শান্তিপুর তিলিপাড়া বারোয়ারী", name_en: "Santipur Tilipara Barowari", theme_bn: "মাদলের তালে তালে মন ময়ূর", theme_en: "Madaler Tale Tale Mon Mayur", area: "Jaleswar Tilipara St, Motiganj", plus_code: "6CQM+J9V", lat: 23.2391, lng: 88.4335, img: "./assets/images/123819.jpg" },
+      { routeOrder: 19, id: 10, zone: "South", name_bn: "শান্তিপুর Y.M.S.A পঞ্চানন তলা", name_en: "Santipur Y.M.S.A Panchanan Tala", theme_bn: "মাটির ঘরে মা", theme_en: "Matir Ghare Maa", area: "Panchanan Tala, Shyamchand Bagan Ln", plus_code: "6CQR+9GQ", lat: 23.2385, lng: 88.4413, img: "./assets/images/123818.jpg" }
+    ];
+
+    /* Zone Colors & Meta */
+    const ZONE_CONFIG = {
+      "North": {
+        color: "#3B82F6",
+        badgeBg: "bg-blue-500/15",
+        badgeText: "text-blue-400",
+        badgeBorder: "border-blue-500/30",
+        name_en: "North Zone",
+        name_bn: "উত্তর অঞ্চল"
+      },
+      "East Heritage": {
+        color: "#F59E0B",
+        badgeBg: "bg-amber-500/15",
+        badgeText: "text-amber-400",
+        badgeBorder: "border-amber-500/30",
+        name_en: "East Heritage Zone",
+        name_bn: "পূর্ব ঐতিহ্য অঞ্চল"
+      },
+      "Central": {
+        color: "#10B981",
+        badgeBg: "bg-emerald-500/15",
+        badgeText: "text-emerald-400",
+        badgeBorder: "border-emerald-500/30",
+        name_en: "Central Zone",
+        name_bn: "মধ্য শান্তিপুর অঞ্চল"
+      },
+      "South": {
+        color: "#EF4444",
+        badgeBg: "bg-rose-500/15",
+        badgeText: "text-rose-400",
+        badgeBorder: "border-rose-500/30",
+        name_en: "South Zone",
+        name_bn: "দক্ষিণ অঞ্চল"
+      }
+    };
+
+    /* ==========================================================
+       2. BILINGUAL TRANSLATION STRINGS
+       ========================================================== */
+    const I18N = {
+      en: {
+        tagline: "Festival Master Guide",
+        nav_stay: "Stays & Lodges",
+        nav_lore: "Festival Lore",
+        badge_hero: "SHANTIPUR RASH YATRA 2026 • 19 PREMIER PANDALS",
+        hero_title: "Santipur 2026 Festival Master Guide & 1-Click GPS Navigator",
+        hero_subtitle: "Experience the divine Rash Yatra through the curated 4-Zone Parikrama Route. Discover grand artistic pandal themes, view authentic posters, and launch turn-by-turn walking GPS directions to every pandal in one tap.",
+        btn_near_me: "📍 Find Nearest Pandal to Me",
+        btn_near_me_active: "📡 Radar Active • Sorted by Distance",
+        btn_reset_order: "Reset to Route Order (1–19)",
+        btn_full_parikrama: "🗺️ Complete Walking Parikrama Route",
+        tracker_title: "Parikrama Checklist Tracker",
+        congrats_msg: "🎉 Congratulations! You have completed the Santipur 2026 Parikrama!",
+        map_heading: "Interactive 4-Zone Route Map",
+        map_subheading: "Dashed indigo line shows the recommended walking parikrama sequence (1 to 19). Click any numbered pin to preview and navigate.",
+        search_placeholder: "Search by club name, theme, or locality (e.g. রামের মন্দির, Ramkrishna, Motiganj)...",
+        filter_all: "All 19",
+        filter_north: "North",
+        filter_east: "East Heritage",
+        filter_central: "Central",
+        filter_south: "South",
+        filter_visited: "Visited ✓",
+        section_all: "All 19 Pandals (Route Order)",
+        sorted_by: "Sorted by:",
+        sort_route: "Route Order (1–19)",
+        sort_gps: "Distance to You (Closest First)",
+        btn_navigate: "🧭 1-Click Navigate (Google Maps)",
+        tap_to_zoom: "🔍 Tap to Zoom Poster",
+        mark_visited: "Mark as Visited ✓",
+        visited: "Visited ✓",
+        no_results_title: "No matching pandals found",
+        no_results_desc: "Try clearing your search term or selecting All 19.",
+        btn_clear_filters: "Clear Filters",
+        zone_multistop_btn: "🚀 Launch Multi-Stop Walking Route",
+        footer_home: "Main Portal",
+        footer_stay: "Book Lodges & Stays",
+        footer_lore: "Festival History"
+      },
+      bn: {
+        tagline: "রাস উৎসব মাস্টার গাইড",
+        nav_stay: "অতিথি নিবাস ও লজ",
+        nav_lore: "উৎসব ইতিহাস ও ঐতিহ্য",
+        badge_hero: "শান্তিপুর রাসযাত্রা ২০২৬ • ১৯টি প্রধান পুজো প্যান্ডেল",
+        hero_title: "শান্তিপুর রাস উৎসব ২০২৬: মাস্টার গাইড ও ১-ক্লিক জিপিএস নেভিগেটর",
+        hero_subtitle: "ঐতিহাসিক ৪-টি পরিক্রমা জোনের মাধ্যমে শান্তিপুরের পুজো ও রাস মহোৎসব দর্শন করুন। অরিজিনাল পোস্টার আর্টওয়ার্ক, থিম ভাবনা এবং ১-ক্লিকে গুগল ম্যাপস ওয়াকিং নেভিগেশনের সুবিধা।",
+        btn_near_me: "📍 আমার নিকটবর্তী প্যান্ডেল খুঁজুন",
+        btn_near_me_active: "📡 রাডার সক্রিয় • দূরত্ব অনুযায়ী সাজানো",
+        btn_reset_order: "পরিক্রমা ক্রম অনুযায়ী দেখুন (১–১৯)",
+        btn_full_parikrama: "🗺️ সম্পূর্ণ পরিক্রমা হাঁটা রুট",
+        tracker_title: "পরিক্রমা ভিজিট ট্র্যাকার",
+        congrats_msg: "🎉 অভিনন্দন! আপনি শান্তিপুর ২০২৬-এর সমস্ত ১৯টি প্যান্ডেল পরিদর্শন সম্পন্ন করেছেন!",
+        map_heading: "ইন্টারেক্টিভ ৪-জোন পরিক্রমা ম্যাপ",
+        map_subheading: "নীল ড্যাশ লাইনটি ঐতিহ্যানুযায়ী প্রস্তাবিত হাঁটা পরিক্রমার পথ নির্দেশ করছে (১ থেকে ১৯)। যেকোনো পিনে ক্লিক করে বিস্তারিত দেখুন।",
+        search_placeholder: "ক্লাবের নাম, ভাবনা বা এলাকা লিখে খুঁজুন (উদাঃ রামের মন্দির, খাঁ পাড়া)...",
+        filter_all: "সব ১৯টি",
+        filter_north: "উত্তর",
+        filter_east: "পূর্ব ঐতিহ্য",
+        filter_central: "মধ্য",
+        filter_south: "দক্ষিণ",
+        filter_visited: "পরিদর্শিত ✓",
+        section_all: "শান্তিপুরের ১৯টি পুজো প্যান্ডেল (পরিক্রমা ক্রম)",
+        sorted_by: "ক্রমবিন্যাস:",
+        sort_route: "পরিক্রমা ক্রম (১–১৯)",
+        sort_gps: "আপনার থেকে নিকটতম দূরত্ব",
+        btn_navigate: "🧭 ১-ক্লিকে ম্যাপে যান (Google Maps)",
+        tap_to_zoom: "🔍 পোস্টার বড় করে দেখুন",
+        mark_visited: "পরিদর্শন সম্পন্ন ✓",
+        visited: "পরিদর্শিত ✓",
+        no_results_title: "কোনো প্যান্ডেল পাওয়া যায়নি",
+        no_results_desc: "সার্চ লেখাটি পরিবর্তন করুন অথবা 'সব ১৯টি' বাটনে ক্লিক করুন।",
+        btn_clear_filters: "ফিল্টার মুছুন",
+        zone_multistop_btn: "🚀 জোনের সম্পূর্ণ হাঁটা রুট চালু করুন",
+        footer_home: "মূল পোর্টাল",
+        footer_stay: "লজ ও হোটেল বুকিং",
+        footer_lore: "উৎসবের ইতিহাস"
+      }
+    };
+
+    /* State Management */
+    let currentLang = localStorage.getItem('santipur_festival_lang') || 'bn';
+    let activeFilter = 'all';
+    let searchQuery = '';
+    let userLocation = null; // { lat, lng }
+    let isSortedByDistance = false;
+    let visitedPandalIds = JSON.parse(localStorage.getItem('santipur_parikrama_visited_v1') || '[]');
+    let modalActivePandalId = null;
+
+    /* Leaflet map instances */
+    let map = null;
+    let markersLayer = null;
+    let routePolyline = null;
+    let userLocationMarker = null;
+    let userAccuracyCircle = null;
+
+    /* Bengali digit converter */
+    function toBengaliNum(num) {
+      if (currentLang !== 'bn') return num.toString();
+      const bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+      return num.toString().replace(/\d/g, d => bnDigits[d]);
+    }
+
+    /* Haversine Distance Formula in Kilometers */
+    function haversineDistanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Earth's radius in km
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    /* Format distance for display */
+    function formatDistance(distKm) {
+      if (distKm === undefined || distKm === null) return '';
+      if (distKm < 1) {
+        const meters = Math.round(distKm * 1000);
+        return currentLang === 'bn' ? `${toBengaliNum(meters)} মি দূরে` : `${meters}m away`;
+      } else {
+        const kmStr = distKm.toFixed(1);
+        return currentLang === 'bn' ? `${toBengaliNum(kmStr)} কিমি দূরে` : `${kmStr} km away`;
+      }
+    }
+
+    /* Initialize Application on DOM ready */
+    document.addEventListener('DOMContentLoaded', () => {
+      initMap();
+      renderTracker();
+      applyLanguage(currentLang);
+      renderPandals();
+    });
+
+    /* ==========================================================
+       3. MAP INITIALIZATION & POLYLINE
+       ========================================================== */
+    function initMap() {
+      // Centered at Santipur coordinates [23.2485, 88.4375] zoom 14
+      map = L.map('pandalMap', {
+        center: [23.2485, 88.4375],
+        zoom: 14,
+        zoomControl: true,
+        scrollWheelZoom: false
+      });
+
+      // OpenStreetMap standard clean tiles (no API key required)
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+      }).addTo(map);
+
+      markersLayer = L.layerGroup().addTo(map);
+
+      // Connect 19 pandals in routeOrder with dashed polyline
+      const routeCoords = PANDALS
+        .slice()
+        .sort((a, b) => a.routeOrder - b.routeOrder)
+        .map(p => [p.lat, p.lng]);
+
+      routePolyline = L.polyline(routeCoords, {
+        color: '#6366F1',
+        weight: 4,
+        opacity: 0.85,
+        dashArray: '8, 8',
+        lineJoin: 'round'
+      }).addTo(map);
+
+      renderMapMarkers();
+    }
+
+    function renderMapMarkers() {
+      if (!markersLayer) return;
+      markersLayer.clearLayers();
+
+      PANDALS.forEach(pandal => {
+        const zoneInfo = ZONE_CONFIG[pandal.zone] || { color: '#6366F1' };
+        const isVisited = visitedPandalIds.includes(pandal.id);
+        
+        // Custom Numbered Pin Icon
+        const pinHtml = `
+          <div class="pandal-map-pin" style="background-color: ${isVisited ? '#10B981' : zoneInfo.color};">
+            ${isVisited ? '✓' : pandal.routeOrder}
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          className: 'custom-leaflet-pin',
+          html: pinHtml,
+          iconSize: [32, 32],
+          iconAnchor: [16, 16],
+          popupAnchor: [0, -18]
+        });
+
+        const name = currentLang === 'bn' ? pandal.name_bn : pandal.name_en;
+        const theme = currentLang === 'bn' ? pandal.theme_bn : pandal.theme_en;
+        const zoneName = currentLang === 'bn' ? zoneInfo.name_bn : zoneInfo.name_en;
+        const navBtnText = currentLang === 'bn' ? '১-ক্লিকে ম্যাপে যান' : '1-Click Navigate';
+        const walkUrl = `https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=walking`;
+
+        const popupContent = `
+          <div class="w-64 text-slate-100 overflow-hidden">
+            <div class="relative h-28 w-full bg-slate-900 cursor-pointer" onclick="openPosterModal(${pandal.id})">
+              <img src="${pandal.img}" alt="${name}" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent"></div>
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-extrabold text-white" style="background-color: ${zoneInfo.color};">
+                #${toBengaliNum(pandal.routeOrder)} • ${zoneName}
+              </span>
+            </div>
+            <div class="p-3">
+              <h4 class="font-bold text-sm text-white leading-tight mb-1">${name}</h4>
+              <p class="text-xs text-amber-400 font-semibold mb-2">🎭 ${theme}</p>
+              <p class="text-[11px] text-slate-400 mb-3 truncate">📍 ${pandal.area}</p>
+              
+              <div class="flex items-center gap-2">
+                <a href="${walkUrl}" target="_blank" rel="noopener noreferrer" class="flex-1 py-1.5 px-2.5 rounded-lg text-center text-xs font-bold text-black bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 transition shadow">
+                  🧭 ${navBtnText}
+                </a>
+                <button onclick="toggleVisited(${pandal.id})" class="px-2.5 py-1.5 rounded-lg text-xs font-bold border ${isVisited ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-800 text-slate-300 border-slate-700'}">
+                  ${isVisited ? '✓' : '+'}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const marker = L.marker([pandal.lat, pandal.lng], { icon: customIcon })
+          .bindPopup(popupContent, { maxWidth: 280 });
+
+        markersLayer.addLayer(marker);
+      });
+    }
+
+    /* Fly to pandal on map from card click */
+    function focusPandalOnMap(id) {
+      const pandal = PANDALS.find(p => p.id === id);
+      if (!pandal || !map) return;
+      map.flyTo([pandal.lat, pandal.lng], 16, { animate: true, duration: 1.2 });
+      
+      // Scroll smoothly to map on mobile
+      if (window.innerWidth < 768) {
+        document.getElementById('pandalMap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    /* ==========================================================
+       4. LIVE GPS "NEAR ME" RADAR (Haversine Formula)
+       ========================================================== */
+    function startNearMeRadar() {
+      const statusBanner = document.getElementById('gpsStatusBanner');
+      const nearMeText = document.getElementById('nearMeText');
+      const radarIcon = document.getElementById('radarIcon');
+
+      if (!navigator.geolocation) {
+        showGpsBanner('Geolocation is not supported by your browser.', 'error');
+        return;
+      }
+
+      // Show radar spinner
+      radarIcon.innerHTML = `
+        <svg class="w-5 h-5 text-amber-400 radar-sweep" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <circle cx="12" cy="12" r="10" stroke-width="2" stroke-dasharray="4 6"/>
+          <path stroke-linecap="round" stroke-width="2" d="M12 2a10 10 0 0110 10"/>
+        </svg>
+      `;
+      nearMeText.innerText = currentLang === 'bn' ? 'জিপিএস সংযোগ করা হচ্ছে...' : 'Locating GPS position...';
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            accuracy: position.coords.accuracy
+          };
+
+          isSortedByDistance = true;
+
+          // Compute distances for each pandal
+          PANDALS.forEach(p => {
+            p.distanceKm = haversineDistanceKm(userLocation.lat, userLocation.lng, p.lat, p.lng);
+          });
+
+          // Show GPS pulse marker on map
+          if (map) {
+            if (userLocationMarker) map.removeLayer(userLocationMarker);
+            if (userAccuracyCircle) map.removeLayer(userAccuracyCircle);
+
+            const gpsIcon = L.divIcon({
+              className: 'custom-gps-pin',
+              html: `<div class="user-gps-pulse-pin"></div>`,
+              iconSize: [20, 20],
+              iconAnchor: [10, 10]
+            });
+
+            userLocationMarker = L.marker([userLocation.lat, userLocation.lng], { icon: gpsIcon })
+              .addTo(map)
+              .bindPopup(`<div class="p-2 text-xs font-bold text-center">${currentLang === 'bn' ? '📍 আপনি এখানে আছেন' : '📍 You are here'}</div>`);
+
+            userAccuracyCircle = L.circle([userLocation.lat, userLocation.lng], {
+              radius: Math.min(position.coords.accuracy, 300),
+              color: '#3B82F6',
+              fillColor: '#3B82F6',
+              fillOpacity: 0.15,
+              weight: 1
+            }).addTo(map);
+
+            // Fit bounds to show user and nearest pandals
+            map.setView([userLocation.lat, userLocation.lng], 15);
+          }
+
+          // Update UI
+          radarIcon.innerHTML = `
+            <svg class="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+          `;
+          nearMeText.innerText = I18N[currentLang].btn_near_me_active;
+          document.getElementById('resetOrderBtn').classList.remove('hidden');
+
+          const nearest = PANDALS.slice().sort((a, b) => a.distanceKm - b.distanceKm)[0];
+          const nearestName = currentLang === 'bn' ? nearest.name_bn : nearest.name_en;
+          const nearestDist = formatDistance(nearest.distanceKm);
+          
+          showGpsBanner(
+            currentLang === 'bn' 
+              ? `🎯 জিপিএস সফল! আপনার সবচেয়ে কাছের প্যান্ডেল: <strong>${nearestName}</strong> (${nearestDist})` 
+              : `🎯 GPS Found! Closest pandal: <strong>${nearestName}</strong> (${nearestDist})`,
+            'success'
+          );
+
+          renderPandals();
+        },
+        (error) => {
+          radarIcon.innerHTML = `
+            <svg class="w-5 h-5 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          `;
+          nearMeText.innerText = I18N[currentLang].btn_near_me;
+          
+          let errMsg = 'Could not access GPS.';
+          if (error.code === error.PERMISSION_DENIED) {
+            errMsg = currentLang === 'bn' ? 'জিপিএস পারমিশন দেওয়া হয়নি। দয়া করে ব্রাউজার সেটিংসে লোকেশন অন করুন।' : 'Location permission denied. Please allow GPS access in your browser.';
+          }
+          showGpsBanner(errMsg, 'error');
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
+      );
+    }
+
+    function showGpsBanner(html, type) {
+      const banner = document.getElementById('gpsStatusBanner');
+      banner.innerHTML = html;
+      banner.className = `max-w-xl mx-auto mb-6 p-3 rounded-xl text-xs font-semibold flex items-center justify-between border ${
+        type === 'success' 
+          ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' 
+          : 'bg-rose-500/15 text-rose-300 border-rose-500/30'
+      }`;
+      banner.classList.remove('hidden');
+    }
+
+    function resetToRouteOrder() {
+      isSortedByDistance = false;
+      document.getElementById('resetOrderBtn').classList.add('hidden');
+      document.getElementById('nearMeText').innerText = I18N[currentLang].btn_near_me;
+      document.getElementById('gpsStatusBanner').classList.add('hidden');
+      renderPandals();
+    }
+
+    /* ==========================================================
+       5. PANDALS DIRECTORY RENDERING
+       ========================================================== */
+    function renderPandals() {
+      const grid = document.getElementById('pandalsGrid');
+      const noResults = document.getElementById('noResultsState');
+      const countBadge = document.getElementById('pandalCountBadge');
+      const sortLabel = document.getElementById('sortStateLabel');
+      const zoneMultiStopBanner = document.getElementById('zoneMultiStopBanner');
+
+      // Sort pandals
+      let list = PANDALS.slice();
+      if (isSortedByDistance) {
+        list.sort((a, b) => a.distanceKm - b.distanceKm);
+        sortLabel.innerText = I18N[currentLang].sort_gps;
+      } else {
+        list.sort((a, b) => a.routeOrder - b.routeOrder);
+        sortLabel.innerText = I18N[currentLang].sort_route;
+      }
+
+      // Filter by Zone or Visited
+      if (activeFilter === 'visited') {
+        list = list.filter(p => visitedPandalIds.includes(p.id));
+      } else if (activeFilter !== 'all') {
+        list = list.filter(p => p.zone === activeFilter);
+      }
+
+      // Filter by Search Query
+      if (searchQuery.trim() !== '') {
+        const q = searchQuery.toLowerCase().trim();
+        list = list.filter(p => 
+          p.name_bn.toLowerCase().includes(q) ||
+          p.name_en.toLowerCase().includes(q) ||
+          p.theme_bn.toLowerCase().includes(q) ||
+          p.theme_en.toLowerCase().includes(q) ||
+          p.area.toLowerCase().includes(q)
+        );
+      }
+
+      countBadge.innerText = toBengaliNum(list.length);
+
+      // Render Zone Multi-Stop Walking Route Banner if a single zone is selected
+      if (['North', 'East Heritage', 'Central', 'South'].includes(activeFilter) && list.length > 1) {
+        const zoneInfo = ZONE_CONFIG[activeFilter];
+        const zoneTitle = currentLang === 'bn' ? zoneInfo.name_bn : zoneInfo.name_en;
+        
+        // Multi-stop waypoint logic
+        const origin = `${list[0].lat},${list[0].lng}`;
+        const dest = `${list[list.length - 1].lat},${list[list.length - 1].lng}`;
+        const waypoints = list.slice(1, -1).map(p => `${p.lat},${p.lng}`).join('|');
+        const multiStopUrl = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}&waypoints=${waypoints}&travelmode=walking`;
+
+        zoneMultiStopBanner.className = `mb-6 p-4 rounded-xl shadow-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border ${zoneInfo.badgeBorder} ${zoneInfo.badgeBg}`;
+        zoneMultiStopBanner.innerHTML = `
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-300">
+              ${zoneTitle} • ${toBengaliNum(list.length)} ${currentLang === 'bn' ? 'টি প্যান্ডেল' : 'Pandals'}
+            </span>
+            <h3 class="text-sm sm:text-base font-bold text-white mt-0.5">
+              ${currentLang === 'bn' ? `সম্পূর্ণ ${zoneTitle}-এর বহু-স্টপ হাঁটা পরিক্রমা রুট` : `Complete ${zoneTitle} Multi-Stop Walking Route`}
+            </h3>
+          </div>
+          <a href="${multiStopUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl font-extrabold text-xs text-white bg-slate-900/90 hover:bg-slate-900 border ${zoneInfo.badgeBorder} shadow transition">
+            <span>🚀 ${I18N[currentLang].zone_multistop_btn}</span>
+          </a>
+        `;
+        zoneMultiStopBanner.classList.remove('hidden');
+      } else {
+        zoneMultiStopBanner.classList.add('hidden');
+      }
+
+      if (list.length === 0) {
+        grid.innerHTML = '';
+        noResults.classList.remove('hidden');
+        return;
+      }
+      noResults.classList.add('hidden');
+
+      // Generate Cards HTML
+      grid.innerHTML = list.map(pandal => {
+        const zoneInfo = ZONE_CONFIG[pandal.zone] || { color: '#6366F1' };
+        const isVisited = visitedPandalIds.includes(pandal.id);
+        const name = currentLang === 'bn' ? pandal.name_bn : pandal.name_en;
+        const theme = currentLang === 'bn' ? pandal.theme_bn : pandal.theme_en;
+        const zoneName = currentLang === 'bn' ? zoneInfo.name_bn : zoneInfo.name_en;
+        const walkUrl = `https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=walking`;
+        const distanceBadge = pandal.distanceKm !== undefined ? formatDistance(pandal.distanceKm) : '';
+
+        return `
+          <article class="group relative bg-slate-900/80 border ${isVisited ? 'border-emerald-500/40 bg-slate-900/90' : 'border-slate-800'} rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:border-slate-700 transition-all duration-300 flex flex-col">
+            
+            <!-- Poster Image Container (Aspect Ratio 4:3) -->
+            <div class="relative w-full aspect-[4/3] bg-slate-950 overflow-hidden cursor-pointer" onclick="openPosterModal(${pandal.id})">
+              <img 
+                src="${pandal.img}" 
+                alt="${name} - ${theme}" 
+                loading="lazy" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                onerror="this.src='/images/santipur/rash-utsav/santipur-raas-mancha-illumination.webp'"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/30"></div>
+
+              <!-- Top Left: Route Order Pin Badge -->
+              <div class="absolute top-3 left-3 flex items-center space-x-1.5">
+                <span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-black text-white shadow-lg border border-white/40" style="background-color: ${zoneInfo.color};">
+                  ${toBengaliNum(pandal.routeOrder)}
+                </span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold text-white/90 bg-black/60 backdrop-blur-md border border-white/20">
+                  ${zoneName}
+                </span>
+              </div>
+
+              <!-- Top Right: Visited Toggle Button -->
+              <button 
+                onclick="event.stopPropagation(); toggleVisited(${pandal.id})" 
+                title="${isVisited ? 'Mark unvisited' : 'Mark as visited'}"
+                class="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md transition shadow ${
+                  isVisited 
+                    ? 'bg-emerald-500 text-white border border-emerald-400' 
+                    : 'bg-black/60 text-slate-300 hover:text-white border border-white/20 hover:bg-black/80'
+                }"
+              >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+              </button>
+
+              <!-- Bottom Overlay: Distance Badge or Zoom Cue -->
+              <div class="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] font-bold">
+                <span class="px-2 py-1 rounded-md bg-black/70 backdrop-blur-md text-slate-200 border border-white/10 flex items-center gap-1 group-hover:text-amber-300 transition">
+                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/>
+                  </svg>
+                  <span data-i18n="tap_to_zoom">${I18N[currentLang].tap_to_zoom}</span>
+                </span>
+
+                ${distanceBadge ? `
+                  <span class="px-2.5 py-1 rounded-md bg-blue-600/90 text-white shadow flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                    <span>${distanceBadge}</span>
+                  </span>
+                ` : ''}
+              </div>
+            </div>
+
+            <!-- Card Body Content -->
+            <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <!-- Title -->
+                <h3 class="text-base sm:text-lg font-extrabold text-white leading-snug mb-1 group-hover:text-amber-400 transition cursor-pointer" onclick="openPosterModal(${pandal.id})">
+                  ${name}
+                </h3>
+
+                <!-- Theme / Bhavna Highlight -->
+                <div class="inline-flex items-center space-x-1.5 mb-2.5">
+                  <span class="text-xs text-amber-400 font-extrabold flex items-center gap-1">
+                    <span>🎭</span>
+                    <span>${theme}</span>
+                  </span>
+                </div>
+
+                <!-- Locality & Plus Code -->
+                <p class="text-xs text-slate-400 mb-4 flex items-start gap-1.5 line-clamp-2">
+                  <svg class="w-4 h-4 text-slate-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                  <span>${pandal.area} <span class="text-slate-500 font-mono text-[10px]">(${pandal.plus_code})</span></span>
+                </p>
+              </div>
+
+              <!-- Card Action Buttons -->
+              <div class="space-y-2 pt-2 border-t border-slate-800/80">
+                
+                <!-- Primary Full-Width CTA: 1-Click Navigate -->
+                <a 
+                  href="${walkUrl}" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="w-full py-2.5 px-4 rounded-xl font-black text-xs sm:text-sm text-black bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 hover:from-amber-300 hover:to-amber-300 shadow-md shadow-amber-500/20 active:scale-[0.98] transition flex items-center justify-center gap-2"
+                >
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  </svg>
+                  <span>${I18N[currentLang].btn_navigate}</span>
+                </a>
+
+                <!-- Secondary Row: View on Map + Toggle Visited -->
+                <div class="grid grid-cols-2 gap-2">
+                  <button 
+                    onclick="focusPandalOnMap(${pandal.id})" 
+                    class="py-1.5 px-2.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 transition flex items-center justify-center gap-1"
+                  >
+                    <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                    </svg>
+                    <span>${currentLang === 'bn' ? 'ম্যাপে দেখুন' : 'Map Pin'}</span>
+                  </button>
+
+                  <button 
+                    onclick="toggleVisited(${pandal.id})" 
+                    class="py-1.5 px-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 border ${
+                      isVisited 
+                        ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/25' 
+                        : 'bg-slate-800/80 text-slate-400 hover:text-slate-200 border-slate-700/80 hover:bg-slate-800'
+                    }"
+                  >
+                    <span>${isVisited ? '✓ ' + I18N[currentLang].visited : '+ ' + I18N[currentLang].mark_visited}</span>
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    /* ==========================================================
+       6. CHECKLIST PROGRESS TRACKER
+       ========================================================== */
+    function toggleVisited(id) {
+      const idx = visitedPandalIds.indexOf(id);
+      if (idx > -1) {
+        visitedPandalIds.splice(idx, 1);
+      } else {
+        visitedPandalIds.push(id);
+      }
+      localStorage.setItem('santipur_parikrama_visited_v1', JSON.stringify(visitedPandalIds));
+      
+      renderTracker();
+      renderMapMarkers();
+      renderPandals();
+
+      // Trigger confetti if all 19 visited
+      if (visitedPandalIds.length === 19 && typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    function renderTracker() {
+      const count = visitedPandalIds.length;
+      const total = 19;
+      const pct = Math.round((count / total) * 100);
+
+      const trackerText = document.getElementById('trackerCountText');
+      const progressBar = document.getElementById('trackerProgressBar');
+      const completionBanner = document.getElementById('completionBanner');
+      const filterVisitedCount = document.getElementById('filterVisitedCount');
+
+      if (trackerText) trackerText.innerText = `${toBengaliNum(count)} / ${toBengaliNum(total)} (${toBengaliNum(pct)}%)`;
+      if (progressBar) progressBar.style.width = `${pct}%`;
+      if (filterVisitedCount) filterVisitedCount.innerText = toBengaliNum(count);
+
+      if (count === 19) {
+        completionBanner.classList.remove('hidden');
+      } else {
+        completionBanner.classList.add('hidden');
+      }
+    }
+
+    /* ==========================================================
+       7. LIGHTBOX / FULL-SCREEN POSTER MODAL
+       ========================================================== */
+    function openPosterModal(id) {
+      const pandal = PANDALS.find(p => p.id === id);
+      if (!pandal) return;
+      modalActivePandalId = id;
+
+      const zoneInfo = ZONE_CONFIG[pandal.zone] || { color: '#6366F1' };
+      const isVisited = visitedPandalIds.includes(pandal.id);
+      const name = currentLang === 'bn' ? pandal.name_bn : pandal.name_en;
+      const theme = currentLang === 'bn' ? pandal.theme_bn : pandal.theme_en;
+      const zoneName = currentLang === 'bn' ? zoneInfo.name_bn : zoneInfo.name_en;
+
+      document.getElementById('modalRouteBadge').innerText = `#${toBengaliNum(pandal.routeOrder)}`;
+      document.getElementById('modalRouteBadge').style.backgroundColor = zoneInfo.color;
+      document.getElementById('modalZoneBadge').innerText = zoneName;
+      document.getElementById('modalZoneBadge').className = `px-2.5 py-0.5 rounded-full text-xs font-bold border ${zoneInfo.badgeBg} ${zoneInfo.badgeText} ${zoneInfo.badgeBorder}`;
+      document.getElementById('modalTitle').innerText = name;
+      
+      const modalImg = document.getElementById('modalImg');
+      modalImg.src = pandal.img;
+      modalImg.alt = `${name} - ${theme}`;
+
+      document.getElementById('modalTheme').innerText = `🎭 ${theme}`;
+      document.getElementById('modalArea').innerText = `📍 ${pandal.area} (${pandal.plus_code})`;
+
+      const navBtn = document.getElementById('modalNavBtn');
+      navBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=walking`;
+
+      updateModalVisitedBtn(isVisited);
+
+      document.getElementById('posterModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePosterModal(event) {
+      if (event && event.target && event.target.id !== 'posterModal' && !event.target.closest('button[aria-label="Close modal"]')) {
+        return;
+      }
+      document.getElementById('posterModal').classList.add('hidden');
+      document.body.style.overflow = '';
+      modalActivePandalId = null;
+    }
+
+    function toggleModalVisited() {
+      if (!modalActivePandalId) return;
+      toggleVisited(modalActivePandalId);
+      const isVisited = visitedPandalIds.includes(modalActivePandalId);
+      updateModalVisitedBtn(isVisited);
+    }
+
+    function updateModalVisitedBtn(isVisited) {
+      const btn = document.getElementById('modalVisitedBtn');
+      const check = document.getElementById('modalVisitedCheck');
+      const label = document.getElementById('modalVisitedLabel');
+
+      if (isVisited) {
+        btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition flex items-center gap-1.5';
+        check.innerText = '✓';
+        label.innerText = currentLang === 'bn' ? 'পরিদর্শিত ✓' : 'Visited ✓';
+      } else {
+        btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition flex items-center gap-1.5';
+        check.innerText = '+';
+        label.innerText = currentLang === 'bn' ? 'পরিদর্শন সম্পন্ন করুন' : 'Mark as Visited';
+      }
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalActivePandalId) {
+        closePosterModal();
+      }
+    });
+
+    /* ==========================================================
+       8. FILTER & SEARCH HANDLERS
+       ========================================================== */
+    function setZoneFilter(zone) {
+      activeFilter = zone;
+
+      // Update button styles
+      document.querySelectorAll('.zone-filter-btn').forEach(btn => {
+        btn.className = 'zone-filter-btn px-3.5 py-1.5 rounded-lg whitespace-nowrap bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition';
+      });
+
+      const activeBtnId = zone === 'East Heritage' ? 'filter-East-Heritage' : `filter-${zone}`;
+      const activeBtn = document.getElementById(activeBtnId);
+      if (activeBtn) {
+        activeBtn.className = 'zone-filter-btn px-3.5 py-1.5 rounded-lg whitespace-nowrap bg-amber-500 text-black border border-amber-400 font-black shadow transition';
+      }
+
+      renderPandals();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val;
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (val.trim() !== '') {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderPandals();
+    }
+
+    function clearSearch() {
+      document.getElementById('pandalSearchInput').value = '';
+      searchQuery = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      renderPandals();
+    }
+
+    /* ==========================================================
+       9. BILINGUAL LANGUAGE SWITCHER
+       ========================================================== */
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'bn' : 'en';
+      localStorage.setItem('santipur_festival_lang', currentLang);
+      applyLanguage(currentLang);
+      renderMapMarkers();
+      renderTracker();
+      renderPandals();
+    }
+
+    function applyLanguage(lang) {
+      const dict = I18N[lang];
+      document.documentElement.lang = lang;
+      document.getElementById('langLabel').innerText = lang === 'en' ? 'বাংলা' : 'English';
+
+      // Update static data-i18n elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.innerText = dict[key];
+        }
+      });
+
+      // Update dynamic hero title & subtitle
+      document.getElementById('heroTitle').innerText = dict.hero_title;
+      document.getElementById('heroSubtitle').innerText = dict.hero_subtitle;
+      document.getElementById('pandalSearchInput').placeholder = dict.search_placeholder;
+
+      // Update sort label
+      document.getElementById('sortStateLabel').innerText = isSortedByDistance ? dict.sort_gps : dict.sort_route;
+    }
+  </script>
+
+</body>
+</html>
